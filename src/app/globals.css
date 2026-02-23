@@ -1,17 +1,17 @@
 @import "tailwindcss";
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  --orange-50: #fff7ed;
-  --orange-100: #ffedd5;
-  --orange-200: #fed7aa;
-  --orange-300: #fdba74;
-  --orange-400: #fb923c;
-  --orange-500: #f97316;
-  --orange-600: #ea580c;
-  --orange-700: #c2410c;
+  --jade-50: #ecfdf5;
+  --jade-100: #d1fae5;
+  --jade-200: #a7f3d0;
+  --jade-300: #6ee7b7;
+  --jade-400: #34d399;
+  --jade-500: #10b981;
+  --jade-600: #059669;
+  --jade-700: #047857;
 }
 
 @theme inline {
@@ -19,18 +19,17 @@
   --color-foreground: var(--foreground);
   --font-sans: 'Inter', Arial, Helvetica, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  --font-serif: 'Newsreader', serif;
   
-  --color-orange-50: #fff7ed;
-  --color-orange-100: #ffedd5;
-  --color-orange-200: #fed7aa;
-  --color-orange-300: #fdba74;
-  --color-orange-400: #fb923c;
-  --color-orange-500: #f97316;
-  --color-orange-600: #ea580c;
-  --color-orange-700: #c2410c;
-  --color-orange-800: #9a3412;
-  --color-orange-900: #7c2d12;
+  --color-jade-50: #ecfdf5;
+  --color-jade-100: #d1fae5;
+  --color-jade-200: #a7f3d0;
+  --color-jade-300: #6ee7b7;
+  --color-jade-400: #34d399;
+  --color-jade-500: #10b981;
+  --color-jade-600: #059669;
+  --color-jade-700: #047857;
+  --color-jade-800: #065f46;
+  --color-jade-900: #064e3b;
 }
 
 html {
@@ -132,7 +131,7 @@ body {
   top: -20%;
   width: 1px;
   height: 40vh;
-  background: linear-gradient(180deg, transparent, var(--streak-color, #f97316), transparent);
+  background: linear-gradient(180deg, transparent, var(--streak-color, #059669), transparent);
   animation: rain-drop linear infinite;
   opacity: 0;
   will-change: transform, opacity;
@@ -158,13 +157,13 @@ body {
 }
 
 .energy-streak.star {
-  background: linear-gradient(180deg, transparent, rgba(249, 115, 22, 0.9), transparent);
-  filter: drop-shadow(0 0 2px rgba(249, 115, 22, 0.5));
+  background: linear-gradient(180deg, transparent, rgba(5, 150, 105, 0.9), transparent);
+  filter: drop-shadow(0 0 2px rgba(5, 150, 105, 0.5));
 }
 
 /* Dashboard UI Aura Effect */
 .dashboard-ui {
-  box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.3), 0 0 15px rgba(251, 146, 60, 0.1), 0 20px 50px -12px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 0 1px rgba(5, 150, 105, 0.3), 0 0 15px rgba(16, 185, 129, 0.1), 0 20px 50px -12px rgba(0, 0, 0, 0.05);
   animation: aura-pulse 8s ease-in-out infinite;
 }
 
@@ -173,7 +172,7 @@ body {
   position: relative;
   border-radius: 6px;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.5), rgba(251, 146, 60, 0.2));
+  background: linear-gradient(135deg, rgba(5, 150, 105, 0.5), rgba(16, 185, 129, 0.2));
 }
 
 /* Button Content Slide */
@@ -241,7 +240,7 @@ body {
 
 /* Selection */
 ::selection {
-  background: rgba(249, 115, 22, 0.3);
+  background: rgba(5, 150, 105, 0.3);
 }
 
 /* Reduced Motion */
