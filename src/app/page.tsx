@@ -1,5 +1,6 @@
 'use client';
 
+import { motion, useScroll, useTransform } from "framer-motion";
 import { 
   Search, 
   Monitor, 
@@ -11,13 +12,47 @@ import {
   CheckCircle2,
   ArrowRight,
   Menu,
-  X as CloseIcon,
-  Leaf
+  X,
+  Leaf,
+  ArrowUpRight
 } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+
+// Animation variants
+const fadeInUp = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.8 } }
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15, delayChildren: 0.2 }
+  }
+};
+
+const wordReveal = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+};
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const heroRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: heroRef,
+    offset: ["start start", "end start"]
+  });
+  
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const heroY = useTransform(scrollYProgress, [0, 0.5], [0, -50]);
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -26,394 +61,455 @@ export default function Home() {
 
   return (
     <>
-      {/* Global Visual FX Layer */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-white transition-colors duration-500">
-        {/* Ambient Glow Blobs - Jade Theme */}
-        <div className="ambient-glow">
-          <div className="glow-blob bg-jade-100/50 w-[600px] h-[600px] top-[-20%] left-[-10%] mix-blend-multiply animate-blob" />
-          <div className="glow-blob bg-emerald-200/40 w-[500px] h-[500px] top-[40%] right-[-10%] mix-blend-multiply animate-blob" style={{ animationDelay: '2s' }} />
-          <div className="glow-blob bg-teal-100/50 w-[400px] h-[400px] bottom-[-10%] left-[20%] mix-blend-multiply animate-blob" style={{ animationDelay: '4s' }} />
-        </div>
+      {/* Navigation - Minimal Editorial */}
+      <nav className="fixed top-0 left-0 w-full z-50 mix-blend-difference">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 py-6 flex justify-between items-center">
+          <button onClick={() => window.scrollTo(0,0)} className="flex items-center gap-3 group">
+            <Leaf className="text-white w-5 h-5" strokeWidth={1.5} />
+            <div className="flex flex-col items-start">
+              <span className="text-white font-serif text-lg tracking-tight">Convertree</span>
+              <span className="text-white/60 text-[8px] tracking-[0.3em] uppercase font-mono">肯副翠</span>
+            </div>
+          </button>
 
-        {/* Vertical Laser Beams */}
-        <div className="laser-beam-container fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
-          <div className="energy-streak layer-far" style={{ left: '2%', animationDuration: '13s', animationDelay: '-2s', ['--streak-opacity' as string]: '0.04', ['--streak-color' as string]: '#059669' }} />
-          <div className="energy-streak layer-mid" style={{ left: '22%', animationDuration: '8s', animationDelay: '-5s', ['--streak-opacity' as string]: '0.08', ['--streak-color' as string]: '#059669' }} />
-          <div className="energy-streak layer-mid" style={{ left: '60%', animationDuration: '8s', animationDelay: '-8s', ['--streak-opacity' as string]: '0.09', ['--streak-color' as string]: '#059669' }} />
-          <div className="energy-streak layer-near" style={{ left: '88%', animationDuration: '5s', animationDelay: '-4s', ['--streak-opacity' as string]: '0.15', ['--streak-color' as string]: '#059669' }} />
-        </div>
-
-        {/* Tech Background Grid */}
-        <div className="tech-grid bg-[radial-gradient(#94a3b8_1px,transparent_1px)] [background-size:24px_24px]" />
-
-        {/* Top Edge Light */}
-        <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent to-transparent via-jade-500/50" />
-      </div>
-
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 border-b bg-white/80 backdrop-blur-xl border-slate-200 transition-all duration-300">
-        <button onClick={() => window.scrollTo(0,0)} className="flex items-center gap-2 cursor-pointer group">
-          <div className="relative flex items-center justify-center w-9 h-9 transition-transform group-active:scale-95 bg-jade-50 rounded-lg border border-jade-200/50 shadow-sm">
-            <Leaf className="text-jade-600" width={20} height={20} />
+          {/* Desktop Nav - Minimal */}
+          <div className="hidden md:flex items-center gap-8">
+            <button onClick={() => scrollToSection('systems')} className="text-white/80 hover:text-white text-sm font-body transition-colors underline-animation">
+              How It Works
+            </button>
+            <button onClick={() => scrollToSection('benefits')} className="text-white/80 hover:text-white text-sm font-body transition-colors underline-animation">
+              Benefits
+            </button>
+            <button onClick={() => scrollToSection('signals')} className="text-white/80 hover:text-white text-sm font-body transition-colors underline-animation">
+              Free Analysis
+            </button>
           </div>
-          <div className="flex flex-col">
-            <span className="text-xl tracking-tight font-bold text-slate-900 leading-none">Convertree</span>
-            <span className="text-[9px] tracking-widest text-jade-600 uppercase font-mono mt-0.5">肯副翠</span>
-          </div>
-        </button>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-1 p-1 rounded-full border backdrop-blur-md bg-slate-50/50 border-slate-200">
-          <button onClick={() => scrollToSection('systems')} className="px-4 py-1.5 text-xs font-medium rounded-full transition-all text-slate-500 hover:text-slate-900 hover:bg-white/80">
-            How It Works
-          </button>
-          <button onClick={() => scrollToSection('benefits')} className="px-4 py-1.5 text-xs font-medium rounded-full transition-all text-slate-500 hover:text-slate-900 hover:bg-white/80">
-            Benefits
-          </button>
-          <button onClick={() => scrollToSection('signals')} className="px-4 py-1.5 text-xs font-medium rounded-full transition-all text-slate-500 hover:text-slate-900 hover:bg-white/80">
-            Free Analysis
-          </button>
-        </div>
-
-        {/* Mobile Menu Button */}
-        <div className="flex items-center gap-3">
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden p-2 text-slate-600">
-            {mobileMenuOpen ? <CloseIcon width={20} /> : <Menu width={20} />}
-          </button>
-          <button onClick={() => scrollToSection('signals')} className="hidden md:block group relative text-xs font-semibold bg-slate-900 text-white border px-5 py-2 rounded-md transition-all hover:bg-slate-800 active:scale-95">
-            Work with Convertree
+          {/* Mobile Menu Button */}
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white">
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </nav>
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-white pt-20 px-6 md:hidden">
-          <div className="flex flex-col gap-4">
-            <button onClick={() => scrollToSection('systems')} className="text-left py-3 text-lg font-medium text-slate-700 border-b border-slate-100">How It Works</button>
-            <button onClick={() => scrollToSection('benefits')} className="text-left py-3 text-lg font-medium text-slate-700 border-b border-slate-100">Benefits</button>
-            <button onClick={() => scrollToSection('signals')} className="text-left py-3 text-lg font-medium text-jade-600 border-b border-slate-100">Free Analysis</button>
+        <div className="fixed inset-0 z-40 bg-stone-950 pt-24 px-6 md:hidden">
+          <div className="flex flex-col gap-6">
+            <button onClick={() => scrollToSection('systems')} className="text-left text-2xl font-serif text-stone-100">How It Works</button>
+            <button onClick={() => scrollToSection('benefits')} className="text-left text-2xl font-serif text-stone-100">Benefits</button>
+            <button onClick={() => scrollToSection('signals')} className="text-left text-2xl font-serif text-jade-400">Free Analysis</button>
           </div>
         </div>
       )}
 
-      {/* Main Hero */}
-      <main id="home" className="min-h-screen flex flex-col overflow-hidden z-10 w-full pt-32 pb-20 relative items-center">
-        {/* Hero Text */}
-        <div className="z-20 text-center max-w-5xl mr-auto ml-auto pr-6 pl-6 relative">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-jade-500/20 bg-jade-50 text-[11px] font-medium mb-6 animate-fade-in shadow-[0_0_20px_rgba(5,150,105,0.15)] text-jade-700 backdrop-blur-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-jade-400"></span>
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-jade-500"></span>
-            </span>
-            <span>You Only Pay When It Works</span>
-          </div>
+      {/* Hero Section - Editorial Split Layout */}
+      <section ref={heroRef} className="min-h-screen bg-stone-950 relative overflow-hidden">
+        <motion.div 
+          style={{ opacity: heroOpacity, y: heroY }}
+          className="max-w-7xl mx-auto px-6 md:px-12 pt-32 pb-20 min-h-screen flex flex-col justify-center"
+        >
+          {/* Jade Accent Line */}
+          <div className="absolute left-6 md:left-12 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-jade/30 to-transparent hidden md:block" />
+          
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+            {/* Left Content */}
+            <div className="lg:col-span-7">
+              <motion.div
+                initial="hidden"
+                animate="visible"
+                variants={staggerContainer}
+              >
+                <motion.div variants={wordReveal} className="mb-6">
+                  <Badge variant="outline" className="border-jade/30 text-jade-400 bg-jade/5 font-mono text-[10px] tracking-widest uppercase px-3 py-1">
+                    Performance-Based Pricing
+                  </Badge>
+                </motion.div>
 
-          <h1 className="flex flex-col items-center text-center z-20 mt-2 mb-8">
-            <span className="block text-4xl md:text-6xl lg:text-7xl font-extrabold tracking-tighter text-slate-900 leading-[1.1] animate-slide-up">
-              Do you want a
-              <br />
-              <span className="text-jade-600">waiting list</span>
-              <br />
-              of western buyers?
-            </span>
-          </h1>
-
-          <p className="leading-relaxed text-lg max-w-2xl mx-auto mb-10 font-light text-slate-600 relative z-20 animate-slide-up-delayed" style={{ animationDelay: '0.2s' }}>
-            We can build your company a <strong>predictable pipeline</strong> of direct western buyers who place larger orders at better margins— <span className="text-jade-600 font-medium">you only pay us when it works.</span>
-          </p>
-
-          <div className="flex flex-col md:flex-row items-center justify-center gap-5 relative z-20 animate-slide-up-delayed" style={{ animationDelay: '0.3s' }}>
-            <button onClick={() => scrollToSection('signals')} className="group relative w-full md:w-auto px-8 py-4 bg-slate-900 text-white text-sm font-semibold rounded-lg transition-all hover:bg-slate-800 active:scale-95 shadow-lg hover:shadow-xl">
-              Get Your Free Analysis
-              <ArrowRight className="inline-block ml-2 w-4 h-4 transition-transform group-hover:translate-x-1" />
-            </button>
-
-            <button onClick={() => scrollToSection('systems')} className="group flex transition-all md:w-auto text-sm font-medium bg-white w-full border border-slate-200 rounded-lg pt-3 pr-6 pb-3 pl-6 gap-x-2 items-center justify-center hover:text-slate-900 text-slate-500 active:scale-95 shadow-sm backdrop-blur-sm">
-              <span className="border-b border-transparent group-hover:border-slate-500 transition-all">
-                See How It Works
-              </span>
-            </button>
-          </div>
-        </div>
-
-        {/* 3 Systems Overview Cards */}
-        <div className="w-full max-w-6xl z-20 mx-auto px-4 mt-20 animate-slide-up-delayed" style={{ animationDelay: '0.5s' }}>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {/* System 1 */}
-            <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all hover:border-jade-200">
-              <div className="w-10 h-10 rounded-lg bg-jade-50 flex items-center justify-center mb-4 text-jade-600">
-                <Search width={20} />
-              </div>
-              <h3 className="font-semibold text-slate-900 mb-2">More Discovery</h3>
-              <p className="text-sm text-slate-600">Google Ads optimization so buyers find YOU first</p>
-            </div>
-            {/* System 2 */}
-            <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all hover:border-jade-200">
-              <div className="w-10 h-10 rounded-lg bg-jade-50 flex items-center justify-center mb-4 text-jade-600">
-                <Monitor width={20} />
-              </div>
-              <h3 className="font-semibold text-slate-900 mb-2">More Orders</h3>
-              <p className="text-sm text-slate-600">High-converting landing page western buyers trust</p>
-            </div>
-            {/* System 3 */}
-            <div className="bg-white rounded-xl p-6 border border-slate-200 shadow-sm hover:shadow-md transition-all hover:border-jade-200">
-              <div className="w-10 h-10 rounded-lg bg-jade-50 flex items-center justify-center mb-4 text-jade-600">
-                <Bot width={20} />
-              </div>
-              <h3 className="font-semibold text-slate-900 mb-2">Consistent Leads</h3>
-              <p className="text-sm text-slate-600">AI sales assistant responds instantly, 24/7</p>
-            </div>
-          </div>
-        </div>
-      </main>
-
-      {/* How We Do It - 3 Systems Section */}
-      <section id="systems" className="relative py-24 bg-slate-50/50 overflow-hidden border-t border-slate-200">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="text-center mb-16">
-            <span className="text-xs font-mono text-jade-600 uppercase tracking-widest mb-4 block">Our 3 Systems</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">
-              How We Do It
-            </h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
-              Three integrated systems working together to create a consistent pipeline of qualified Western buyers.
-            </p>
-          </div>
-
-          {/* System Cards - Horizontal Layout */}
-          <div className="space-y-6">
-            {/* System 1: More Discovery */}
-            <div className="group bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-lg transition-all hover:border-jade-200">
-              <div className="flex flex-col md:flex-row gap-6 items-start">
-                <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br from-jade-500 to-emerald-600 flex items-center justify-center text-white shadow-lg shadow-jade-500/20">
-                  <Search width={28} />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-xs font-mono text-jade-600 uppercase tracking-wider font-bold">System 01</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-3">More Discovery</h3>
-                  <p className="text-slate-600 leading-relaxed max-w-2xl">
-                    Many western buyers are already searching for Chinese partners on Google. We optimize your Google Ads so they find <strong>YOU first</strong>—not your competitors.
-                  </p>
-                </div>
-                <div className="hidden md:flex flex-shrink-0 items-center justify-center w-24 h-24 rounded-full bg-jade-50 border border-jade-100">
-                  <TrendingUp className="text-jade-600" width={32} />
-                </div>
-              </div>
-            </div>
-
-            {/* System 2: More Orders */}
-            <div className="group bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-lg transition-all hover:border-jade-200">
-              <div className="flex flex-col md:flex-row gap-6 items-start">
-                <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br from-jade-500 to-emerald-600 flex items-center justify-center text-white shadow-lg shadow-jade-500/20">
-                  <Monitor width={28} />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-xs font-mono text-jade-600 uppercase tracking-wider font-bold">System 02</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-3">More Orders</h3>
-                  <p className="text-slate-600 leading-relaxed max-w-2xl">
-                    We build you a high-converting landing page that western buyers are more familiar with. This helps build trust so they feel comfortable placing more orders, more frequently.
-                  </p>
-                </div>
-                <div className="hidden md:flex flex-shrink-0 items-center justify-center w-24 h-24 rounded-full bg-jade-50 border border-jade-100">
-                  <CheckCircle2 className="text-jade-600" width={32} />
-                </div>
-              </div>
-            </div>
-
-            {/* System 3: Consistent Leads */}
-            <div className="group bg-white rounded-2xl p-8 border border-slate-200 shadow-sm hover:shadow-lg transition-all hover:border-jade-200">
-              <div className="flex flex-col md:flex-row gap-6 items-start">
-                <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br from-jade-500 to-emerald-600 flex items-center justify-center text-white shadow-lg shadow-jade-500/20">
-                  <Bot width={28} />
-                </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-xs font-mono text-jade-600 uppercase tracking-wider font-bold">System 03</span>
-                  </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-3">Consistent Leads</h3>
-                  <p className="text-slate-600 leading-relaxed max-w-2xl">
-                    Our AI sales assistant responds to buyers instantly—even at 3 AM. No more lost opportunities because your sales team was sleeping.
-                  </p>
-                </div>
-                <div className="hidden md:flex flex-shrink-0 items-center justify-center w-24 h-24 rounded-full bg-jade-50 border border-jade-100">
-                  <Clock className="text-jade-600" width={32} />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* What This Means - Benefits Section */}
-      <section id="benefits" className="relative py-24 bg-white overflow-hidden border-t border-slate-200">
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="text-center mb-16">
-            <span className="text-xs font-mono text-jade-600 uppercase tracking-widest mb-4 block">Results</span>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-4">
-              What This Means for Your Company
-            </h2>
-            <p className="text-slate-600 max-w-2xl mx-auto">
-              Convertree&apos;s &quot;3 Systems&quot; work together to create a consistent pipeline of qualified Western Buyers.
-            </p>
-          </div>
-
-          {/* Benefits Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {/* Benefit 1 */}
-            <div className="bg-slate-50 rounded-xl p-6 border border-slate-100 hover:border-jade-200 hover:shadow-md transition-all">
-              <div className="w-10 h-10 rounded-lg bg-jade-100 flex items-center justify-center mb-4 text-jade-600">
-                <TrendingDown width={20} />
-              </div>
-              <h3 className="font-bold text-slate-900 mb-2">Save Money</h3>
-              <p className="text-sm text-slate-600">You get more leads with the same ad spend</p>
-            </div>
-
-            {/* Benefit 2 */}
-            <div className="bg-slate-50 rounded-xl p-6 border border-slate-100 hover:border-jade-200 hover:shadow-md transition-all">
-              <div className="w-10 h-10 rounded-lg bg-jade-100 flex items-center justify-center mb-4 text-jade-600">
-                <TrendingUp width={20} />
-              </div>
-              <h3 className="font-bold text-slate-900 mb-2">Higher Margins</h3>
-              <p className="text-sm text-slate-600">Attract direct buyers from Google, not Alibaba resellers</p>
-            </div>
-
-            {/* Benefit 3 */}
-            <div className="bg-slate-50 rounded-xl p-6 border border-slate-100 hover:border-jade-200 hover:shadow-md transition-all">
-              <div className="w-10 h-10 rounded-lg bg-jade-100 flex items-center justify-center mb-4 text-jade-600">
-                <Users width={20} />
-              </div>
-              <h3 className="font-bold text-slate-900 mb-2">Customer Selection</h3>
-              <p className="text-sm text-slate-600">Getting more leads means you choose who you want to do business with</p>
-            </div>
-
-            {/* Benefit 4 */}
-            <div className="bg-slate-50 rounded-xl p-6 border border-slate-100 hover:border-jade-200 hover:shadow-md transition-all">
-              <div className="w-10 h-10 rounded-lg bg-jade-100 flex items-center justify-center mb-4 text-jade-600">
-                <Clock width={20} />
-              </div>
-              <h3 className="font-bold text-slate-900 mb-2">Minimize Downtime</h3>
-              <p className="text-sm text-slate-600">Your factory will run closer to full capacity</p>
-            </div>
-
-            {/* Benefit 5 */}
-            <div className="bg-slate-50 rounded-xl p-6 border border-slate-100 hover:border-jade-200 hover:shadow-md transition-all md:col-span-2 lg:col-span-2">
-              <div className="w-10 h-10 rounded-lg bg-jade-100 flex items-center justify-center mb-4 text-jade-600">
-                <CheckCircle2 width={20} />
-              </div>
-              <h3 className="font-bold text-slate-900 mb-2">Effective Sales</h3>
-              <p className="text-sm text-slate-600">Customers come to you, so your sales team spends more time closing deals and less time looking for prospects</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Pay for Results Section */}
-      <section className="relative py-24 bg-gradient-to-br from-slate-900 to-slate-800 text-white overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(5,150,105,0.1),transparent_50%)]"></div>
-        
-        <div className="max-w-4xl mx-auto px-6 relative z-10 text-center">
-          <span className="text-xs font-mono text-jade-400 uppercase tracking-widest mb-4 block">Pricing</span>
-          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
-            Only Pay for Results
-          </h2>
-          <p className="text-lg text-slate-300 mb-8 max-w-2xl mx-auto leading-relaxed">
-            After a small one-time set up fee, you only pay us for the <strong className="text-white">qualified western buyer leads</strong> we generate. If we don&apos;t deliver qualified leads, you don&apos;t pay.
-          </p>
-          <p className="text-xl font-semibold text-jade-400">Simple.</p>
-        </div>
-      </section>
-
-      {/* 7 Signals Section with Form */}
-      <section id="signals" className="relative py-24 bg-jade-50/50 overflow-hidden border-t border-slate-200">
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left: Content */}
-            <div>
-              <span className="text-xs font-mono text-jade-600 uppercase tracking-widest mb-4 block">Free Analysis</span>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 tracking-tight mb-6">
-                Western buyers look for these 7 specific &quot;signals&quot; when selecting a trustworthy partner
-              </h2>
-              <p className="text-lg text-slate-600 mb-6">
-                Does your site have them?
-              </p>
-              <p className="text-slate-600 mb-8 leading-relaxed">
-                Missing even a single signal could be costing you sales. Let us analyze your current landing page for the 7 signals and show you exactly where you&apos;re losing Western buyers—and how to fix it.
-              </p>
-              <div className="flex items-center gap-2 text-jade-600 font-semibold">
-                <CheckCircle2 width={20} />
-                <span>100% Free. No obligation.</span>
-              </div>
-            </div>
-
-            {/* Right: Form */}
-            <div className="bg-white rounded-2xl border border-slate-200 shadow-xl p-8">
-              <div className="mb-6">
-                <h3 className="text-xl font-bold text-slate-900 mb-2">Get Your Free 7-Signal Analysis</h3>
-                <p className="text-sm text-slate-500">We&apos;ll analyze your page and send you a personalized report within 24 hours.</p>
-              </div>
-
-              <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1.5">Name *</label>
-                  <input 
-                    type="text" 
-                    placeholder="Your name" 
-                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-jade-500/20 focus:border-jade-500 transition-all outline-none placeholder:text-slate-400"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1.5">Email *</label>
-                  <input 
-                    type="email" 
-                    placeholder="your@email.com" 
-                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-jade-500/20 focus:border-jade-500 transition-all outline-none placeholder:text-slate-400"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wide mb-1.5">Current Landing Page URL *</label>
-                  <input 
-                    type="url" 
-                    placeholder="https://yourcompany.com" 
-                    className="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-jade-500/20 focus:border-jade-500 transition-all outline-none placeholder:text-slate-400"
-                  />
-                </div>
-
-                <button 
-                  type="submit" 
-                  className="w-full py-4 rounded-lg text-white font-semibold text-sm transition-all duration-300 shadow-lg bg-gradient-to-r from-jade-600 to-emerald-600 hover:from-jade-500 hover:to-emerald-500 hover:shadow-xl active:scale-[0.98]"
+                <motion.h1 
+                  variants={wordReveal}
+                  className="font-serif text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-white leading-[0.95] tracking-tight mb-8"
                 >
-                  Analyze My Page
-                </button>
+                  Do you want a<br />
+                  <span className="text-jade-400 italic">waiting list</span><br />
+                  of western buyers?
+                </motion.h1>
 
-                <p className="text-xs text-slate-400 text-center">
-                  By submitting, you agree to receive our analysis and occasional updates.
-                </p>
-              </form>
+                <motion.p 
+                  variants={wordReveal}
+                  className="text-stone-400 text-lg md:text-xl font-body leading-relaxed max-w-xl mb-10"
+                >
+                  We build your company a <strong className="text-white font-medium">predictable pipeline</strong> of direct western buyers who place larger orders at better margins— <span className="text-jade-400">you only pay when it works.</span>
+                </motion.p>
+
+                <motion.div variants={wordReveal} className="flex flex-col sm:flex-row gap-4">
+                  <Button 
+                    onClick={() => scrollToSection('signals')}
+                    className="bg-jade hover:bg-jade-light text-white font-mono text-xs tracking-widest uppercase px-8 py-6 rounded-none transition-all group"
+                  >
+                    Get Your Free Analysis
+                    <ArrowUpRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+                  </Button>
+                  
+                  <Button 
+                    variant="outline"
+                    onClick={() => scrollToSection('systems')}
+                    className="border-stone-700 text-stone-300 hover:text-white hover:border-stone-500 bg-transparent font-mono text-xs tracking-widest uppercase px-8 py-6 rounded-none transition-all"
+                  >
+                    See How It Works
+                  </Button>
+                </motion.div>
+              </motion.div>
             </div>
+
+            {/* Right - Preview Cards Stack */}
+            <div className="lg:col-span-5 relative">
+              <motion.div
+                initial={{ opacity: 0, x: 40 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="space-y-3"
+              >
+                {[
+                  { icon: Search, title: "More Discovery", desc: "Google Ads optimization" },
+                  { icon: Monitor, title: "More Orders", desc: "High-converting landing pages" },
+                  { icon: Bot, title: "Consistent Leads", desc: "AI sales assistant, 24/7" },
+                ].map((item, i) => (
+                  <Card 
+                    key={i} 
+                    className="bg-stone-900/50 border-stone-800 backdrop-blur-sm hover:border-jade/30 transition-all group cursor-pointer"
+                  >
+                    <CardContent className="p-5 flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-jade/10 flex items-center justify-center text-jade-400 group-hover:bg-jade/20 transition-colors">
+                        <item.icon className="w-5 h-5" strokeWidth={1.5} />
+                      </div>
+                      <div>
+                        <h3 className="text-white font-serif text-base">{item.title}</h3>
+                        <p className="text-stone-500 text-sm font-body">{item.desc}</p>
+                      </div>
+                      <ArrowUpRight className="ml-auto w-4 h-4 text-stone-600 group-hover:text-jade-400 transition-colors" />
+                    </CardContent>
+                  </Card>
+                ))}
+              </motion.div>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Abstract Shape Decoration */}
+        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 opacity-20 pointer-events-none">
+          <svg viewBox="0 0 400 400" className="w-full h-full">
+            <defs>
+              <linearGradient id="jadeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stopColor="#059669" stopOpacity="0.3" />
+                <stop offset="100%" stopColor="#10b981" stopOpacity="0.1" />
+              </linearGradient>
+            </defs>
+            <circle cx="300" cy="300" r="200" fill="url(#jadeGradient)" />
+          </svg>
+        </div>
+      </section>
+
+      {/* How We Do It - 3 Systems with Editorial Layout */}
+      <section id="systems" className="py-32 md:py-40 bg-stone-50 relative">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          {/* Section Header */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+            className="mb-20 md:mb-28"
+          >
+            <div className="flex items-center gap-4 mb-6">
+              <div className="h-px w-12 bg-jade" />
+              <span className="font-mono text-jade text-xs tracking-[0.3em] uppercase">Our Method</span>
+            </div>
+            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-stone-900 leading-[1.1] max-w-3xl">
+              Three systems working in concert
+            </h2>
+          </motion.div>
+
+          {/* Systems Grid - Editorial Layout */}
+          <div className="space-y-24 md:space-y-32">
+            {[
+              { 
+                num: "01", 
+                icon: Search, 
+                title: "More Discovery", 
+                desc: "Many western buyers are already searching for Chinese partners on Google. We optimize your Google Ads so they find you first—not your competitors.",
+                align: "left"
+              },
+              { 
+                num: "02", 
+                icon: Monitor, 
+                title: "More Orders", 
+                desc: "We build you a high-converting landing page that western buyers are more familiar with. This helps build trust so they feel comfortable placing more orders, more frequently.",
+                align: "right"
+              },
+              { 
+                num: "03", 
+                icon: Bot, 
+                title: "Consistent Leads", 
+                desc: "Our AI sales assistant responds to buyers instantly—even at 3 AM. No more lost opportunities because your sales team was sleeping.",
+                align: "left"
+              },
+            ].map((system, i) => (
+              <motion.div
+                key={i}
+                initial="hidden"
+                whileInView="visible"
+                viewport={{ once: true, margin: "-100px" }}
+                variants={fadeInUp}
+                className={`grid grid-cols-1 lg:grid-cols-12 gap-8 items-center ${system.align === 'right' ? 'lg:flex-row-reverse' : ''}`}
+              >
+                <div className={`lg:col-span-5 ${system.align === 'right' ? 'lg:col-start-8' : ''}`}>
+                  <div className="flex items-start gap-6">
+                    <span className="font-mono text-6xl md:text-7xl text-stone-200 font-light">
+                      {system.num}
+                    </span>
+                    <div className="pt-4">
+                      <div className="w-16 h-16 rounded-full bg-jade/5 border border-jade/20 flex items-center justify-center text-jade mb-6">
+                        <system.icon className="w-7 h-7" strokeWidth={1.5} />
+                      </div>
+                      <h3 className="font-serif text-3xl md:text-4xl text-stone-900 mb-4">
+                        {system.title}
+                      </h3>
+                      <p className="text-stone-600 font-body text-lg leading-relaxed">
+                        {system.desc}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Visual Placeholder */}
+                <div className={`lg:col-span-6 ${system.align === 'right' ? 'lg:col-start-1 lg:row-start-1' : 'lg:col-start-7'}`}>
+                  <div className="aspect-[4/3] bg-stone-200/50 rounded-lg border border-stone-200 flex items-center justify-center">
+                    <span className="font-mono text-stone-400 text-xs tracking-widest uppercase">
+                      {system.title} Visual
+                    </span>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="py-12 border-t border-slate-200 bg-white">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-jade-50 rounded-lg border border-jade-200/50 flex items-center justify-center">
-              <Leaf className="text-jade-600" width={16} />
+      {/* Benefits - Asymmetric Bento Grid */}
+      <section id="benefits" className="py-32 md:py-40 bg-white relative">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={fadeInUp}
+            className="mb-16 md:mb-24"
+          >
+            <div className="flex items-center gap-4 mb-6">
+              <div className="h-px w-12 bg-jade" />
+              <span className="font-mono text-jade text-xs tracking-[0.3em] uppercase">Results</span>
             </div>
+            <h2 className="font-serif text-4xl md:text-5xl text-stone-900 leading-[1.1] max-w-2xl">
+              What this means for your company
+            </h2>
+          </motion.div>
+
+          {/* Bento Grid */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
+            variants={staggerContainer}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            {[
+              { icon: TrendingDown, title: "Save Money", desc: "Get more leads with the same ad spend" },
+              { icon: TrendingUp, title: "Higher Margins", desc: "Attract direct buyers from Google, not Alibaba resellers" },
+              { icon: Users, title: "Customer Selection", desc: "Choose who you want to do business with" },
+              { icon: Clock, title: "Minimize Downtime", desc: "Your factory runs closer to full capacity" },
+              { icon: CheckCircle2, title: "Effective Sales", desc: "Customers come to you. Less prospecting, more closing.", wide: true },
+            ].map((benefit, i) => (
+              <motion.div
+                key={i}
+                variants={fadeInUp}
+                className={`bento-item group ${benefit.wide ? 'md:col-span-2' : ''}`}
+              >
+                <div className="w-12 h-12 rounded-full bg-stone-100 flex items-center justify-center text-stone-600 mb-6 group-hover:bg-jade/10 group-hover:text-jade transition-all">
+                  <benefit.icon className="w-6 h-6" strokeWidth={1.5} />
+                </div>
+                <h3 className="font-serif text-xl text-stone-900 mb-3">{benefit.title}</h3>
+                <p className="text-stone-600 font-body leading-relaxed">{benefit.desc}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Pay for Results - Dark Section with Gradient Mesh */}
+      <section className="py-32 md:py-40 bg-stone-950 relative overflow-hidden">
+        {/* Gradient Mesh Background */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-0 left-1/4 w-96 h-96 bg-jade/20 rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
+        </div>
+
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+          variants={staggerContainer}
+          className="max-w-4xl mx-auto px-6 md:px-12 relative z-10 text-center"
+        >
+          <motion.div variants={fadeInUp} className="flex items-center justify-center gap-4 mb-8">
+            <div className="h-px w-12 bg-jade/50" />
+            <span className="font-mono text-jade-400 text-xs tracking-[0.3em] uppercase">Pricing</span>
+            <div className="h-px w-12 bg-jade/50" />
+          </motion.div>
+
+          <motion.h2 
+            variants={fadeInUp}
+            className="font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-[1.1] mb-8"
+          >
+            Only pay for results
+          </motion.h2>
+
+          <motion.p 
+            variants={fadeInUp}
+            className="text-stone-400 text-lg md:text-xl font-body leading-relaxed mb-6 max-w-2xl mx-auto"
+          >
+            After a small one-time set up fee, you only pay us for the <strong className="text-white font-medium">qualified western buyer leads</strong> we generate.
+          </motion.p>
+
+          <motion.p 
+            variants={fadeInUp}
+            className="font-serif text-3xl md:text-4xl text-jade-400 italic"
+          >
+            If we don't deliver, you don't pay.
+          </motion.p>
+        </motion.div>
+      </section>
+
+      {/* 7 Signals - Form Section */}
+      <section id="signals" className="py-32 md:py-40 bg-stone-100 relative">
+        <div className="max-w-7xl mx-auto px-6 md:px-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+            {/* Left Content */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={staggerContainer}
+            >
+              <motion.div variants={fadeInUp} className="flex items-center gap-4 mb-6">
+                <div className="h-px w-12 bg-jade" />
+                <span className="font-mono text-jade text-xs tracking-[0.3em] uppercase">Free Analysis</span>
+              </motion.div>
+
+              <motion.h2 
+                variants={fadeInUp}
+                className="font-serif text-4xl md:text-5xl text-stone-900 leading-[1.1] mb-8"
+              >
+                Western buyers look for these <span className="text-jade">7 specific signals</span> when selecting a partner
+              </motion.h2>
+
+              <motion.p variants={fadeInUp} className="text-stone-600 font-body text-lg leading-relaxed mb-6">
+                Does your site have them?
+              </motion.p>
+
+              <motion.p variants={fadeInUp} className="text-stone-600 font-body leading-relaxed mb-8">
+                Missing even a single signal could be costing you sales. Let us analyze your current landing page and show you exactly where you're losing Western buyers—and how to fix it.
+              </motion.p>
+
+              <motion.div variants={fadeInUp} className="flex items-center gap-3 text-jade">
+                <CheckCircle2 className="w-5 h-5" />
+                <span className="font-medium">100% Free. No obligation.</span>
+              </motion.div>
+            </motion.div>
+
+            {/* Right - Form Card */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8 }}
+            >
+              <Card className="bg-white border-stone-200 shadow-xl shadow-stone-200/50">
+                <CardContent className="p-8 md:p-10">
+                  <div className="mb-8">
+                    <h3 className="font-serif text-2xl text-stone-900 mb-2">Get Your Free 7-Signal Analysis</h3>
+                    <p className="text-stone-500 font-body text-sm">
+                      We'll analyze your page and send you a personalized report within 24 hours.
+                    </p>
+                  </div>
+
+                  <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+                    <div className="space-y-2">
+                      <Label htmlFor="name" className="font-mono text-xs tracking-wider uppercase text-stone-600">
+                        Name
+                      </Label>
+                      <Input 
+                        id="name"
+                        type="text" 
+                        placeholder="Your name"
+                        className="border-stone-200 rounded-none focus:border-jade focus:ring-jade/20"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="email" className="font-mono text-xs tracking-wider uppercase text-stone-600">
+                        Email
+                      </Label>
+                      <Input 
+                        id="email"
+                        type="email" 
+                        placeholder="your@email.com"
+                        className="border-stone-200 rounded-none focus:border-jade focus:ring-jade/20"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="url" className="font-mono text-xs tracking-wider uppercase text-stone-600">
+                        Landing Page URL
+                      </Label>
+                      <Input 
+                        id="url"
+                        type="url" 
+                        placeholder="https://yourcompany.com"
+                        className="border-stone-200 rounded-none focus:border-jade focus:ring-jade/20"
+                      />
+                    </div>
+
+                    <Button 
+                      type="submit"
+                      className="w-full bg-jade hover:bg-jade-light text-white font-mono text-xs tracking-widest uppercase py-6 rounded-none transition-all"
+                    >
+                      Analyze My Page
+                      <ArrowUpRight className="ml-2 w-4 h-4" />
+                    </Button>
+
+                    <p className="text-stone-400 text-xs text-center font-body">
+                      By submitting, you agree to receive our analysis and occasional updates.
+                    </p>
+                  </form>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Footer - Minimal */}
+      <footer className="py-12 bg-stone-950 border-t border-stone-900">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <Leaf className="text-jade-400 w-5 h-5" strokeWidth={1.5} />
             <div className="flex flex-col">
-              <span className="text-lg font-bold text-slate-900">Convertree</span>
-              <span className="text-[8px] tracking-widest text-jade-600 uppercase font-mono">肯副翠</span>
+              <span className="text-white font-serif text-lg">Convertree</span>
+              <span className="text-stone-600 text-[8px] tracking-[0.3em] uppercase font-mono">肯副翠</span>
             </div>
           </div>
-          <p className="text-xs text-slate-500">
+          <p className="text-stone-600 text-sm font-body">
             © 2026 Convertree. All rights reserved.
           </p>
         </div>

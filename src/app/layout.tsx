@@ -13,7 +13,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth">
-      <body className="antialiased selection:bg-jade-500/30 font-sans text-slate-600 bg-white">
+      <body className="font-body antialiased bg-stone-50 text-stone-950">
+        {/* Noise texture overlay */}
+        <div className="noise-overlay" aria-hidden="true" />
         {children}
       </body>
     </html>
