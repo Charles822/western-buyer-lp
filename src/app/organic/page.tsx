@@ -60,12 +60,19 @@ const branchOut = {
 export default function OrganicPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const containerRef = useRef(null);
+  const systemsSectionRef = useRef(null);
+  
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"]
   });
   
-  const treeHeight = useTransform(scrollYProgress, [0, 0.3], ["0%", "100%"]);
+  const { scrollYProgress: systemsScrollProgress } = useScroll({
+    target: systemsSectionRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const treeHeight = useTransform(systemsScrollProgress, [0.2, 0.8], ["0%", "100%"]);
   const springTreeHeight = useSpring(treeHeight, { stiffness: 100, damping: 30 });
   
   const leafScale = useTransform(scrollYProgress, [0.1, 0.4], [0, 1]);
@@ -287,33 +294,12 @@ export default function OrganicPage() {
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
-        <motion.div 
-          animate={{ y: [0, 10, 0] }}
-          transition={{ duration: 2, repeat: Infinity }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
-        >
-          <div className="w-6 h-10 border-2 border-jade/30 rounded-full flex justify-center pt-2">
-            <motion.div 
-              animate={{ y: [0, 12, 0] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="w-1.5 h-3 bg-jade rounded-full"
-            />
-          </div>
-        </motion.div>
       </section>
 
       {/* How We Do It - Root to Branch System */}
-      <section id="systems" className="py-32 relative">
-        {/* Growing line connector */}
-        <div className="absolute left-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-jade/0 via-jade/20 to-jade/0 hidden lg:block">
-          <motion.div 
-            style={{ height: springTreeHeight }}
-            className="w-full bg-gradient-to-b from-jade to-emerald-400"
-          />
-        </div>
-
+      <section ref={systemsSectionRef} id="systems" className="py-32 relative">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
+          {/* Title - clean, no line through it */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -333,8 +319,33 @@ export default function OrganicPage() {
             </p>
           </motion.div>
 
-          {/* Systems with branch connectors */}
-          <div className="space-y-24 relative">
+          {/* Scroll indicator - below title, above the animated line */}
+          <motion.div 
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="flex justify-center mb-16"
+          >
+            <div className="w-6 h-10 border-2 border-jade/30 rounded-full flex justify-center pt-2">
+              <motion.div 
+                animate={{ y: [0, 12, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="w-1.5 h-3 bg-jade rounded-full"
+              />
+            </div>
+          </motion.div>
+
+          {/* Systems area - line starts here, below the title */}
+          <div className="relative">
+            {/* Growing line connector - only runs through systems content */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-jade/0 via-jade/20 to-jade/0 hidden lg:block z-0">
+              <motion.div 
+                style={{ height: springTreeHeight }}
+                className="w-full bg-gradient-to-b from-jade to-emerald-400"
+              />
+            </div>
+
+            {/* Systems with branch connectors */}
+            <div className="space-y-24 relative z-10">
             {[
               { 
                 num: "01", 
@@ -408,6 +419,7 @@ export default function OrganicPage() {
                 </div>
               </motion.div>
             ))}
+            </div>
           </div>
         </div>
       </section>
