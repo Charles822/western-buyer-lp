@@ -1,0 +1,924 @@
+<html lang="en" class="scroll-smooth" id="html-root"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Western Buyer System - Turn your factory reputation into consistent Western buyer requests.">
+<title>Western Buyer System | Get More Western Buyer Requests</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+darkMode: 'class',
+theme: {
+extend: {
+colors: {
+orange: {
+50: '#fff7ed',
+100: '#ffedd5',
+200: '#fed7aa',
+300: '#fdba74',
+400: '#fb923c',
+500: '#f97316',
+600: '#ea580c',
+700: '#c2410c',
+800: '#9a3412',
+900: '#7c2d12',
+},
+},
+animation: {
+'fade-in': 'fadeIn 0.5s ease-out forwards',
+'blob': 'blob 10s infinite',
+'scan': 'scan 8s linear infinite',
+'slide-up': 'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+'slide-up-delayed':
+'slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s forwards',
+},
+keyframes: {
+fadeIn: {
+'0%': { opacity: '0', transform: 'translateY(10px)' },
+'100%': { opacity: '1', transform: 'translateY(0)' },
+},
+slideUp: {
+'0%': { opacity: '0', transform: 'translateY(30px)' },
+'100%': { opacity: '1', transform: 'translateY(0)' },
+},
+blob: {
+'0%': { transform: 'translate(0px, 0px) scale(1)' },
+'33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+'66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+'100%': { transform: 'translate(0px, 0px) scale(1)' },
+},
+scan: {
+'0%': { transform: 'translateY(-100%)' },
+'100%': { transform: 'translateY(100%)' },
+},
+},
+},
+},
+};
+</script>
+<script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;display=swap" rel="stylesheet">
+
+<style>
+@keyframes rain-drop{0%{transform:translateY(-100vh);opacity:0}15%{opacity:var(--streak-opacity,0.4)}85%{opacity:var(--streak-opacity,0.4)}100%{transform:translateY(200vh);opacity:0}}.energy-streak{position:absolute;top:-20%;width:1px;height:40vh;background:linear-gradient(180deg,transparent,var(--streak-color,#f97316),transparent);animation:rain-drop linear infinite;opacity:0;will-change:transform,opacity}.energy-streak.layer-far{width:1px;filter:blur(1.5px);z-index:0}.energy-streak.layer-mid{width:1px;filter:blur(0.5px);z-index:1}.energy-streak.layer-near{width:2px;filter:blur(0);z-index:2;height:25vh}.energy-streak.star{background:linear-gradient(180deg,transparent,rgba(249, 115, 22,0.9),transparent);filter:drop-shadow(0 0 2px rgba(249, 115, 22,0.5))}@media (prefers-reduced-motion:reduce){.energy-streak{display:none}}
+</style>
+<style>
+/* Aura Build - Illuminated Outline */
+@keyframes aura-pulse {
+0%, 100% { box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.3), 0 0 15px rgba(251, 146, 60, 0.1), 0 20px 50px -12px rgba(0, 0, 0, 0.05); }
+50% { box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.5), 0 0 25px rgba(251, 146, 60, 0.15), 0 20px 50px -12px rgba(0, 0, 0, 0.05); }
+}
+.dashboard-ui {
+box-shadow: 0 0 0 1px rgba(249, 115, 22, 0.3), 0 0 15px rgba(251, 146, 60, 0.1), 0 20px 50px -12px rgba(0, 0, 0, 0.05) !important;
+animation: aura-pulse 8s ease-in-out infinite;
+}
+</style>
+</head>
+  <body class="antialiased selection:bg-orange-500/30 font-sans text-slate-600 bg-white">
+    <!-- GLOBAL VISUAL FX LAYER (Pointer Events None) -->
+    <div class="fixed inset-0 z-0 pointer-events-none overflow-hidden bg-white transition-colors duration-500">
+      <!-- 1. Ambient Glow Blobs (Orange/Warm) -->
+      <div class="ambient-glow">
+        <div class="glow-blob bg-orange-100/50 w-[600px] h-[600px] top-[-20%] left-[-10%] mix-blend-multiply animate-blob"></div>
+        <div class="glow-blob bg-orange-200/40 w-[500px] h-[500px] top-[40%] right-[-10%] mix-blend-multiply animate-blob" style="animation-delay: 2s"></div>
+        <div class="glow-blob bg-amber-100/50 w-[400px] h-[400px] bottom-[-10%] left-[20%] mix-blend-multiply animate-blob" style="animation-delay: 4s"></div>
+      </div>
+
+      <!-- 2. Cursor Spotlight (Updates via JS) -->
+      <div class="spotlight-overlay"></div>
+
+      <!-- 3. Vertical Laser Beams (Ambient Motion) -->
+      <div class="laser-beam-container fixed inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true">
+        <div class="energy-streak layer-far" style="left:2%;animation-duration:13s;animation-delay:-2s;--streak-opacity:0.04;--streak-color:#fb923c"></div>
+        <div class="energy-streak layer-mid" style="left:22%;animation-duration:8s;animation-delay:-5s;--streak-opacity:0.08;--streak-color:#fb923c"></div>
+        <div class="energy-streak layer-mid" style="left:60%;animation-duration:8s;animation-delay:-8s;--streak-opacity:0.09;--streak-color:#fb923c"></div>
+        <div class="energy-streak layer-near" style="left:88%;animation-duration:5s;animation-delay:-4s;--streak-opacity:0.15;--streak-color:#f97316"></div>
+      </div>
+
+      <!-- 4. Tech Background (Dot Matrix) -->
+      <div class="tech-grid bg-[radial-gradient(#94a3b8_1px,transparent_1px)] [background-size:24px_24px]"></div>
+
+      <!-- 5. Top Edge Light -->
+      <div class="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent to-transparent via-orange-500/50"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 border-b bg-white/80 backdrop-blur-xl border-slate-200 transition-all duration-300 supports-[backdrop-filter]:bg-white/70">
+      <a href="#" class="flex items-center gap-2 cursor-pointer group" onclick="window.scrollTo(0,0); return false;">
+        <div class="relative flex items-center justify-center w-9 h-9 transition-transform group-active:scale-95 bg-gradient-to-br from-orange-50 to-amber-50 rounded-lg border border-orange-200/50 shadow-sm">
+          <iconify-icon icon="lucide:globe-2" class="text-orange-600" width="20"></iconify-icon>
+        </div>
+        <div class="flex flex-col">
+          <span class="text-sm tracking-tight font-bold text-slate-900 leading-none">
+            Western Buyer
+          </span>
+          <span class="text-[9px] tracking-widest text-orange-600 uppercase font-mono mt-0.5">
+            System
+          </span>
+        </div>
+      </a>
+
+      <div class="hidden md:flex items-center gap-1 p-1 rounded-full border backdrop-blur-md bg-slate-50/50 border-slate-200">
+        <a href="#challenge" class="px-4 py-1.5 text-xs font-medium rounded-full transition-all text-slate-500 hover:text-slate-900 hover:bg-white/80">
+          The Challenge
+        </a>
+        <a href="#system" class="px-4 py-1.5 text-xs font-medium rounded-full transition-all text-slate-500 hover:text-slate-900 hover:bg-white/80">
+          System
+        </a>
+        <a href="#pricing" class="px-4 py-1.5 text-xs font-medium rounded-full transition-all text-slate-500 hover:text-slate-900 hover:bg-white/80">
+          Investment
+        </a>
+        <a href="#apply" class="px-4 py-1.5 text-xs font-medium rounded-full transition-all text-slate-500 hover:text-slate-900 hover:bg-white/80">
+          Apply
+        </a>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <button onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})" class="group relative text-xs font-semibold bg-white border px-5 py-2 rounded-md transition-all overflow-hidden hover:border-orange-500/50 shadow-sm text-slate-900 border-slate-200 active:scale-95">
+          <span class="btn-content-slide">
+            <span class="btn-text-original">
+              <span class="md:hidden">Apply</span>
+              <span class="hidden md:inline">Apply Now</span>
+            </span>
+            <span class="btn-text-hover text-orange-600">
+              Start Build →
+            </span>
+          </span>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Main Hero -->
+    <main id="home" class="min-h-screen flex flex-col overflow-hidden z-10 w-full pt-32 pb-20 relative items-center">
+      <!-- Hero Text -->
+      <div class="z-20 text-center max-w-5xl mr-auto ml-auto pr-6 pl-6 relative">
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-orange-500/20 bg-orange-50 text-[11px] font-medium mb-6 animate-fade-in shadow-[0_0_20px_rgba(249,115,22,0.15)] text-orange-700 backdrop-blur-sm">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-orange-400"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+          </span>
+          <span>Global Reach. Trust-Optimized.</span>
+        </div>
+
+        <h1 class="flex flex-col items-center text-center z-20 mt-2 mb-8">
+          <span class="block text-5xl md:text-7xl lg:text-8xl font-extrabold tracking-tighter text-slate-900 leading-[0.95] animate-slide-up bg-clip-text text-transparent bg-gradient-to-b from-slate-900 via-slate-800 to-slate-600 drop-shadow-sm pb-2 md:pb-3">
+            Get Western Buyer
+            <br>
+            <span id="word-sell" class="sell-word text-slate-900">
+              Requests
+            </span>
+            in 21 Days.
+          </span>
+
+          <span class="block text-2xl md:text-3xl font-serif italic font-light text-slate-500 tracking-tight mt-4 opacity-100 max-w-3xl mx-auto">
+            Launch a One-Page System to convert traffic without hiring a Western marketing team.
+          </span>
+        </h1>
+
+        <p class="leading-relaxed text-base max-w-2xl mx-auto mb-10 font-light text-slate-600 relative z-20 animate-slide-up-delayed opacity-0" style="animation-delay: 0.2s;">
+          Turn your existing reputation, trade show presence, and Alibaba traffic into consistent buyer requests from <span class="text-slate-900 font-medium">U.S. and EU buyers</span>.
+        </p>
+
+        <div class="flex flex-col md:flex-row items-center justify-center gap-5 relative z-20 animate-slide-up-delayed opacity-0" style="animation-delay: 0.3s;">
+          <div class="btn-glow-border group cursor-pointer w-full md:w-auto shadow-lg shadow-orange-500/10">
+            <button onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})" class="relative z-10 w-full md:w-auto block px-8 py-3.5 bg-slate-900 text-sm font-semibold rounded-[5px] transition-all hover:bg-slate-800 active:bg-black text-white">
+              <span class="btn-content-slide">
+                <span class="btn-text-original">Book Your 21‑Day Build</span>
+                <span class="btn-text-hover text-orange-200">
+                  Check Availability
+                </span>
+              </span>
+            </button>
+          </div>
+
+          <button onclick="document.getElementById('system').scrollIntoView({behavior: 'smooth'})" class="group flex transition-all md:w-auto text-sm font-medium bg-white/80 w-full border border-slate-200 rounded-md pt-3 pr-6 pb-3 pl-6 gap-x-2 gap-y-2 items-center justify-center hover:text-slate-900 text-slate-500 active:scale-95 shadow-sm backdrop-blur-sm">
+            <iconify-icon icon="lucide:layout-template" class="text-slate-400 group-hover:text-orange-500 transition-colors" width="16"></iconify-icon>
+            <span class="border-b border-transparent group-hover:border-slate-500 transition-all">
+              See What's Included
+            </span>
+          </button>
+        </div>
+
+        <div class="mt-8 flex items-center justify-center gap-4 text-xs font-medium text-slate-400 animate-slide-up-delayed opacity-0" style="animation-delay: 0.4s;">
+          <span>Trusted by manufacturers in:</span>
+          <div class="flex gap-2 text-lg">
+             <span title="China">🇨🇳</span>
+             <span title="Japan">🇯🇵</span>
+             <span title="Korea">🇰🇷</span>
+             <span title="Vietnam">🇻🇳</span>
+             <span class="text-slate-300">→</span>
+             <span title="USA">🇺🇸</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dashboard Interface (3D Tilted) -->
+      <div class="dashboard-container w-full max-w-6xl z-20 mx-auto px-4 relative animate-slide-up-delayed opacity-0 mt-[80px]" style="animation-delay: 0.5s;">
+        <div class="dashboard-ui relative w-full rounded-xl bg-white overflow-hidden border border-slate-200/60">
+          <style>
+            @keyframes flowBeam {
+              0% { transform: translateX(-100%); opacity: 0; }
+              50% { opacity: 1; }
+              100% { transform: translateX(100%); opacity: 0; }
+            }
+            @keyframes flowBeamVertical {
+              0% { transform: translateY(-100%); opacity: 0; }
+              50% { opacity: 1; }
+              100% { transform: translateY(100%); opacity: 0; }
+            }
+            .animate-flow-beam {
+              animation: flowBeam 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            }
+            .animate-flow-beam-vertical {
+              animation: flowBeamVertical 2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            }
+          </style>
+
+          <!-- Window Header -->
+          <div class="h-9 border-b bg-slate-50 border-slate-200 flex items-center px-4 justify-between select-none">
+            <div class="flex gap-1.5 opacity-60">
+              <div class="w-2.5 h-2.5 rounded-full bg-slate-300"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-slate-300"></div>
+              <div class="w-2.5 h-2.5 rounded-full bg-slate-300"></div>
+            </div>
+            <div class="text-[10px] font-mono text-slate-400 tracking-widest uppercase flex items-center gap-2">
+              <iconify-icon icon="lucide:shield-check" width="12"></iconify-icon>
+              Trust_Flow_Optimized
+            </div>
+            <div class="w-10"></div>
+          </div>
+
+          <!-- Main System Diagram -->
+          <div class="relative p-6 md:p-10 min-h-[420px] flex flex-col justify-center bg-slate-50/30 overflow-hidden">
+            <!-- Background Grid -->
+            <div class="absolute inset-0" style="background-image: radial-gradient(circle, var(--dot-color, #cbd5e1) 1px, transparent 1px); background-size: 24px 24px; opacity: 0.5;"></div>
+
+            <!-- Flow Container -->
+            <div class="relative z-10 w-full max-w-5xl mx-auto flex flex-col md:flex-row items-stretch md:items-center justify-between gap-8 md:gap-4">
+              <!-- STEP 1: Traffic Source -->
+              <div class="flex-1 flex flex-col items-center group">
+                <div class="mb-4 transform transition-all duration-500 md:group-hover:-translate-y-1">
+                  <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm backdrop-blur-sm">
+                    <span class="text-[9px] uppercase tracking-wider text-slate-500 font-bold">
+                      Current Traffic
+                    </span>
+                    <span class="text-xs font-mono font-bold text-slate-900">
+                      High Volume
+                    </span>
+                  </div>
+                </div>
+
+                <div class="relative w-full max-w-[240px] p-px rounded-xl bg-gradient-to-b from-slate-200 to-slate-100 shadow-lg transition-transform md:group-hover:scale-105 duration-300">
+                  <div class="bg-white rounded-[11px] p-5 relative overflow-hidden h-full flex flex-col items-center text-center">
+                    <div class="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center mb-3 text-slate-500 border border-slate-200">
+                      <iconify-icon icon="lucide:users" width="18"></iconify-icon>
+                    </div>
+                    <h3 class="text-sm font-semibold text-slate-900 mb-1">
+                      Existing Exposure
+                    </h3>
+                    <p class="text-[10px] text-slate-500 leading-snug">
+                      Trade Shows, Alibaba, Website visits that usually bounce.
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CONNECTION 1 (Beam) -->
+              <div class="hidden md:flex flex-col justify-center flex-1 mx-2 relative h-12">
+                <div class="h-[2px] w-full bg-slate-200 relative overflow-hidden rounded-full">
+                  <div class="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-orange-500 to-transparent animate-flow-beam" style="left: -50%;"></div>
+                </div>
+              </div>
+               <!-- Mobile Vertical Line -->
+               <div class="md:hidden h-12 w-[2px] bg-slate-200 mx-auto relative overflow-hidden rounded-full">
+                <div class="absolute left-0 right-0 h-1/2 bg-gradient-to-b from-transparent via-orange-500 to-transparent animate-flow-beam-vertical w-full" style="top: -50%;"></div>
+              </div>
+
+              <!-- STEP 2: The System (Trust Filter) -->
+              <div class="flex-[1.4] flex flex-col items-center z-20 group">
+                <div class="mb-5 transform transition-all duration-500 md:group-hover:-translate-y-1">
+                  <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-50 border border-orange-100 shadow-sm shadow-orange-500/10 backdrop-blur-sm">
+                    <span class="text-[9px] uppercase tracking-wider text-orange-600 font-bold">
+                      Trust Optimization
+                    </span>
+                    <span class="text-xs font-mono font-bold text-orange-700">
+                      Active
+                    </span>
+                  </div>
+                </div>
+
+                <div class="relative w-full max-w-[320px] p-[1px] rounded-2xl bg-gradient-to-br from-orange-300 via-orange-500 to-amber-600 shadow-[0_0_50px_-10px_rgba(249,115,22,0.25)] transition-transform md:group-hover:scale-105 duration-300">
+                  <div class="bg-white rounded-[15px] p-6 relative overflow-hidden h-full">
+                    <!-- Subtle inner glow -->
+                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-orange-500/10 blur-3xl pointer-events-none"></div>
+
+                    <div class="flex items-center gap-4 mb-5 border-b border-slate-100 pb-4">
+                      <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center text-white shadow-lg shadow-orange-500/20 shrink-0">
+                        <iconify-icon icon="lucide:shield-check" width="24"></iconify-icon>
+                      </div>
+                      <div>
+                        <h3 class="text-base font-bold text-slate-900 leading-tight">
+                          Western Buyer System
+                        </h3>
+                        <p class="text-[10px] text-orange-600 font-medium uppercase tracking-wide">
+                          Trust &amp; Conversion Layer
+                        </p>
+                      </div>
+                    </div>
+
+                    <!-- Features List -->
+                    <div class="space-y-2.5">
+                      <div class="flex items-center gap-2.5 p-2 rounded-lg bg-slate-50 border border-slate-100">
+                        <div class="w-1.5 h-1.5 rounded-full bg-orange-500 shadow-[0_0_5px_#f97316]"></div>
+                        <span class="text-[11px] font-medium text-slate-700">
+                          Clear positioning &amp; IP safety
+                        </span>
+                      </div>
+                      <div class="flex items-center gap-2.5 p-2 rounded-lg bg-slate-50 border border-slate-100">
+                        <div class="w-1.5 h-1.5 rounded-full bg-orange-500 shadow-[0_0_5px_#f97316]"></div>
+                        <span class="text-[11px] font-medium text-slate-700">
+                          Factory proof &amp; certifications
+                        </span>
+                      </div>
+                      <div class="flex items-center gap-2.5 p-2 rounded-lg bg-slate-50 border border-slate-100">
+                        <div class="w-1.5 h-1.5 rounded-full bg-orange-500 shadow-[0_0_5px_#f97316]"></div>
+                        <span class="text-[11px] font-medium text-slate-700">
+                          High-conversion RFQ forms
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- CONNECTION 2 (Beam) -->
+              <div class="hidden md:flex flex-col justify-center flex-1 mx-2 relative h-12">
+                <div class="h-[2px] w-full bg-slate-200 relative overflow-hidden rounded-full">
+                  <div class="absolute top-0 bottom-0 w-1/2 bg-gradient-to-r from-transparent via-orange-500 to-transparent animate-flow-beam" style="left: -50%; animation-delay: 1s;"></div>
+                </div>
+              </div>
+              <!-- Mobile Vertical Line -->
+              <div class="md:hidden h-12 w-[2px] bg-slate-200 mx-auto relative overflow-hidden rounded-full">
+                <div class="absolute left-0 right-0 h-1/2 bg-gradient-to-b from-transparent via-orange-500 to-transparent animate-flow-beam-vertical w-full" style="top: -50%; animation-delay: 1s;"></div>
+              </div>
+
+              <!-- STEP 3: Outcome -->
+              <div class="flex-1 flex flex-col items-center group">
+                <div class="mb-4 transform transition-all duration-500 md:group-hover:-translate-y-1">
+                  <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-100 shadow-sm backdrop-blur-sm">
+                    <span class="text-[9px] uppercase tracking-wider text-emerald-600 font-bold">
+                      Conversion
+                    </span>
+                    <span class="text-xs font-mono font-bold text-emerald-700">
+                      Success
+                    </span>
+                  </div>
+                </div>
+
+                <div class="relative w-full max-w-[240px] p-px rounded-xl bg-gradient-to-b from-emerald-400 to-emerald-600 shadow-[0_0_30px_-5px_rgba(16,185,129,0.2)] transition-transform md:group-hover:scale-105 duration-300">
+                  <div class="bg-white rounded-[11px] p-5 relative overflow-hidden h-full flex flex-col items-center text-center">
+                    <div class="absolute inset-0 bg-emerald-500/5 pointer-events-none"></div>
+                    <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center mb-3 text-emerald-600 border border-emerald-200">
+                      <iconify-icon icon="lucide:mail-check" width="18"></iconify-icon>
+                    </div>
+                    <h3 class="text-sm font-bold text-slate-900 mb-1">
+                      Qualified Inquiry
+                    </h3>
+                    <p class="text-[10px] text-emerald-700 font-medium leading-snug">
+                      Western Buyer Request (USA, UK, EU)
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="absolute bottom-4 left-0 right-0 text-center">
+               <div class="inline-flex items-center gap-2 text-[10px] text-slate-400 font-mono uppercase tracking-widest opacity-60">
+                <span class="w-1.5 h-1.5 rounded-full bg-orange-500 animate-pulse"></span>
+                System Operational
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="horizon-ring border border-slate-200 shadow-[0_-40px_100px_-20px_rgba(249,115,22,0.1),inset_0_20px_100px_-20px_rgba(249,115,22,0.05)]"></div>
+    </main>
+
+    <!-- Challenge vs Solution Section -->
+    <section id="challenge" class="relative py-24 bg-transparent overflow-hidden border-t border-slate-200">
+      <div class="absolute inset-0 bg-slate-50/50 -z-10"></div>
+
+      <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-medium text-slate-900 tracking-tight font-serif mb-4">
+            The Trust Gap
+          </h2>
+          <p class="text-slate-600 max-w-2xl mx-auto">
+            Why strong factories still struggle to convert Western buyers.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+          <!-- The Problem -->
+          <div class="p-8 rounded-xl border border-red-100 bg-red-50/30 hover:border-red-200 transition-all relative group backdrop-blur-sm">
+             <div class="w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mb-6 text-red-500 border border-red-100">
+              <iconify-icon icon="lucide:alert-circle" width="24"></iconify-icon>
+            </div>
+            <h3 class="text-xl text-slate-900 font-medium mb-3">
+              The Hesitation
+            </h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Western brands hesitate to inquire because of <strong>quality, IP, and reliability concerns</strong>. Your standard site or generic Alibaba listing rarely solves this because it wasn't built for Western buyer psychology.
+            </p>
+          </div>
+
+          <!-- The Solution -->
+          <div class="p-8 rounded-xl border border-orange-200 bg-white shadow-xl shadow-orange-500/10 transition-all relative group backdrop-blur-sm">
+            <div class="w-12 h-12 rounded-full bg-orange-50 flex items-center justify-center mb-6 text-orange-600 border border-orange-100">
+              <iconify-icon icon="lucide:check-circle-2" width="24"></iconify-icon>
+            </div>
+            <h3 class="text-xl text-slate-900 font-medium mb-3">
+              The Western Buyer System
+            </h3>
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Our system fixes the gap—helping you look <strong>credible, safe, and professional</strong>. Every part is designed to overcome the "Made in China" trust gap and position your factory like a Western‑grade supplier.
+            </p>
+          </div>
+        </div>
+        
+        <div class="mt-12 text-center">
+             <div class="inline-flex items-center gap-6 text-sm font-medium text-slate-500">
+                <span class="flex items-center gap-2"><iconify-icon icon="lucide:clock" class="text-orange-500"></iconify-icon> Launch in 21 Days</span>
+                <span class="flex items-center gap-2"><iconify-icon icon="lucide:layout" class="text-orange-500"></iconify-icon> Western Design</span>
+                <span class="flex items-center gap-2"><iconify-icon icon="lucide:users" class="text-orange-500"></iconify-icon> No Overseas Staff</span>
+             </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Core Services (Bento Grid) -->
+    <section class="overflow-hidden bg-transparent border-slate-200 border-t pt-32 pb-32 relative" id="system">
+      <div class="absolute inset-0 bg-slate-50/20 -z-10"></div>
+
+      <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="mb-20 max-w-2xl">
+          <h2 class="text-3xl md:text-4xl font-medium tracking-tight mb-6 font-serif text-slate-900">
+            Everything You Need to
+            <span class="font-serif text-orange-600">
+              Convert.
+            </span>
+          </h2>
+          <p class="text-lg leading-relaxed font-light text-slate-600">
+            A complete system designed specifically for SME manufacturers targeting U.S. and EU markets.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-6 relative z-10">
+          <!-- Item 1: Landing Page -->
+          <div tabindex="0" class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white p-8 shadow-lg transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-2xl hover:border-orange-500/30 focus:outline-none focus:ring-2 focus:ring-orange-500/50 focus:-translate-y-1 focus:shadow-2xl backdrop-blur-sm md:col-span-2 lg:col-span-6 lg:row-span-2">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(249,115,22,0.08),transparent_50%)] opacity-100 transition-opacity duration-500"></div>
+            <div class="relative z-10 flex flex-col h-full">
+              <div class="flex items-center gap-4 mb-8">
+                <div class="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-orange-100 bg-orange-50 text-orange-600 transition-colors duration-300 shadow-sm">
+                  <iconify-icon icon="lucide:monitor" width="28"></iconify-icon>
+                </div>
+                <h3 class="text-2xl font-medium tracking-tight text-slate-900">
+                  Western-Optimized Landing Page
+                </h3>
+              </div>
+              <p class="mb-8 text-base leading-relaxed text-slate-600 flex-1">
+                A sleek English + Chinese page (optional 3rd language) with clear positioning, certifications, and factory proof. Modern design specifically tailored to Western expectations.
+              </p>
+              <div class="grid grid-cols-2 gap-3 mt-auto">
+                <div class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600 transition-colors group-hover:border-orange-200">
+                  Trust Elements
+                </div>
+                <div class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600 transition-colors group-hover:border-orange-200">
+                  Mobile Optimized
+                </div>
+                <div class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600 transition-colors group-hover:border-orange-200">
+                  Factory Virtual Tour
+                </div>
+                <div class="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 text-sm text-slate-600 transition-colors group-hover:border-orange-200">
+                   Certification Showcase
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 2: RFQ System -->
+          <div tabindex="0" class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:border-emerald-500/30 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:-translate-y-1 focus:shadow-xl backdrop-blur-sm md:col-span-2 lg:col-span-6">
+            <div class="relative z-10 flex flex-col h-full">
+              <div class="flex items-center gap-4 mb-6">
+                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-emerald-100 bg-emerald-50 text-emerald-600 transition-colors duration-300 shadow-sm">
+                  <iconify-icon icon="lucide:clipboard-check" width="24"></iconify-icon>
+                </div>
+                <h3 class="text-xl font-medium tracking-tight text-slate-900">
+                  High-Conversion RFQ System
+                </h3>
+              </div>
+              <p class="mb-6 text-sm leading-relaxed text-slate-600 flex-1">
+                 Custom forms for Western buyers capturing specs, MOQ, region, and timelines. Inquiries go directly to email/WeChat.
+              </p>
+              <div class="flex items-center gap-2 opacity-80 mt-auto text-emerald-600 font-mono text-xs uppercase tracking-wide">
+                 <iconify-icon icon="lucide:check"></iconify-icon> Direct to Inbox
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 3: Messaging Guide -->
+          <div tabindex="0" class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:border-amber-500/30 focus:outline-none focus:ring-2 focus:ring-amber-500/50 focus:-translate-y-1 focus:shadow-xl backdrop-blur-sm md:col-span-2 lg:col-span-6">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(251,191,36,0.08),transparent_50%)]"></div>
+            <div class="relative z-10 flex flex-col h-full">
+              <div class="flex items-center gap-4 mb-6">
+                <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-amber-100 bg-amber-50 text-amber-600 transition-colors duration-300 shadow-sm">
+                  <iconify-icon icon="lucide:message-circle" width="24"></iconify-icon>
+                </div>
+                <h3 class="text-xl font-medium tracking-tight text-slate-900">
+                  Buyer Messaging Guide
+                </h3>
+              </div>
+              <p class="mb-6 text-sm leading-relaxed text-slate-600 flex-1">
+                15 templates addressing quality, IP, compliance, and reliability. Copy written in clear English and localized for your team.
+              </p>
+              <div class="inline-flex items-center gap-2 text-xs font-medium text-amber-600 transition-colors hover:text-amber-500 mt-auto">
+                View Template Preview
+                <iconify-icon icon="lucide:arrow-right" width="12"></iconify-icon>
+              </div>
+            </div>
+          </div>
+
+          <!-- Item 4: Tech Setup -->
+          <div tabindex="0" class="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white p-8 shadow-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:shadow-xl hover:border-slate-500/30 focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:-translate-y-1 focus:shadow-xl backdrop-blur-sm md:col-span-2 lg:col-span-12">
+            <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center gap-6 h-full">
+              <div class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-slate-100 text-slate-600 shadow-sm">
+                <iconify-icon icon="lucide:settings" width="24"></iconify-icon>
+              </div>
+              <div>
+                 <h3 class="text-lg font-medium tracking-tight text-slate-900">
+                    Technical Setup &amp; Integration
+                  </h3>
+                  <p class="text-xs leading-relaxed text-slate-600 mt-2">
+                    Complete domain/subdomain setup and analytics tracking for lead sources. We handle the tech so you focus on production.
+                  </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Bonuses Section (Visual Chaos Style) -->
+    <section class="relative py-12 md:py-24 bg-transparent border-t border-slate-200 overflow-hidden" id="bonuses">
+       <!-- Background grid effect -->
+       <div class="absolute inset-0 bg-orange-50/20 -z-10"></div>
+       <div id="chaos-container" class="hidden md:block absolute inset-0 z-0 pointer-events-none chaos-container md:overflow-hidden" aria-hidden="true">
+         <!-- Left Cluster -->
+         <div class="chaos-item jitter" style="margin-left: -320px; margin-top: -240px; --mx: -20px; --my: -20px; animation-delay: 0s;">
+           <div class="flex items-center gap-3 px-5 py-3 bg-white/80 backdrop-blur-md rounded-full shadow-lg border border-slate-200">
+             <iconify-icon icon="lucide:search" class="text-orange-500" width="20"></iconify-icon>
+             <span class="text-sm font-semibold text-slate-700">
+               Discovery Engine
+             </span>
+           </div>
+         </div>
+         <div class="chaos-item idle" style="margin-left: -380px; margin-top: -40px; --mx: -40px; --my: 10px; animation-delay: 0.2s;">
+           <div class="p-4 bg-white/90 backdrop-blur-md rounded-3xl shadow-xl border border-slate-200">
+             <iconify-icon icon="lucide:file-text" width="26" class="text-slate-500"></iconify-icon>
+           </div>
+         </div>
+         
+         <!-- Right Cluster -->
+         <div class="chaos-item idle" style="margin-left: 320px; margin-top: -220px; --mx: 20px; --my: -25px; animation-delay: 0.7s;">
+           <div class="flex items-center gap-3 px-5 py-3 bg-white/90 backdrop-blur-md rounded-2xl shadow-xl border border-slate-200">
+             <iconify-icon icon="lucide:qr-code" class="text-slate-600" width="20"></iconify-icon>
+             <span class="text-sm font-medium text-slate-600">
+               Trade Show Kit
+             </span>
+           </div>
+         </div>
+         <div class="chaos-item jitter" style="margin-left: 380px; margin-top: -20px; --mx: 15px; --my: 5px; animation-delay: 0.3s;">
+           <div class="p-3.5 bg-white/80 backdrop-blur-md rounded-full shadow-lg border border-orange-100">
+             <iconify-icon icon="lucide:book-open" width="24" class="text-orange-500"></iconify-icon>
+           </div>
+         </div>
+       </div>
+ 
+       <div class="z-10 flex flex-col max-w-7xl mr-auto ml-auto pr-6 pl-6 relative items-center">
+         <div class="text-center mb-10 md:mb-16 max-w-3xl">
+           <span class="text-xs font-mono text-orange-600 uppercase tracking-widest mb-6 block">
+             Included Bonuses
+           </span>
+           <h2 class="md:text-4xl text-3xl font-medium text-slate-900 tracking-tight mb-6">
+             Extra Value to Accelerate Success
+           </h2>
+           <p class="text-slate-600 text-lg font-light max-w-xl mx-auto">
+             Everything you need to maximize your Western buyer conversions — included at no extra cost.
+           </p>
+         </div>
+ 
+         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-4xl relative z-10">
+            <!-- Bonus 1 -->
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:border-orange-200 transition-colors">
+                 <h4 class="font-bold text-slate-900 flex items-center gap-2 mb-2">
+                    <span class="text-orange-500">01.</span> Custom RFQ Mechanism
+                 </h4>
+                 <p class="text-sm text-slate-600">Category-specific inquiry forms that capture exactly what Western buyers need.</p>
+            </div>
+             <!-- Bonus 2 -->
+             <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:border-orange-200 transition-colors">
+                <h4 class="font-bold text-slate-900 flex items-center gap-2 mb-2">
+                   <span class="text-orange-500">02.</span> Western Discovery Engine
+                </h4>
+                <p class="text-sm text-slate-600">SEO + AI optimization to help Western buyers find you organically.</p>
+           </div>
+            <!-- Bonus 3 -->
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:border-orange-200 transition-colors">
+                <h4 class="font-bold text-slate-900 flex items-center gap-2 mb-2">
+                   <span class="text-orange-500">03.</span> "7 Ways to Find Buyers"
+                </h4>
+                <p class="text-sm text-slate-600">Complete playbook with proven strategies for attracting Western clients.</p>
+           </div>
+            <!-- Bonus 4 -->
+            <div class="bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:border-orange-200 transition-colors">
+                <h4 class="font-bold text-slate-900 flex items-center gap-2 mb-2">
+                   <span class="text-orange-500">04.</span> Trade Show Replacement Kit
+                </h4>
+                <p class="text-sm text-slate-600">QR codes, PDF materials, and email templates for in-person events.</p>
+           </div>
+         </div>
+       </div>
+    </section>
+
+    <!-- Pricing / Comparison Section -->
+    <section id="pricing" class="relative py-24 bg-transparent border-t border-slate-200">
+      <div class="max-w-7xl mx-auto px-6 relative z-10">
+        <div class="text-center mb-16">
+          <h2 class="text-3xl font-medium text-slate-900 tracking-tight font-serif mb-4">
+            A Fraction of Trade Show Costs
+          </h2>
+          <p class="text-slate-600">
+             Professional, transparent, and always open for business.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-4xl mx-auto group/pricing">
+          <!-- Comparison: Trade Show -->
+          <div class="group relative flex flex-col h-full rounded-2xl p-[1px] bg-slate-200">
+            <div class="h-full w-full rounded-xl flex flex-col p-8 relative overflow-hidden bg-white/50 grayscale opacity-80 hover:opacity-100 hover:grayscale-0 transition-all">
+               <h3 class="text-xl font-bold text-slate-600 mb-2">Overseas Trade Booth</h3>
+               <div class="mb-6">
+                <div class="flex items-baseline gap-1">
+                  <span class="text-2xl font-bold text-slate-900 tracking-tight">
+                    $50k - $200k
+                  </span>
+                  <span class="text-sm text-slate-500 font-medium">
+                    HKD
+                  </span>
+                </div>
+              </div>
+               <ul class="space-y-4 mb-8">
+                <li class="flex items-start gap-3 text-sm text-slate-600">
+                    <iconify-icon icon="lucide:x" class="text-red-400 shrink-0 mt-0.5" width="16"></iconify-icon>
+                    <span>3–4 days of exposure, then gone</span>
+                </li>
+                <li class="flex items-start gap-3 text-sm text-slate-600">
+                    <iconify-icon icon="lucide:x" class="text-red-400 shrink-0 mt-0.5" width="16"></iconify-icon>
+                    <span>High travel &amp; logistics costs</span>
+                </li>
+                <li class="flex items-start gap-3 text-sm text-slate-600">
+                    <iconify-icon icon="lucide:x" class="text-red-400 shrink-0 mt-0.5" width="16"></iconify-icon>
+                    <span>Requires staff presence</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Comparison: Western System -->
+          <div class="group relative flex flex-col h-full rounded-2xl p-[3px] bg-gradient-to-br from-orange-300 via-orange-500 to-amber-600 shadow-xl shadow-orange-500/20 transform md:scale-105 z-10">
+            <div class="h-full w-full rounded-xl flex flex-col p-8 relative overflow-hidden bg-white">
+              <div class="mb-6">
+                <h3 class="text-xl font-bold text-orange-600 mb-2 flex items-center gap-2">
+                  Complete System
+                  <span class="w-2 h-2 rounded-full bg-orange-500 shadow-[0_0_8px_#f97316]"></span>
+                </h3>
+                <p class="text-xs font-medium text-slate-500 h-8 leading-snug">
+                  Depending on catalog size, complexity, and languages.
+                </p>
+              </div>
+
+              <div class="mb-8">
+                <div class="flex items-baseline gap-1">
+                  <span class="text-3xl font-bold text-slate-900 tracking-tight">
+                    $38k - $68k
+                  </span>
+                  <span class="text-sm text-slate-500 font-medium">
+                    HKD
+                  </span>
+                </div>
+                <div class="text-xs text-orange-600 mt-2 font-mono">
+                   No recurring fees. You own everything.
+                </div>
+              </div>
+
+              <ul class="space-y-3 mb-8 flex-1">
+                <li class="flex items-start gap-3 text-sm text-slate-700">
+                  <iconify-icon icon="lucide:check" class="text-orange-500 shrink-0 mt-0.5" width="16"></iconify-icon>
+                  <span>Works 24/7 continuously</span>
+                </li>
+                <li class="flex items-start gap-3 text-sm text-slate-700">
+                  <iconify-icon icon="lucide:check" class="text-orange-500 shrink-0 mt-0.5" width="16"></iconify-icon>
+                  <span>Western-optimized design</span>
+                </li>
+                <li class="flex items-start gap-3 text-sm text-slate-700">
+                  <iconify-icon icon="lucide:check" class="text-orange-500 shrink-0 mt-0.5" width="16"></iconify-icon>
+                  <span>Captures leads automatically</span>
+                </li>
+              </ul>
+
+              <button onclick="document.getElementById('apply').scrollIntoView({behavior:'smooth'})" class="w-full py-3 rounded-lg text-white font-medium text-sm transition-all duration-300 shadow-md bg-gradient-to-r from-orange-600 to-orange-500 hover:from-orange-500 hover:to-orange-400">
+                Reserve Your 21-Day Build
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Guarantee Section -->
+         <div class="mt-16 border border-slate-200 rounded-xl p-8 bg-slate-50 max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-6 text-center md:text-left">
+           <div class="shrink-0 w-16 h-16 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-900 shadow-sm">
+             <iconify-icon icon="lucide:shield-check" width="32"></iconify-icon>
+           </div>
+           <div>
+             <h4 class="font-bold text-slate-900 text-lg mb-2">You risk nothing — your success is guaranteed.</h4>
+             <p class="text-sm text-slate-600 leading-relaxed">
+               If you don't get at least 3 qualified Western inquiries in 60 days, we rewrite and re-optimize at no cost. If there are still no results, we refund 100%. You own the system either way.
+             </p>
+           </div>
+         </div>
+      </div>
+    </section>
+
+    <!-- Submission / Availability Section -->
+    <section id="apply" class="relative py-24 bg-white overflow-hidden border-t border-slate-200">
+      <div class="absolute inset-0 bg-slate-50/50 -z-10"></div>
+      
+      <div class="max-w-3xl mx-auto px-6 relative z-10">
+        <!-- Scarcity Header -->
+        <div class="text-center mb-10">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-xs font-semibold text-orange-700 mb-6">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 bg-orange-400"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-orange-500"></span>
+            </span>
+            Limited Availability
+          </div>
+          <h2 class="text-3xl font-medium text-slate-900 tracking-tight font-serif mb-4">
+             Only 8 manufacturers per quarter
+          </h2>
+          <p class="text-slate-600 text-lg font-light mb-8">
+             We limit intake to ensure quality and delivery speed for every factory.
+          </p>
+
+          <div class="bg-white border border-slate-200 rounded-lg p-6 shadow-sm max-w-2xl mx-auto mb-12">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+              <div class="text-center md:text-left">
+                <div class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-1">8 spots per quarter</div>
+                <div class="text-sm font-semibold text-slate-900">Q1 2026 closes January 15</div>
+              </div>
+              <div class="h-px w-full md:w-px md:h-10 bg-slate-200"></div>
+              <div class="text-center md:text-right">
+                 <div class="text-xs uppercase tracking-widest text-orange-600 font-bold mb-1">Next Available Slot</div>
+                 <div class="text-sm font-semibold text-slate-900">Opens in April</div>
+              </div>
+            </div>
+            <div class="mt-6 pt-6 border-t border-slate-100">
+              <p class="text-sm text-slate-600 italic">
+                If you want your upcoming trade shows and Alibaba traffic to point to a high‑converting Western system, reserve your build now.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- The Application Form -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-xl shadow-slate-200/50 overflow-hidden relative group">
+          <div class="h-1.5 w-full bg-gradient-to-r from-orange-500 to-amber-500"></div>
+          
+          <div class="p-8 md:p-10">
+            <div class="mb-8 text-center">
+              <h3 class="text-2xl font-bold text-slate-900 mb-2">Reserve Your 21‑Day Build</h3>
+              <p class="text-sm text-slate-500">Tell us about your factory to check cohort availability.</p>
+            </div>
+
+            <form class="space-y-6" onsubmit="event.preventDefault();">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wide">Company Name *</label>
+                  <input type="text" placeholder="Your factory or company name" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none placeholder:text-slate-400">
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wide">Contact Person *</label>
+                  <input type="text" placeholder="Your name" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none placeholder:text-slate-400">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                 <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wide">Country *</label>
+                  <input type="text" placeholder="e.g., China, Vietnam" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none placeholder:text-slate-400">
+                </div>
+                <div class="space-y-1.5">
+                  <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wide">Product Category *</label>
+                  <input type="text" placeholder="e.g., Electronics, Textiles" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none placeholder:text-slate-400">
+                </div>
+              </div>
+
+              <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wide">Target Markets *</label>
+                <input type="text" placeholder="e.g., USA, Germany, UK" class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none placeholder:text-slate-400">
+              </div>
+
+              <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wide">Website or Listing Link</label>
+                <input type="url" placeholder="https://..." class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none placeholder:text-slate-400">
+              </div>
+
+              <div class="space-y-1.5">
+                <label class="block text-xs font-semibold text-slate-700 uppercase tracking-wide">Short Description</label>
+                <textarea rows="3" placeholder="Tell us briefly about your products and goals..." class="w-full bg-slate-50 border border-slate-200 rounded-lg px-4 py-3 text-sm focus:bg-white focus:ring-2 focus:ring-orange-500/20 focus:border-orange-500 transition-all outline-none placeholder:text-slate-400 resize-none"></textarea>
+              </div>
+
+              <button type="submit" class="w-full bg-slate-900 text-white font-semibold py-4 rounded-lg hover:bg-slate-800 active:scale-[0.99] transition-all shadow-xl shadow-orange-500/10 flex items-center justify-center gap-2 group/btn">
+                Submit Application
+                <iconify-icon icon="lucide:arrow-right" class="group-hover/btn:translate-x-1 transition-transform"></iconify-icon>
+              </button>
+
+              <p class="text-center text-xs text-slate-400 mt-4">
+                No agencies. No commissions. You own the system and the leads.
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 pt-16 pb-12">
+      <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-start gap-12">
+        <div class="max-w-xs">
+           <a href="#" class="flex items-center gap-2 mb-6 group">
+            <div class="flex items-center justify-center w-8 h-8 bg-slate-100 rounded-md border border-slate-200">
+              <iconify-icon icon="lucide:globe-2" class="text-slate-600" width="18"></iconify-icon>
+            </div>
+            <span class="text-sm font-bold text-slate-900">Western Buyer System</span>
+          </a>
+          <p class="text-sm text-slate-500 leading-relaxed">
+            Helping SME manufacturers attract Western brands, importers, and distributors with trust-optimized landing systems.
+          </p>
+        </div>
+        
+        <div class="flex gap-8 md:gap-16">
+          <div class="flex flex-col gap-4">
+            <h4 class="text-xs font-semibold text-slate-900 uppercase tracking-wider">Navigation</h4>
+            <a href="#challenge" class="text-sm text-slate-500 hover:text-orange-600 transition-colors">The Challenge</a>
+            <a href="#system" class="text-sm text-slate-500 hover:text-orange-600 transition-colors">System</a>
+            <a href="#pricing" class="text-sm text-slate-500 hover:text-orange-600 transition-colors">Investment</a>
+          </div>
+          <div class="flex flex-col gap-4">
+            <h4 class="text-xs font-semibold text-slate-900 uppercase tracking-wider">Legal</h4>
+            <a href="#" class="text-sm text-slate-500 hover:text-orange-600 transition-colors">Privacy Policy</a>
+            <a href="#" class="text-sm text-slate-500 hover:text-orange-600 transition-colors">Terms of Service</a>
+          </div>
+        </div>
+      </div>
+      
+      <div class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-xs text-slate-400">© 2026 Western Buyer Landing System. All rights reserved.</p>
+        <div class="flex gap-4">
+          <a href="#" class="text-slate-400 hover:text-slate-600"><iconify-icon icon="lucide:linkedin" width="16"></iconify-icon></a>
+          <a href="#" class="text-slate-400 hover:text-slate-600"><iconify-icon icon="lucide:twitter" width="16"></iconify-icon></a>
+        </div>
+      </div>
+    </footer>
+    
+    <script>
+    // Spotlight Effect Script
+    const spotlightOverlay = document.querySelector('.spotlight-overlay');
+    if(spotlightOverlay){
+        window.addEventListener('mousemove', e => {
+            const x = e.clientX;
+            const y = e.clientY;
+            document.body.style.setProperty('--mouse-x', x + 'px');
+            document.body.style.setProperty('--mouse-y', y + 'px');
+        });
+    }
+
+    // Modal Logic (Now scrolls to form instead of opening modal)
+    function openAuditModal() {
+        const formSection = document.getElementById('apply');
+        if(formSection) {
+            formSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+    </script>
+</body></html>
