@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { 
   Search, 
   Monitor, 
@@ -14,7 +14,9 @@ import {
   Menu,
   X,
   Leaf,
-  ArrowUpRight
+  TreePine,
+  Sprout,
+  GitBranch
 } from 'lucide-react';
 import { useState, useRef } from 'react';
 import { Button } from "@/components/ui/button";
@@ -22,7 +24,6 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
 
 // Animation variants
 const fadeInUp = {
@@ -38,55 +39,120 @@ const staggerContainer = {
   }
 };
 
-const wordReveal = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+const growFromRoot = {
+  hidden: { scaleY: 0, originY: 1 },
+  visible: { 
+    scaleY: 1, 
+    transition: { duration: 1.2, ease: "easeInOut" }
+  }
+};
+
+const branchOut = {
+  hidden: { pathLength: 0, opacity: 0 },
+  visible: { 
+    pathLength: 1, 
+    opacity: 1,
+    transition: { duration: 0.8, ease: "easeOut" }
+  }
 };
 
 export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const heroRef = useRef(null);
+  const [formData, setFormData] = useState({ name: '', email: '', url: '' });
+  const [formStatus, setFormStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const containerRef = useRef(null);
+  const systemsSectionRef = useRef(null);
+  
   const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ["start start", "end start"]
+    target: containerRef,
+    offset: ["start start", "end end"]
   });
   
-  const heroOpacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
-  const heroY = useTransform(scrollYProgress, [0, 0.5], [0, -50]);
+  const { scrollYProgress: systemsScrollProgress } = useScroll({
+    target: systemsSectionRef,
+    offset: ["start end", "end start"]
+  });
+  
+  const treeHeight = useTransform(systemsScrollProgress, [0.2, 0.8], ["0%", "100%"]);
+  const springTreeHeight = useSpring(treeHeight, { stiffness: 100, damping: 30 });
+  
+  const leafScale = useTransform(scrollYProgress, [0.1, 0.4], [0, 1]);
+  const springLeafScale = useSpring(leafScale, { stiffness: 200, damping: 20 });
 
   const scrollToSection = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
     setMobileMenuOpen(false);
   };
 
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setFormStatus('loading');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok) throw new Error(data.error || 'Failed to send');
+      setFormStatus('success');
+      setFormData({ name: '', email: '', url: '' });
+    } catch {
+      setFormStatus('error');
+    }
+  };
+
   return (
-    <>
-      {/* Navigation - Minimal Editorial */}
-      <nav className="fixed top-0 left-0 w-full z-50 mix-blend-difference">
+    <div ref={containerRef} className="relative bg-gradient-to-b from-emerald-50 via-white to-emerald-50/30">
+      {/* Organic Background Pattern */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        {/* Growing gradient orbs */}
+        <motion.div 
+          style={{ scale: springLeafScale }}
+          className="absolute top-20 right-20 w-96 h-96 bg-gradient-to-br from-jade/20 to-emerald-300/30 rounded-full blur-3xl"
+        />
+        <motion.div 
+          style={{ scale: springLeafScale }}
+          className="absolute top-1/3 left-10 w-72 h-72 bg-gradient-to-br from-emerald-200/30 to-teal-300/20 rounded-full blur-3xl"
+        />
+        <motion.div 
+          style={{ scale: springLeafScale }}
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-to-br from-jade/10 to-emerald-400/20 rounded-full blur-3xl"
+        />
+      </div>
+
+      {/* Navigation - Organic Style */}
+      <nav className="fixed top-0 left-0 w-full z-50">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-6 flex justify-between items-center">
           <button onClick={() => window.scrollTo(0,0)} className="flex items-center gap-3 group">
-            <Leaf className="text-white w-5 h-5" strokeWidth={1.5} />
+            <div className="relative">
+              <TreePine className="text-jade w-8 h-8" strokeWidth={1.5} />
+              <motion.div
+                animate={{ scale: [1, 1.2, 1] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="absolute -top-1 -right-1 w-3 h-3 bg-jade/30 rounded-full"
+              />
+            </div>
             <div className="flex flex-col items-start">
-              <span className="text-white font-serif text-lg tracking-tight">Convertree</span>
-              <span className="text-white/60 text-[8px] tracking-[0.3em] uppercase font-mono">肯副翠</span>
+              <span className="text-stone-900 font-bold text-xl tracking-tight">Convertree</span>
+              <span className="text-jade text-[9px] tracking-[0.3em] uppercase font-mono">肯副翠</span>
             </div>
           </button>
 
-          {/* Desktop Nav - Minimal */}
-          <div className="hidden md:flex items-center gap-8">
-            <button onClick={() => scrollToSection('systems')} className="text-white/80 hover:text-white text-sm font-body transition-colors underline-animation">
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8 bg-white/80 backdrop-blur-md px-6 py-3 rounded-full border border-jade/10 shadow-sm">
+            <button onClick={() => scrollToSection('systems')} className="text-stone-600 hover:text-jade text-sm font-medium transition-colors">
               How It Works
             </button>
-            <button onClick={() => scrollToSection('benefits')} className="text-white/80 hover:text-white text-sm font-body transition-colors underline-animation">
+            <button onClick={() => scrollToSection('benefits')} className="text-stone-600 hover:text-jade text-sm font-medium transition-colors">
               Benefits
             </button>
-            <button onClick={() => scrollToSection('signals')} className="text-white/80 hover:text-white text-sm font-body transition-colors underline-animation">
+            <button onClick={() => scrollToSection('grow')} className="text-stone-600 hover:text-jade text-sm font-medium transition-colors">
               Free Analysis
             </button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-white">
+          <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden text-stone-700">
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
@@ -94,228 +160,311 @@ export default function Home() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="fixed inset-0 z-40 bg-stone-950 pt-24 px-6 md:hidden">
+        <div className="fixed inset-0 z-40 bg-white pt-24 px-6 md:hidden">
           <div className="flex flex-col gap-6">
-            <button onClick={() => scrollToSection('systems')} className="text-left text-2xl font-serif text-stone-100">How It Works</button>
-            <button onClick={() => scrollToSection('benefits')} className="text-left text-2xl font-serif text-stone-100">Benefits</button>
-            <button onClick={() => scrollToSection('signals')} className="text-left text-2xl font-serif text-jade-400">Free Analysis</button>
+            <button onClick={() => scrollToSection('systems')} className="text-left text-2xl font-bold text-stone-800">How It Works</button>
+            <button onClick={() => scrollToSection('benefits')} className="text-left text-2xl font-bold text-stone-800">Benefits</button>
+            <button onClick={() => scrollToSection('grow')} className="text-left text-2xl font-bold text-jade">Free Analysis</button>
           </div>
         </div>
       )}
 
-      {/* Hero Section - Editorial Split Layout */}
-      <section ref={heroRef} className="min-h-screen bg-stone-950 relative overflow-hidden">
-        <motion.div 
-          style={{ opacity: heroOpacity, y: heroY }}
-          className="max-w-7xl mx-auto px-6 md:px-12 pt-32 pb-20 min-h-screen flex flex-col justify-center"
-        >
-          {/* Jade Accent Line */}
-          <div className="absolute left-6 md:left-12 top-0 bottom-0 w-px bg-gradient-to-b from-transparent via-jade/30 to-transparent hidden md:block" />
-          
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
-            {/* Left Content */}
-            <div className="lg:col-span-7">
-              <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={staggerContainer}
-              >
-                <motion.div variants={wordReveal} className="mb-6">
-                  <Badge variant="outline" className="border-jade/30 text-jade-400 bg-jade/5 font-mono text-[10px] tracking-widest uppercase px-3 py-1">
-                    Performance-Based Pricing
-                  </Badge>
-                </motion.div>
-
-                <motion.h1 
-                  variants={wordReveal}
-                  className="font-serif text-5xl md:text-6xl lg:text-7xl xl:text-8xl text-white leading-[0.95] tracking-tight mb-8"
-                >
-                  Do you want a<br />
-                  <span className="text-jade-400 italic">waiting list</span><br />
-                  of western buyers?
-                </motion.h1>
-
-                <motion.p 
-                  variants={wordReveal}
-                  className="text-stone-400 text-lg md:text-xl font-body leading-relaxed max-w-xl mb-10"
-                >
-                  We build your company a <strong className="text-white font-medium">predictable pipeline</strong> of direct western buyers who place larger orders at better margins— <span className="text-jade-400">you only pay when it works.</span>
-                </motion.p>
-
-                <motion.div variants={wordReveal} className="flex flex-col sm:flex-row gap-4">
-                  <Button 
-                    onClick={() => scrollToSection('signals')}
-                    className="bg-jade hover:bg-jade-light text-white font-mono text-xs tracking-widest uppercase px-8 py-6 rounded-none transition-all group"
-                  >
-                    Get Your Free Analysis
-                    <ArrowUpRight className="ml-2 w-4 h-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
-                  </Button>
-                  
-                  <Button 
-                    variant="outline"
-                    onClick={() => scrollToSection('systems')}
-                    className="border-stone-700 text-stone-300 hover:text-white hover:border-stone-500 bg-transparent font-mono text-xs tracking-widest uppercase px-8 py-6 rounded-none transition-all"
-                  >
-                    See How It Works
-                  </Button>
-                </motion.div>
-              </motion.div>
-            </div>
-
-            {/* Right - Preview Cards Stack */}
-            <div className="lg:col-span-5 relative">
-              <motion.div
-                initial={{ opacity: 0, x: 40 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
-                className="space-y-3"
-              >
-                {[
-                  { icon: Search, title: "More Discovery", desc: "Google Ads optimization" },
-                  { icon: Monitor, title: "More Orders", desc: "High-converting landing pages" },
-                  { icon: Bot, title: "Consistent Leads", desc: "AI sales assistant, 24/7" },
-                ].map((item, i) => (
-                  <Card 
-                    key={i} 
-                    className="bg-stone-900/50 border-stone-800 backdrop-blur-sm hover:border-jade/30 transition-all group cursor-pointer"
-                  >
-                    <CardContent className="p-5 flex items-center gap-4">
-                      <div className="w-10 h-10 rounded-full bg-jade/10 flex items-center justify-center text-jade-400 group-hover:bg-jade/20 transition-colors">
-                        <item.icon className="w-5 h-5" strokeWidth={1.5} />
-                      </div>
-                      <div>
-                        <h3 className="text-white font-serif text-base">{item.title}</h3>
-                        <p className="text-stone-500 text-sm font-body">{item.desc}</p>
-                      </div>
-                      <ArrowUpRight className="ml-auto w-4 h-4 text-stone-600 group-hover:text-jade-400 transition-colors" />
-                    </CardContent>
-                  </Card>
-                ))}
-              </motion.div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Abstract Shape Decoration */}
-        <div className="absolute bottom-0 right-0 w-1/2 h-1/2 opacity-20 pointer-events-none">
-          <svg viewBox="0 0 400 400" className="w-full h-full">
+      {/* Hero Section - Organic Growth Theme */}
+      <section className="min-h-screen relative overflow-hidden pt-32">
+        {/* Animated SVG Tree Background */}
+        <div className="absolute right-0 top-0 w-1/2 h-full opacity-10 pointer-events-none hidden lg:block">
+          <svg viewBox="0 0 400 800" className="w-full h-full">
             <defs>
-              <linearGradient id="jadeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <linearGradient id="trunkGradient" x1="0%" y1="100%" x2="0%" y2="0%">
                 <stop offset="0%" stopColor="#059669" stopOpacity="0.3" />
                 <stop offset="100%" stopColor="#10b981" stopOpacity="0.1" />
               </linearGradient>
             </defs>
-            <circle cx="300" cy="300" r="200" fill="url(#jadeGradient)" />
+            {/* Main trunk that grows */}
+            <motion.path
+              d="M200 800 Q200 600 200 400 Q200 300 180 200 Q160 100 100 50"
+              fill="none"
+              stroke="url(#trunkGradient)"
+              strokeWidth="4"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 2, ease: "easeInOut" }}
+            />
+            {/* Branches */}
+            <motion.path
+              d="M200 500 Q250 450 300 420"
+              fill="none"
+              stroke="#059669"
+              strokeWidth="2"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 1, delay: 1.5 }}
+            />
+            <motion.path
+              d="M200 350 Q150 300 100 280"
+              fill="none"
+              stroke="#059669"
+              strokeWidth="2"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 1, delay: 1.8 }}
+            />
+            {/* Leaves */}
+            {[...Array(8)].map((_, i) => (
+              <motion.circle
+                key={i}
+                cx={100 + i * 30}
+                cy={50 + i * 20}
+                r="8"
+                fill="#10b981"
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{ scale: 1, opacity: 0.6 }}
+                transition={{ duration: 0.5, delay: 2 + i * 0.1 }}
+              />
+            ))}
           </svg>
         </div>
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+          <motion.div
+            initial="hidden"
+            animate="visible"
+            variants={staggerContainer}
+            className="max-w-3xl"
+          >
+            {/* Badge with sprout icon */}
+            <motion.div variants={fadeInUp} className="mb-8">
+              <Badge className="bg-jade/10 text-jade border-jade/20 px-4 py-2 font-mono text-xs tracking-wider">
+                <Sprout className="w-4 h-4 mr-2" />
+                Grow Your Business
+              </Badge>
+            </motion.div>
+
+            <motion.h1 
+              variants={fadeInUp}
+              className="text-5xl md:text-6xl lg:text-7xl font-bold text-stone-900 leading-[1.05] mb-8"
+            >
+              Do you want a{' '}
+              <span className="relative inline-block">
+                <span className="text-jade">waiting list</span>
+                <motion.svg
+                  className="absolute -bottom-2 left-0 w-full"
+                  viewBox="0 0 200 10"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1, delay: 0.5 }}
+                >
+                  <path
+                    d="M0 5 Q50 0 100 5 T200 5"
+                    fill="none"
+                    stroke="#059669"
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                  />
+                </motion.svg>
+              </span>
+              <br />
+              of western buyers?
+            </motion.h1>
+
+            <motion.p 
+              variants={fadeInUp}
+              className="text-xl text-stone-600 leading-relaxed mb-10 max-w-2xl"
+            >
+              We can build your company a <strong className="text-stone-900">predictable pipeline</strong> of direct <strong className="text-stone-900">western buyers</strong> who place larger orders at better margins— you only pay us when it works.
+            </motion.p>
+
+            <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row gap-4">
+              <Button 
+                onClick={() => scrollToSection('grow')}
+                className="bg-jade hover:bg-jade-700 text-white font-semibold px-8 py-6 rounded-full transition-all group shadow-lg shadow-jade/25"
+              >
+                Start Growing Today
+                <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+              </Button>
+              
+              <Button 
+                variant="outline"
+                onClick={() => scrollToSection('systems')}
+                className="border-2 border-stone-200 text-stone-700 hover:border-jade hover:text-jade bg-white/80 backdrop-blur-sm px-8 py-6 rounded-full transition-all group"
+              >
+                See How It Works
+                <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+              </Button>
+            </motion.div>
+          </motion.div>
+
+          {/* Growing Stats */}
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mt-20 grid grid-cols-3 gap-8 max-w-2xl"
+          >
+            {[
+              { num: "3x", label: "More Leads" },
+              { num: "24/7", label: "AI Response" },
+              { num: "0", label: "Risk" },
+            ].map((stat, i) => (
+              <div key={i} className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-jade mb-2">{stat.num}</div>
+                <div className="text-sm text-stone-500 font-medium">{stat.label}</div>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
       </section>
 
-      {/* How We Do It - 3 Systems with Editorial Layout */}
-      <section id="systems" className="py-32 md:py-40 bg-stone-50 relative">
+      {/* How We Do It - Root to Branch System */}
+      <section ref={systemsSectionRef} id="systems" className="py-32 relative">
         <div className="max-w-7xl mx-auto px-6 md:px-12">
-          {/* Section Header */}
+          {/* Title - clean, no line through it */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeInUp}
-            className="mb-20 md:mb-28"
+            className="text-center mb-20"
           >
-            <div className="flex items-center gap-4 mb-6">
-              <div className="h-px w-12 bg-jade" />
-              <span className="font-mono text-jade text-xs tracking-[0.3em] uppercase">Our Method</span>
-            </div>
-            <h2 className="font-serif text-4xl md:text-5xl lg:text-6xl text-stone-900 leading-[1.1] max-w-3xl">
-              Three systems working in concert
+            <Badge className="bg-emerald-100 text-jade border-0 mb-6 px-4 py-2">
+              <GitBranch className="w-4 h-4 mr-2" />
+              Our Growth System
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-stone-900 mb-6">
+              How We Do It
             </h2>
           </motion.div>
 
-          {/* Systems Grid - Editorial Layout */}
-          <div className="space-y-24 md:space-y-32">
+          {/* Scroll indicator - below title, above the animated line */}
+          <motion.div 
+            animate={{ y: [0, 10, 0] }}
+            transition={{ duration: 2, repeat: Infinity }}
+            className="flex justify-center mb-16"
+          >
+            <div className="w-6 h-10 border-2 border-jade/30 rounded-full flex justify-center pt-2">
+              <motion.div 
+                animate={{ y: [0, 12, 0] }}
+                transition={{ duration: 2, repeat: Infinity }}
+                className="w-1.5 h-3 bg-jade rounded-full"
+              />
+            </div>
+          </motion.div>
+
+          {/* Systems area - line starts here, below the title */}
+          <div className="relative">
+            {/* Growing line connector - only runs through systems content */}
+            <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-1 bg-gradient-to-b from-jade/0 via-jade/20 to-jade/0 hidden lg:block z-0">
+              <motion.div 
+                style={{ height: springTreeHeight }}
+                className="w-full bg-gradient-to-b from-jade to-emerald-400"
+              />
+            </div>
+
+            {/* Systems with branch connectors */}
+            <div className="space-y-24 relative z-10">
             {[
               { 
                 num: "01", 
                 icon: Search, 
-                title: "More Discovery", 
-                desc: "Many western buyers are already searching for Chinese partners on Google. We optimize your Google Ads so they find you first—not your competitors.",
+                title: "More Discovery",
+                desc: "Many western buyers are already searching for Chinese partners on Google. We optimize your Google Ads so they find YOU first—not your competitors.",
                 align: "left"
               },
               { 
                 num: "02", 
                 icon: Monitor, 
-                title: "More Orders", 
+                title: "More orders",
                 desc: "We build you a high-converting landing page that western buyers are more familiar with. This helps build trust so they feel comfortable placing more orders, more frequently.",
                 align: "right"
               },
               { 
                 num: "03", 
                 icon: Bot, 
-                title: "Consistent Leads", 
-                desc: "Our AI sales assistant responds to buyers instantly—even at 3 AM. No more lost opportunities because your sales team was sleeping.",
+                title: "Welcome the night shift",
+                desc: "Our AI sales assistant responds to buyers instantly—even at 3 AM.",
                 align: "left"
               },
             ].map((system, i) => (
               <motion.div
                 key={i}
-                initial="hidden"
-                whileInView="visible"
+                initial={{ opacity: 0, y: 60 }}
+                whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-100px" }}
-                variants={fadeInUp}
-                className={`grid grid-cols-1 lg:grid-cols-12 gap-8 items-center ${system.align === 'right' ? 'lg:flex-row-reverse' : ''}`}
+                transition={{ duration: 0.8 }}
+                className="relative"
               >
-                <div className={`lg:col-span-5 ${system.align === 'right' ? 'lg:col-start-8' : ''}`}>
-                  <div className="flex items-start gap-6">
-                    <span className="font-mono text-6xl md:text-7xl text-stone-200 font-light">
-                      {system.num}
-                    </span>
-                    <div className="pt-4">
-                      <div className="w-16 h-16 rounded-full bg-jade/5 border border-jade/20 flex items-center justify-center text-jade mb-6">
-                        <system.icon className="w-7 h-7" strokeWidth={1.5} />
-                      </div>
-                      <h3 className="font-serif text-3xl md:text-4xl text-stone-900 mb-4">
-                        {system.title}
-                      </h3>
-                      <p className="text-stone-600 font-body text-lg leading-relaxed">
-                        {system.desc}
-                      </p>
-                    </div>
-                  </div>
+                {/* Branch connector node */}
+                <div className="absolute left-1/2 -translate-x-1/2 -top-12 w-6 h-6 bg-jade rounded-full border-4 border-white shadow-lg hidden lg:flex items-center justify-center z-10">
+                  <div className="w-2 h-2 bg-white rounded-full" />
                 </div>
-                
-                {/* Visual Placeholder */}
-                <div className={`lg:col-span-6 ${system.align === 'right' ? 'lg:col-start-1 lg:row-start-1' : 'lg:col-start-7'}`}>
-                  <div className="aspect-[4/3] bg-stone-200/50 rounded-lg border border-stone-200 flex items-center justify-center">
-                    <span className="font-mono text-stone-400 text-xs tracking-widest uppercase">
-                      {system.title} Visual
-                    </span>
+
+                <div className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${system.align === 'right' ? 'lg:flex-row-reverse' : ''}`}>
+                  <div className={`${system.align === 'right' ? 'lg:order-2' : ''}`}>
+                    <Card className="bg-white/80 backdrop-blur-sm border-emerald-100 hover:border-jade/30 hover:shadow-xl hover:shadow-jade/10 transition-all duration-500 overflow-hidden group">
+                      <CardContent className="p-8 md:p-10">
+                        <div className="flex items-center gap-4 mb-6">
+                          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-jade to-emerald-500 flex items-center justify-center text-white shadow-lg shadow-jade/25 group-hover:scale-110 transition-transform duration-500">
+                            <system.icon className="w-8 h-8" strokeWidth={1.5} />
+                          </div>
+                          <div>
+                            <span className="font-mono text-jade text-sm">{system.num}</span>
+                            <h3 className="text-2xl font-bold text-stone-900">{system.title}</h3>
+                          </div>
+                        </div>
+                        <p className="text-stone-600 leading-relaxed">
+                          {system.desc}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </div>
+                  
+                  <div className={`${system.align === 'right' ? 'lg:order-1 lg:text-right' : ''}`}>
+                    <div className="aspect-square max-w-sm mx-auto relative">
+                      {/* Organic shape placeholder */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-jade/10 to-emerald-200/30 rounded-[60%_40%_30%_70%/60%_30%_70%_40%] animate-pulse" />
+                      <div className="absolute inset-4 bg-gradient-to-br from-emerald-100/50 to-jade/20 rounded-[40%_60%_70%_30%/40%_50%_50%_60%]" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <system.icon className="w-20 h-20 text-jade/40" strokeWidth={1} />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </motion.div>
             ))}
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Benefits - Asymmetric Bento Grid */}
-      <section id="benefits" className="py-32 md:py-40 bg-white relative">
-        <div className="max-w-7xl mx-auto px-6 md:px-12">
+      {/* Benefits - Organic Cards */}
+      <section id="benefits" className="py-32 bg-gradient-to-b from-white to-emerald-50/50 relative overflow-hidden">
+        {/* Decorative organic shapes */}
+        <div className="absolute top-0 left-0 w-64 h-64 bg-jade/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-0 w-96 h-96 bg-emerald-200/20 rounded-full blur-3xl" />
+
+        <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, margin: "-100px" }}
             variants={fadeInUp}
-            className="mb-16 md:mb-24"
+            className="text-center mb-16"
           >
-            <div className="flex items-center gap-4 mb-6">
-              <div className="h-px w-12 bg-jade" />
-              <span className="font-mono text-jade text-xs tracking-[0.3em] uppercase">Results</span>
-            </div>
-            <h2 className="font-serif text-4xl md:text-5xl text-stone-900 leading-[1.1] max-w-2xl">
+            <Badge className="bg-white text-jade border-jade/20 mb-6 px-4 py-2">
+              <Leaf className="w-4 h-4 mr-2" />
+              The Harvest
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-stone-900 mb-6">
               What this means for your company
             </h2>
+            <p className="text-stone-600 text-lg max-w-2xl mx-auto mb-4">
+              Convertree&apos;s &quot;3 Systems&quot; work together to create a consistent pipeline of qualified Western Buyers for your company.
+            </p>
+            <p className="text-stone-700 font-semibold mb-12">This means for your company:</p>
           </motion.div>
 
-          {/* Bento Grid */}
+          {/* Organic flowing grid */}
           <motion.div
             initial="hidden"
             whileInView="visible"
@@ -324,34 +473,66 @@ export default function Home() {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
           >
             {[
-              { icon: TrendingDown, title: "Save Money", desc: "Get more leads with the same ad spend" },
-              { icon: TrendingUp, title: "Higher Margins", desc: "Attract direct buyers from Google, not Alibaba resellers" },
-              { icon: Users, title: "Customer Selection", desc: "Choose who you want to do business with" },
-              { icon: Clock, title: "Minimize Downtime", desc: "Your factory runs closer to full capacity" },
-              { icon: CheckCircle2, title: "Effective Sales", desc: "Customers come to you. Less prospecting, more closing.", wide: true },
+              { icon: TrendingDown, title: "Save money", desc: "You get more leads with the same ad spend" },
+              { icon: TrendingUp, title: "Higher margins", desc: "You attract more direct buyers from Google, instead of competing for resellers on Alibaba" },
+              { icon: Users, title: "Customer selection", desc: "Getting more leads means you choose who you want to do business with" },
+              { icon: Clock, title: "Minimize downtime", desc: "Your factory will run closer to full capacity" },
+              { icon: CheckCircle2, title: "Effective sales", desc: "Customers come to you, so your sales team spends more time closing deals and less time looking for prospects", wide: true },
             ].map((benefit, i) => (
               <motion.div
                 key={i}
                 variants={fadeInUp}
-                className={`bento-item group ${benefit.wide ? 'md:col-span-2' : ''}`}
+                className={`group relative ${benefit.wide ? 'md:col-span-2 lg:col-span-1' : ''}`}
               >
-                <div className="w-12 h-12 rounded-full bg-stone-100 flex items-center justify-center text-stone-600 mb-6 group-hover:bg-jade/10 group-hover:text-jade transition-all">
-                  <benefit.icon className="w-6 h-6" strokeWidth={1.5} />
+                <div className="bg-white rounded-3xl p-8 border border-emerald-100 hover:border-jade/30 hover:shadow-xl hover:shadow-jade/10 transition-all duration-500 h-full">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-jade/10 to-emerald-100 flex items-center justify-center text-jade mb-6 group-hover:scale-110 group-hover:bg-jade group-hover:text-white transition-all duration-500">
+                    <benefit.icon className="w-7 h-7" strokeWidth={1.5} />
+                  </div>
+                  <h3 className="text-xl font-bold text-stone-900 mb-3">{benefit.title}</h3>
+                  <p className="text-stone-600">{benefit.desc}</p>
                 </div>
-                <h3 className="font-serif text-xl text-stone-900 mb-3">{benefit.title}</h3>
-                <p className="text-stone-600 font-body leading-relaxed">{benefit.desc}</p>
               </motion.div>
             ))}
+          </motion.div>
+
+          {/* CTA */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={fadeInUp}
+            className="text-center mt-16"
+          >
+            <Button 
+              onClick={() => scrollToSection('grow')}
+              className="bg-jade hover:bg-jade-700 text-white font-semibold px-8 py-6 rounded-full transition-all shadow-lg shadow-jade/25 group"
+            >
+              Work with Convertree
+              <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+            </Button>
           </motion.div>
         </div>
       </section>
 
-      {/* Pay for Results - Dark Section with Gradient Mesh */}
-      <section className="py-32 md:py-40 bg-stone-950 relative overflow-hidden">
-        {/* Gradient Mesh Background */}
-        <div className="absolute inset-0 opacity-30">
-          <div className="absolute top-0 left-1/4 w-96 h-96 bg-jade/20 rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl" />
+      {/* Pay for Results - Growing Section */}
+      <section className="py-32 bg-jade relative overflow-hidden">
+        {/* Animated growing patterns */}
+        <div className="absolute inset-0 opacity-10">
+          {[...Array(5)].map((_, i) => (
+            <motion.div
+              key={i}
+              className="absolute w-2 bg-white rounded-full"
+              style={{ 
+                left: `${20 + i * 15}%`, 
+                bottom: 0,
+                height: '100%'
+              }}
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1.5, delay: i * 0.2, ease: "easeOut" }}
+            />
+          ))}
         </div>
 
         <motion.div
@@ -361,136 +542,172 @@ export default function Home() {
           variants={staggerContainer}
           className="max-w-4xl mx-auto px-6 md:px-12 relative z-10 text-center"
         >
-          <motion.div variants={fadeInUp} className="flex items-center justify-center gap-4 mb-8">
-            <div className="h-px w-12 bg-jade/50" />
-            <span className="font-mono text-jade-400 text-xs tracking-[0.3em] uppercase">Pricing</span>
-            <div className="h-px w-12 bg-jade/50" />
+          <motion.div variants={fadeInUp} className="mb-8">
+            <TreePine className="w-16 h-16 text-white/80 mx-auto" strokeWidth={1} />
           </motion.div>
 
           <motion.h2 
             variants={fadeInUp}
-            className="font-serif text-4xl md:text-5xl lg:text-6xl text-white leading-[1.1] mb-8"
+            className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-[1.1] mb-8"
           >
             Only pay for results
           </motion.h2>
 
           <motion.p 
             variants={fadeInUp}
-            className="text-stone-400 text-lg md:text-xl font-body leading-relaxed mb-6 max-w-2xl mx-auto"
+            className="text-emerald-100 text-lg md:text-xl leading-relaxed mb-6 max-w-2xl mx-auto"
           >
-            After a small one-time set up fee, you only pay us for the <strong className="text-white font-medium">qualified western buyer leads</strong> we generate.
+            After a small one-time set up fee, you only pay us for the qualified western buyer leads we generate. If we don&apos;t deliver qualified leads, you don&apos;t pay. Simple.
           </motion.p>
 
-          <motion.p 
+          <motion.div 
             variants={fadeInUp}
-            className="font-serif text-3xl md:text-4xl text-jade-400 italic"
+            className="flex items-center justify-center gap-2 text-white/90"
           >
-            If we don't deliver, you don't pay.
-          </motion.p>
+            <Sprout className="w-5 h-5" />
+            <span className="font-semibold">Risk-free growth</span>
+          </motion.div>
         </motion.div>
       </section>
 
-      {/* 7 Signals - Form Section */}
-      <section id="signals" className="py-32 md:py-40 bg-stone-100 relative">
+      {/* 7 Signals - Growing Form Section */}
+      <section id="grow" className="py-32 relative overflow-hidden">
+        {/* Growing vines decoration */}
+        <svg className="absolute left-0 top-0 h-full w-24 opacity-10 pointer-events-none hidden lg:block" viewBox="0 0 100 800">
+          <motion.path
+            d="M50 800 Q30 600 50 400 Q70 200 30 0"
+            fill="none"
+            stroke="#059669"
+            strokeWidth="2"
+            initial={{ pathLength: 0 }}
+            whileInView={{ pathLength: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 2 }}
+          />
+          {[...Array(6)].map((_, i) => (
+            <motion.circle
+              key={i}
+              cx={50 + (i % 2 === 0 ? -20 : 20)}
+              cy={700 - i * 120}
+              r="6"
+              fill="#10b981"
+              initial={{ scale: 0 }}
+              whileInView={{ scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.3, delay: 1.5 + i * 0.1 }}
+            />
+          ))}
+        </svg>
+
         <div className="max-w-7xl mx-auto px-6 md:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            {/* Left Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, margin: "-100px" }}
               variants={staggerContainer}
             >
-              <motion.div variants={fadeInUp} className="flex items-center gap-4 mb-6">
-                <div className="h-px w-12 bg-jade" />
-                <span className="font-mono text-jade text-xs tracking-[0.3em] uppercase">Free Analysis</span>
+              <motion.div variants={fadeInUp} className="mb-6">
+                <Badge className="bg-emerald-100 text-jade border-0 px-4 py-2">
+                  <Sprout className="w-4 h-4 mr-2" />
+                  Free Growth Check
+                </Badge>
               </motion.div>
 
               <motion.h2 
                 variants={fadeInUp}
-                className="font-serif text-4xl md:text-5xl text-stone-900 leading-[1.1] mb-8"
+                className="text-4xl md:text-5xl font-bold text-stone-900 leading-[1.1] mb-8"
               >
-                Western buyers look for these <span className="text-jade">7 specific signals</span> when selecting a partner
+                Western buyers look for these 7 specific &quot;signals&quot; when selecting a trustworthy partner – Does your site have them?
               </motion.h2>
 
-              <motion.p variants={fadeInUp} className="text-stone-600 font-body text-lg leading-relaxed mb-6">
-                Does your site have them?
+              <motion.p variants={fadeInUp} className="text-stone-600 text-lg leading-relaxed mb-6">
+                Missing even a single signal could be costing you sales. Let us analyze your current landing page for the 7 signals and show you exactly where you&apos;re losing sales.
               </motion.p>
 
-              <motion.p variants={fadeInUp} className="text-stone-600 font-body leading-relaxed mb-8">
-                Missing even a single signal could be costing you sales. Let us analyze your current landing page and show you exactly where you're losing Western buyers—and how to fix it.
-              </motion.p>
-
-              <motion.div variants={fadeInUp} className="flex items-center gap-3 text-jade">
+              <motion.div variants={fadeInUp} className="flex items-center gap-3 text-jade bg-emerald-50 w-fit px-4 py-2 rounded-full">
                 <CheckCircle2 className="w-5 h-5" />
-                <span className="font-medium">100% Free. No obligation.</span>
+                <span className="font-semibold">100% Free Analysis</span>
               </motion.div>
             </motion.div>
 
-            {/* Right - Form Card */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.8 }}
             >
-              <Card className="bg-white border-stone-200 shadow-xl shadow-stone-200/50">
+              <Card className="bg-white border-emerald-100 shadow-2xl shadow-jade/10 rounded-3xl overflow-hidden">
                 <CardContent className="p-8 md:p-10">
                   <div className="mb-8">
-                    <h3 className="font-serif text-2xl text-stone-900 mb-2">Get Your Free 7-Signal Analysis</h3>
-                    <p className="text-stone-500 font-body text-sm">
-                      We'll analyze your page and send you a personalized report within 24 hours.
+                    <h3 className="text-2xl font-bold text-stone-900 mb-2">Plant Your Seed</h3>
+                    <p className="text-stone-500">
+                      We&apos;ll analyze your page and send a growth report within 24 hours.
                     </p>
                   </div>
 
-                  <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                    <div className="space-y-2">
-                      <Label htmlFor="name" className="font-mono text-xs tracking-wider uppercase text-stone-600">
-                        Name
-                      </Label>
+                  <form className="space-y-5" onSubmit={handleFormSubmit}>
+                    <div>
+                      <Label htmlFor="form-name" className="text-stone-600 font-medium mb-2 block">Name</Label>
                       <Input 
-                        id="name"
+                        id="form-name"
                         type="text" 
                         placeholder="Your name"
-                        className="border-stone-200 rounded-none focus:border-jade focus:ring-jade/20"
+                        value={formData.name}
+                        onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+                        required
+                        disabled={formStatus === 'loading'}
+                        className="border-emerald-100 rounded-xl h-12 focus:border-jade focus:ring-jade/20"
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="email" className="font-mono text-xs tracking-wider uppercase text-stone-600">
-                        Email
-                      </Label>
+                    <div>
+                      <Label htmlFor="form-email" className="text-stone-600 font-medium mb-2 block">Email</Label>
                       <Input 
-                        id="email"
+                        id="form-email"
                         type="email" 
                         placeholder="your@email.com"
-                        className="border-stone-200 rounded-none focus:border-jade focus:ring-jade/20"
+                        value={formData.email}
+                        onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+                        required
+                        disabled={formStatus === 'loading'}
+                        className="border-emerald-100 rounded-xl h-12 focus:border-jade focus:ring-jade/20"
                       />
                     </div>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="url" className="font-mono text-xs tracking-wider uppercase text-stone-600">
-                        Landing Page URL
-                      </Label>
+                    <div>
+                      <Label htmlFor="form-url" className="text-stone-600 font-medium mb-2 block">Landing Page URL</Label>
                       <Input 
-                        id="url"
+                        id="form-url"
                         type="url" 
                         placeholder="https://yourcompany.com"
-                        className="border-stone-200 rounded-none focus:border-jade focus:ring-jade/20"
+                        value={formData.url}
+                        onChange={(e) => setFormData((prev) => ({ ...prev, url: e.target.value }))}
+                        required
+                        disabled={formStatus === 'loading'}
+                        className="border-emerald-100 rounded-xl h-12 focus:border-jade focus:ring-jade/20"
                       />
                     </div>
+
+                    {formStatus === 'success' && (
+                      <p className="text-jade font-semibold text-sm">Thanks! We&apos;ll be in touch within 24 hours.</p>
+                    )}
+                    {formStatus === 'error' && (
+                      <p className="text-red-600 font-medium text-sm">Something went wrong. Please try again.</p>
+                    )}
 
                     <Button 
                       type="submit"
-                      className="w-full bg-jade hover:bg-jade-light text-white font-mono text-xs tracking-widest uppercase py-6 rounded-none transition-all"
+                      disabled={formStatus === 'loading'}
+                      className="w-full bg-jade hover:bg-jade-700 text-white font-semibold px-8 py-6 rounded-full transition-all shadow-lg shadow-jade/25 disabled:opacity-70 disabled:cursor-not-allowed group"
                     >
-                      Analyze My Page
-                      <ArrowUpRight className="ml-2 w-4 h-4" />
+                      {formStatus === 'loading' ? 'Sending...' : (
+                        <>
+                          Get Free Analysis
+                          <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
+                        </>
+                      )}
                     </Button>
-
-                    <p className="text-stone-400 text-xs text-center font-body">
-                      By submitting, you agree to receive our analysis and occasional updates.
-                    </p>
                   </form>
                 </CardContent>
               </Card>
@@ -499,21 +716,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer - Minimal */}
-      <footer className="py-12 bg-stone-950 border-t border-stone-900">
+      {/* Footer */}
+      <footer className="py-12 bg-stone-900">
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <Leaf className="text-jade-400 w-5 h-5" strokeWidth={1.5} />
+            <TreePine className="text-jade w-6 h-6" strokeWidth={1.5} />
             <div className="flex flex-col">
-              <span className="text-white font-serif text-lg">Convertree</span>
+              <span className="text-white font-bold text-lg">Convertree</span>
               <span className="text-stone-600 text-[8px] tracking-[0.3em] uppercase font-mono">肯副翠</span>
             </div>
           </div>
-          <p className="text-stone-600 text-sm font-body">
-            © 2026 Convertree. All rights reserved.
+          <p className="text-stone-500 text-sm">
+            © 2026 Convertree. Grow organically.
           </p>
         </div>
       </footer>
-    </>
+    </div>
   );
 }
