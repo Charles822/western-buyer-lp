@@ -4,7 +4,8 @@ import nodemailer from 'nodemailer';
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, url } = body;
+    const { name, email, url, locale } = body;
+    const localeTag = locale === 'zh' ? '[ZH]' : '[EN]';
 
     if (!name || !email || !url) {
       return NextResponse.json(
@@ -37,9 +38,9 @@ export async function POST(request: Request) {
       from: process.env.SMTP_FROM || process.env.SMTP_USER,
       to: toEmail,
       replyTo: email,
-      subject: `7-Signal Analysis Request from ${name}`,
+      subject: `7-Signal Analysis Request ${localeTag} from ${name}`,
       text: `
-New 7-Signal Analysis request:
+New 7-Signal Analysis request (${locale || 'unknown'}):
 
 Name: ${name}
 Email: ${email}
@@ -53,6 +54,7 @@ Sent from Western Buyer LP form
         <p><strong>Name:</strong> ${name}</p>
         <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
         <p><strong>Landing Page URL:</strong> <a href="${url}">${url}</a></p>
+        <p><strong>Locale:</strong> ${locale || 'unknown'}</p>
         <hr>
         <p><small>Sent from Western Buyer LP form</small></p>
       `,

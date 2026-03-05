@@ -14,7 +14,13 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+**Important:** Check the terminal for the actual URL. If port 3000 is in use by another app, Next.js will pick 3001, 3002, etc. Open the URL shown.
+
+If another project (e.g. InstantClaw) is already on 3000, run:
+```bash
+npm run dev:alt
+```
+Then open [http://localhost:3004](http://localhost:3004).
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 

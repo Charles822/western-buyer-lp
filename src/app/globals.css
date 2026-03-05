@@ -86,6 +86,15 @@ body {
   color: #0c0a09;
 }
 
+:lang(zh) body,
+:lang(zh) .font-body {
+  font-family: 'Noto Sans SC', 'Source Serif 4', Georgia, sans-serif;
+}
+
+:lang(zh) .font-serif {
+  font-family: 'Noto Sans SC', 'Playfair Display', Georgia, sans-serif;
+}
+
 /* Editorial Typography */
 .font-serif {
   font-family: 'Playfair Display', Georgia, serif;
