@@ -22,10 +22,11 @@ export async function POST(request: Request) {
       );
     }
 
+    const port = parseInt(process.env.SMTP_PORT || '587');
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || '587'),
-      secure: process.env.SMTP_SECURE === 'true',
+      port,
+      secure: port === 465,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASS,
@@ -47,7 +48,7 @@ Email: ${email}
 Landing Page URL: ${url}
 
 ---
-Sent from Western Buyer LP form
+Sent from Convertree LP form
       `.trim(),
       html: `
         <h2>New 7-Signal Analysis Request</h2>
@@ -56,7 +57,7 @@ Sent from Western Buyer LP form
         <p><strong>Landing Page URL:</strong> <a href="${url}">${url}</a></p>
         <p><strong>Locale:</strong> ${locale || 'unknown'}</p>
         <hr>
-        <p><small>Sent from Western Buyer LP form</small></p>
+        <p><small>Sent from Convertree LP form</small></p>
       `,
     });
 
