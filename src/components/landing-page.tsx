@@ -27,6 +27,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import type { LandingContent } from "@/lib/content";
+import { FlagMarquee } from "@/components/flag-marquee";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -153,7 +154,7 @@ export function LandingPage({ content, locale }: LandingPageProps) {
         </div>
       )}
 
-      <section className="min-h-screen relative overflow-hidden pt-32">
+      <section className="min-h-screen relative overflow-hidden pt-24">
         <div className="absolute right-0 top-0 w-1/2 h-full opacity-10 pointer-events-none hidden lg:block">
           <svg viewBox="0 0 400 800" className="w-full h-full">
             <defs>
@@ -212,15 +213,25 @@ export function LandingPage({ content, locale }: LandingPageProps) {
                 <ArrowRight className="ml-2 w-5 h-5 transition-transform group-hover:translate-x-1" />
               </Button>
             </motion.div>
+            <motion.div variants={fadeInUp} className="mt-8">
+              <FlagMarquee tagline={content.marquee.tagline} />
+            </motion.div>
           </motion.div>
 
-          <motion.div initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.6 }} className="mt-20 grid grid-cols-3 gap-8 max-w-2xl">
+          <motion.div initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }} variants={fadeInUp} className="mt-20 text-center mb-20">
+            <Badge className="bg-emerald-100 text-jade border-0 mb-6 px-4 py-2">
+              <GitBranch className="w-4 h-4 mr-2" />
+              {content.statsBadge}
+            </Badge>
+            <h2 className="text-4xl md:text-5xl font-bold text-stone-900 mb-8">{content.statsTitle}</h2>
+            <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto">
             {content.stats.map((stat, i) => (
               <div key={i} className="text-center">
                 <div className="text-3xl md:text-4xl font-bold text-jade mb-2">{stat.num}</div>
                 <div className="text-sm text-stone-500 font-medium">{stat.label}</div>
               </div>
             ))}
+            </div>
           </motion.div>
         </div>
       </section>

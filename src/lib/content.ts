@@ -38,6 +38,11 @@ export interface LandingContent {
     ctaSecondary: string;
   };
   stats: StatContent[];
+  statsTitle: string;
+  statsBadge: string;
+  marquee: {
+    tagline: string;
+  };
   systems: {
     badge: string;
     title: string;
@@ -96,6 +101,11 @@ export const contentZh: LandingContent = {
     { num: '24/7', label: 'AI响应' },
     { num: '0', label: '风险' },
   ],
+  statsTitle: '您将获得',
+  statsBadge: '一目了然',
+  marquee: {
+    tagline: '我们帮您在买家所在之地找到他们',
+  },
   systems: {
     badge: '我们如何为您做到这一点（3套系统）',
     title: '我们如何为您做到这一点',
@@ -181,6 +191,11 @@ export const contentEn: LandingContent = {
     { num: '24/7', label: 'AI Response' },
     { num: '0', label: 'Risk' },
   ],
+  statsTitle: 'What You Get',
+  statsBadge: 'At a Glance',
+  marquee: {
+    tagline: 'We help you find buyers where they are',
+  },
   systems: {
     badge: 'Our Growth System',
     title: 'How We Do It',
