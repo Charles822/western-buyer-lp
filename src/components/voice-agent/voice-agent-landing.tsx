@@ -1,7 +1,7 @@
 'use client';
 
 import { Icon } from '@iconify/react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ConciergeDemoSection } from '@/components/voice-agent/concierge-demo-section';
 import { FluidCanvas } from '@/components/voice-agent/fluid-canvas';
 import { WeChatContactModal } from '@/components/voice-agent/wechat-contact-modal';
@@ -12,11 +12,53 @@ function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
 }
 
+const processStepCircleBase =
+  'flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-lg font-bold text-white transition-colors duration-300';
+const processStepCircleActive = 'bg-emerald-600 shadow-lg shadow-emerald-500/20';
+const processStepCircleIdle = 'border border-zinc-700 bg-zinc-800';
+
 export function VoiceAgentLanding() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [weChatOpen, setWeChatOpen] = useState(false);
+  const [activeProcessStep, setActiveProcessStep] = useState(1);
+  const processStep1Ref = useRef<HTMLDivElement>(null);
+  const processStep2Ref = useRef<HTMLDivElement>(null);
+  const processStep3Ref = useRef<HTMLDivElement>(null);
 
   const closeMobile = () => setMobileOpen(false);
+
+  useEffect(() => {
+    const nodes = [processStep1Ref.current, processStep2Ref.current, processStep3Ref.current].filter(
+      (n): n is HTMLDivElement => n !== null
+    );
+    if (nodes.length !== 3) {
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const intersecting = entries.filter((e) => e.isIntersecting);
+        if (intersecting.length === 0) {
+          return;
+        }
+        const winner = intersecting.reduce((a, b) =>
+          b.intersectionRatio > a.intersectionRatio ? b : a
+        );
+        const step = Number((winner.target as HTMLElement).dataset.step);
+        if (step >= 1 && step <= 3) {
+          setActiveProcessStep(step);
+        }
+      },
+      {
+        root: null,
+        rootMargin: '-36% 0px -36% 0px',
+        threshold: [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
+      }
+    );
+
+    nodes.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <>
@@ -417,9 +459,15 @@ export function VoiceAgentLanding() {
                 </div>
 
                 <div className="space-y-16 md:w-2/3">
-                  <div className="flex gap-8">
+                  <div
+                    ref={processStep1Ref}
+                    data-step={1}
+                    className="flex scroll-mt-28 gap-8 md:scroll-mt-36"
+                  >
                     <div className="flex flex-col items-center">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full bg-emerald-600 text-lg font-bold text-white shadow-lg shadow-emerald-500/20">
+                      <div
+                        className={`${processStepCircleBase} ${activeProcessStep === 1 ? processStepCircleActive : processStepCircleIdle}`}
+                      >
                         1
                       </div>
                       <div className="my-4 h-full w-px grow bg-zinc-800" />
@@ -435,9 +483,15 @@ export function VoiceAgentLanding() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex gap-8">
+                  <div
+                    ref={processStep2Ref}
+                    data-step={2}
+                    className="flex scroll-mt-28 gap-8 md:scroll-mt-36"
+                  >
                     <div className="flex flex-col items-center">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-lg font-bold text-white">
+                      <div
+                        className={`${processStepCircleBase} ${activeProcessStep === 2 ? processStepCircleActive : processStepCircleIdle}`}
+                      >
                         2
                       </div>
                       <div className="my-4 h-full w-px grow bg-zinc-800" />
@@ -453,9 +507,15 @@ export function VoiceAgentLanding() {
                       </p>
                     </div>
                   </div>
-                  <div className="flex gap-8">
+                  <div
+                    ref={processStep3Ref}
+                    data-step={3}
+                    className="flex scroll-mt-28 gap-8 md:scroll-mt-36"
+                  >
                     <div className="flex flex-col items-center">
-                      <div className="flex h-10 w-10 items-center justify-center rounded-full border border-zinc-700 bg-zinc-800 text-lg font-bold text-white">
+                      <div
+                        className={`${processStepCircleBase} ${activeProcessStep === 3 ? processStepCircleActive : processStepCircleIdle}`}
+                      >
                         3
                       </div>
                     </div>
