@@ -187,12 +187,22 @@ export function ConciergeDemoSection() {
               </form>
             ) : (
               <div className="demo-unlocked-card glass-card space-y-6 rounded-2xl p-8">
-                <div>
-                  <h3 className="text-xl font-semibold text-white">Voice demo ready</h3>
-                  <p className="mt-2 text-sm text-emerald-400/90">
-                    You&apos;re in—use your microphone. When you go live, we wire calendar
-                    booking the same way on your production concierge.
-                  </p>
+                <div className="flex items-center justify-between gap-4">
+                  <div>
+                    <h3 className="text-xl font-semibold text-white">Voice demo ready</h3>
+                    <p className="mt-2 text-sm text-emerald-400/90">
+                      You&apos;re in! Use the Convertree concierge button at the
+                      bottom-right of your screen to start the call.
+                    </p>
+                  </div>
+                  {/* Subtle pulsing indicator to draw attention to bottom right */}
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-500/10">
+                    <Icon
+                      icon="solar:arrow-right-down-bold-duotone"
+                      className="animate-pulse text-2xl text-emerald-400"
+                      aria-hidden
+                    />
+                  </div>
                 </div>
                 {hasVapi ? (
                   <ConciergeInlineVoice
