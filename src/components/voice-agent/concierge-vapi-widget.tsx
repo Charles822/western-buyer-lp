@@ -23,7 +23,7 @@ export function ConciergeVapiWidget({
   onVoiceStart,
   onVoiceEnd,
   onVapiError,
-  title = 'Convertree concierge',
+  title = 'Unlock the demo',
   voiceEmptyMessage = 'Tap to start. Speak in English like a Western buyer would.',
 }: ConciergeVapiWidgetProps) {
   if (!publicKey || !assistantId) {
