@@ -171,10 +171,7 @@ export function VoiceAgentLanding() {
               </p>
 
               <div className="flex flex-col items-center justify-center gap-4 pt-4 md:flex-row md:gap-6">
-                <a
-                  href="#demo"
-                  className="shiny-cta group text-base sm:text-lg [&>span]:inline-flex [&>span]:items-center [&>span]:gap-2 [&>span]:whitespace-nowrap"
-                >
+                <a href="#demo" className="shiny-cta group text-base sm:text-lg">
                   <span>
                     Try the concierge demo
                     <Icon
