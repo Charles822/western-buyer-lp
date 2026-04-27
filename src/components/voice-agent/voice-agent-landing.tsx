@@ -4,9 +4,8 @@ import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import { ConciergeDemoSection } from '@/components/voice-agent/concierge-demo-section';
 import { FluidCanvas } from '@/components/voice-agent/fluid-canvas';
+import { WeChatContactModal } from '@/components/voice-agent/wechat-contact-modal';
 
-const BOOKING =
-  'https://api.leadconnectorhq.com/widget/booking/okwvmY2zrf7b7FccMC0w';
 const SUPPORT_EMAIL = 'sam@convertree.com';
 
 function scrollToId(id: string) {
@@ -15,6 +14,7 @@ function scrollToId(id: string) {
 
 export function VoiceAgentLanding() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [weChatOpen, setWeChatOpen] = useState(false);
 
   const closeMobile = () => setMobileOpen(false);
 
@@ -30,23 +30,15 @@ export function VoiceAgentLanding() {
       <div className="relative z-10">
         <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-zinc-950/80 backdrop-blur-md">
           <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-            <a href="#top" className="flex items-center gap-3">
-              <svg
-                width="40"
-                height="24"
-                viewBox="0 0 48 28"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-white"
-                aria-hidden
-              >
-                <path d="M8 28L14 18L20 28H8Z" fill="currentColor" />
-                <path d="M18 28L28 12L38 28H18Z" fill="currentColor" />
-                <path d="M30 28L42 4L54 28H30Z" fill="currentColor" />
-              </svg>
-              <span className="text-lg font-semibold tracking-tight text-white">
-                Convertree
-              </span>
+            <a href="#top" className="flex items-center">
+              {/* eslint-disable-next-line @next/next/no-img-element -- white treatment via CSS filter on brand PNG */}
+              <img
+                src="/convertree_logo_transparent.png"
+                alt="Convertree"
+                width={168}
+                height={67}
+                className="h-8 w-auto max-w-[9.5rem] object-contain brightness-0 invert opacity-95 sm:h-9 sm:max-w-[10.5rem]"
+              />
             </a>
 
             <nav className="hidden items-center gap-8 text-base font-medium text-zinc-400 md:flex">
@@ -77,14 +69,14 @@ export function VoiceAgentLanding() {
               </a>
             </nav>
 
-            <a
-              href={BOOKING}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hidden text-base font-medium text-white transition-colors hover:text-emerald-400 md:block"
+            <button
+              type="button"
+              onClick={() => setWeChatOpen(true)}
+              className="hidden items-center gap-2 text-base font-medium text-white transition-colors hover:text-emerald-400 md:inline-flex"
             >
-              Book a call
-            </a>
+              Talk on WeChat
+              <Icon icon="solar:arrow-right-linear" className="size-[1.1em]" aria-hidden />
+            </button>
 
             <button
               type="button"
@@ -136,14 +128,17 @@ export function VoiceAgentLanding() {
             >
               Insights
             </a>
-            <a
-              href={BOOKING}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-lg text-emerald-400"
+            <button
+              type="button"
+              className="inline-flex items-center gap-2 text-left text-lg text-emerald-400 hover:text-emerald-300"
+              onClick={() => {
+                setWeChatOpen(true);
+                closeMobile();
+              }}
             >
-              Book a call
-            </a>
+              Talk on WeChat
+              <Icon icon="solar:arrow-right-linear" className="size-[1.1em]" aria-hidden />
+            </button>
           </div>
         </header>
 
@@ -176,13 +171,17 @@ export function VoiceAgentLanding() {
               </p>
 
               <div className="flex flex-col items-center justify-center gap-4 pt-4 md:flex-row md:gap-6">
-                <a href="#demo" className="shiny-cta group">
-                  <span className="flex items-center gap-2">
+                <a
+                  href="#demo"
+                  className="shiny-cta group text-base sm:text-lg [&>span]:inline-flex [&>span]:items-center [&>span]:gap-2 [&>span]:whitespace-nowrap"
+                >
+                  <span>
                     Try the concierge demo
                     <Icon
                       icon="solar:arrow-right-linear"
                       width="1.2em"
                       height="1.2em"
+                      aria-hidden
                     />
                   </span>
                 </a>
@@ -410,14 +409,14 @@ export function VoiceAgentLanding() {
                     same pattern we use with exporter teams in machinery, parts, and
                     industrial B2B.
                   </p>
-                  <a
-                    href={BOOKING}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-block rounded-lg bg-zinc-100 px-6 py-3 text-base font-semibold text-zinc-950 transition-colors hover:bg-zinc-200"
+                  <button
+                    type="button"
+                    onClick={() => setWeChatOpen(true)}
+                    className="inline-flex items-center gap-2 rounded-lg bg-zinc-100 px-6 py-3 text-base font-semibold text-zinc-950 transition-colors hover:bg-zinc-200"
                   >
-                    Book a call
-                  </a>
+                    Talk on WeChat
+                    <Icon icon="solar:arrow-right-linear" className="size-[1.1em]" aria-hidden />
+                  </button>
                 </div>
 
                 <div className="space-y-16 md:w-2/3">
@@ -531,21 +530,22 @@ export function VoiceAgentLanding() {
                 Hear it for yourself, then we&apos;ll scope your build
               </h2>
               <p className="text-xl text-zinc-300">
-                Try the opt-in voice demo above, or book a call—we&apos;ll map your buyers,
-                your products, and what &quot;good&quot; handoff looks like in your CRM.
+                Try the opt-in voice demo above, or reach us on WeChat—we&apos;ll map your
+                buyers, your products, and what &quot;good&quot; handoff looks like in your
+                CRM.
               </p>
               <div className="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row sm:gap-6">
                 <a href="#demo" className="shiny-cta">
-                  <span>Try the concierge demo</span>
+                  <span className="inline-flex whitespace-nowrap">Try the concierge demo</span>
                 </a>
-                <a
-                  href={BOOKING}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="rounded-full border border-zinc-600 px-8 py-4 text-lg font-medium text-zinc-200 transition-colors hover:border-emerald-500/50 hover:text-white"
+                <button
+                  type="button"
+                  onClick={() => setWeChatOpen(true)}
+                  className="inline-flex items-center gap-2 rounded-full border border-zinc-600 px-8 py-4 text-lg font-medium text-zinc-200 transition-colors hover:border-emerald-500/50 hover:text-white"
                 >
-                  Book a strategy call
-                </a>
+                  Talk on WeChat
+                  <Icon icon="solar:arrow-right-linear" className="size-[1.1em]" aria-hidden />
+                </button>
               </div>
               <p className="text-sm text-zinc-500">
                 Or email{' '}
@@ -582,6 +582,8 @@ export function VoiceAgentLanding() {
           </div>
         </footer>
       </div>
+
+      <WeChatContactModal open={weChatOpen} onClose={() => setWeChatOpen(false)} />
     </>
   );
 }
