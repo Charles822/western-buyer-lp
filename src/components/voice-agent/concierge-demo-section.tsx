@@ -93,8 +93,9 @@ export function ConciergeDemoSection() {
                 className="glass-card space-y-5 rounded-2xl p-8"
               >
                 <p className="text-sm text-zinc-400">
-                  Enter your details to unlock the live voice demo. Same flow we use in
-                  sales: opt in first, then experience the agent.
+                  Enter your details to unlock the live voice demo. The demo may be recorded
+                  to improve the experience; use a microphone in a quiet place. Same flow we
+                  use in sales: opt in first, then experience the agent.
                 </p>
                 <div className="space-y-2">
                   <Label htmlFor="demo-name" className="text-zinc-200">
