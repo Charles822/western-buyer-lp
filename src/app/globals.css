@@ -228,6 +228,39 @@ body {
   background: var(--jade-muted);
 }
 
+/* /voice-agent — isolate from Convertree root layout */
+body.voice-agent-lp {
+  background-color: #09090b;
+  color: #f4f4f5;
+  overflow-x: hidden;
+}
+
+body.voice-agent-lp .noise-overlay {
+  display: none !important;
+}
+
+body.voice-agent-lp ::selection {
+  background: rgba(16, 185, 129, 0.3);
+  color: #ffffff;
+}
+
+body.voice-agent-lp ::-webkit-scrollbar {
+  width: 8px;
+}
+
+body.voice-agent-lp ::-webkit-scrollbar-track {
+  background: #09090b;
+}
+
+body.voice-agent-lp ::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 4px;
+}
+
+body.voice-agent-lp ::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;

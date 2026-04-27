@@ -7,7 +7,9 @@ export function SetHtmlLang({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
 
   useEffect(() => {
-    document.documentElement.lang = pathname.startsWith('/en') ? 'en' : 'zh';
+    const isEn =
+      pathname.startsWith('/en') || pathname.startsWith('/voice-agent');
+    document.documentElement.lang = isEn ? 'en' : 'zh';
   }, [pathname]);
 
   return <>{children}</>;
