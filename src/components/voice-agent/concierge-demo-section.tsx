@@ -3,14 +3,12 @@
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
 import { ConciergeInlineVoice } from '@/components/voice-agent/concierge-inline-voice';
+import { VoiceAgentPhoneMockup } from '@/components/voice-agent/voice-agent-phone-mockup';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
 const PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY ?? '';
 const ASSISTANT_ID = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID ?? '';
-
-const ABOUT_IMAGE =
-  'https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/917d6f93-fb36-439a-8c48-884b67b35381_1600w.jpg';
 
 export function ConciergeDemoSection() {
   const [unlocked, setUnlocked] = useState(false);
@@ -73,13 +71,7 @@ export function ConciergeDemoSection() {
 
         <div className="flex flex-col items-center gap-16 lg:flex-row lg:items-start">
           <div className="w-full lg:w-5/12">
-            <div className="relative aspect-[4/5] w-full max-w-md overflow-hidden rounded-2xl border border-zinc-700 bg-zinc-800 shadow-2xl md:mx-auto">
-              <img
-                src={ABOUT_IMAGE}
-                alt="Convertree team"
-                className="h-full w-full object-cover"
-              />
-            </div>
+            <VoiceAgentPhoneMockup />
           </div>
 
           <div className="w-full space-y-8 lg:w-7/12">
