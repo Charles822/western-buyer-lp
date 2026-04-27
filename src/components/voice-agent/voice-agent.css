@@ -164,3 +164,15 @@
   border: 1px solid rgba(63, 63, 70, 0.4);
   backdrop-filter: blur(12px);
 }
+
+.demo-unlocked-card {
+  background: linear-gradient(
+    140deg,
+    rgba(24, 24, 27, 0.55) 0%,
+    rgba(6, 78, 59, 0.14) 45%,
+    rgba(24, 24, 27, 0.45) 100%
+  );
+  border: 1px solid rgba(63, 63, 70, 0.5);
+  box-shadow: 0 0 0 1px rgba(16, 185, 129, 0.06);
+  backdrop-filter: blur(12px);
+}

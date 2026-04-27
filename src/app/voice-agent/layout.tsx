@@ -1,7 +1,6 @@
 import { Inter } from 'next/font/google';
 import { VoiceAgentRouteShell } from '@/components/voice-agent/voice-agent-route-shell';
 import '@/components/voice-agent/voice-agent.css';
-import '@vapi-ai/client-sdk-react/styles';
 
 const inter = Inter({
   subsets: ['latin'],

@@ -2,7 +2,7 @@
 
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
-import { ConciergeVapiWidget } from '@/components/voice-agent/concierge-vapi-widget';
+import { ConciergeInlineVoice } from '@/components/voice-agent/concierge-inline-voice';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 
@@ -186,19 +186,22 @@ export function ConciergeDemoSection() {
                 </button>
               </form>
             ) : (
-              <div className="space-y-4">
-                <p className="text-sm text-emerald-400/90">
-                  You&apos;re in—use your microphone. When you go live, we wire calendar
-                  booking the same way on your production concierge.
-                </p>
+              <div className="demo-unlocked-card glass-card space-y-6 rounded-2xl p-8">
+                <div>
+                  <h3 className="text-xl font-semibold text-white">Voice demo ready</h3>
+                  <p className="mt-2 text-sm text-emerald-400/90">
+                    You&apos;re in—use your microphone. When you go live, we wire calendar
+                    booking the same way on your production concierge.
+                  </p>
+                </div>
                 {hasVapi ? (
-                  <ConciergeVapiWidget
+                  <ConciergeInlineVoice
                     publicKey={PUBLIC_KEY}
                     assistantId={ASSISTANT_ID}
                   />
                 ) : (
-                  <div className="glass-card rounded-2xl p-10 text-center text-zinc-400">
-                    <p className="text-lg text-zinc-300">
+                  <div className="rounded-xl border border-zinc-600/50 bg-zinc-950/30 p-8 text-center text-zinc-400">
+                    <p className="text-base text-zinc-300">
                       Voice demo is being configured. Add{' '}
                       <code className="text-emerald-400">NEXT_PUBLIC_VAPI_PUBLIC_KEY</code>{' '}
                       and{' '}
