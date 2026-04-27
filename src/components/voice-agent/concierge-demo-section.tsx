@@ -9,6 +9,12 @@ import { Label } from '@/components/ui/label';
 
 const PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY ?? '';
 const ASSISTANT_ID = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID ?? '';
+const VOICE_DEMO_PHONE =
+  process.env.NEXT_PUBLIC_VOICE_DEMO_PHONE?.trim() || '+85200000000';
+
+function voiceDemoTelHref(phone: string) {
+  return `tel:${phone.replace(/\s/g, '')}`;
+}
 
 export function ConciergeDemoSection() {
   const [unlocked, setUnlocked] = useState(false);
@@ -180,16 +186,24 @@ export function ConciergeDemoSection() {
               </form>
             ) : (
               <div className="demo-unlocked-card glass-card space-y-6 rounded-2xl p-8">
-                <div className="flex items-center justify-between gap-4">
-                  <div>
+                <div className="flex items-start justify-between gap-4">
+                  <div className="min-w-0 flex-1">
                     <h3 className="text-xl font-semibold text-white">Voice demo ready</h3>
-                    <p className="mt-2 text-sm text-emerald-400/90">
-                      You&apos;re in! Use the Convertree concierge button at the
-                      bottom-right of your screen to start the call.
+                    <p className="mt-2 text-sm leading-relaxed text-emerald-400/90">
+                      You&apos;re in! Call the agent at{' '}
+                      <span className="font-medium text-emerald-300">{VOICE_DEMO_PHONE}</span>{' '}
+                      or tap <span className="font-medium text-white">Unlock web demo</span>{' '}
+                      at the bottom-right of your screen to start the web demo.
                     </p>
+                    <a
+                      href={voiceDemoTelHref(VOICE_DEMO_PHONE)}
+                      className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-emerald-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 md:hidden"
+                    >
+                      <Icon icon="solar:phone-calling-bold" className="size-5" aria-hidden />
+                      Call the demo line
+                    </a>
                   </div>
-                  {/* Subtle pulsing indicator to draw attention to bottom right */}
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-500/10">
+                  <div className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 sm:flex">
                     <Icon
                       icon="solar:arrow-right-down-bold-duotone"
                       className="animate-pulse text-2xl text-emerald-400"

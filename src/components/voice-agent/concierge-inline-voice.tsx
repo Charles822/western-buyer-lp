@@ -13,7 +13,6 @@ export function ConciergeInlineVoice({ publicKey, assistantId }: ConciergeInline
   const [callActive, setCallActive] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [portalReady, setPortalReady] = useState(false);
-  const [overlayVisible, setOverlayVisible] = useState(true);
 
   useEffect(() => {
     setPortalReady(true);
@@ -32,23 +31,14 @@ export function ConciergeInlineVoice({ publicKey, assistantId }: ConciergeInline
     setCallActive(false);
   }, []);
 
-  const overlay = overlayVisible ? (
-    <div
-      className="fixed inset-0 z-[9998] bg-black/60 backdrop-blur-sm transition-opacity duration-500"
-      aria-hidden="true"
-    />
-  ) : null;
-
   const vapiWidget = (
-    <div className="relative z-[9999]" onClickCapture={() => setOverlayVisible(false)}>
-      <ConciergeVapiWidget
-        publicKey={publicKey}
-        assistantId={assistantId}
-        onVoiceStart={onVoiceStart}
-        onVoiceEnd={onVoiceEnd}
-        onVapiError={onVapiError}
-      />
-    </div>
+    <ConciergeVapiWidget
+      publicKey={publicKey}
+      assistantId={assistantId}
+      onVoiceStart={onVoiceStart}
+      onVoiceEnd={onVoiceEnd}
+      onVapiError={onVapiError}
+    />
   );
 
   return (
@@ -65,13 +55,7 @@ export function ConciergeInlineVoice({ publicKey, assistantId }: ConciergeInline
         </div>
       )}
 
-      {portalReady && typeof document !== 'undefined' && createPortal(
-        <>
-          {overlay}
-          {vapiWidget}
-        </>,
-        document.body
-      )}
+      {portalReady && typeof document !== 'undefined' && createPortal(vapiWidget, document.body)}
     </div>
   );
 }
