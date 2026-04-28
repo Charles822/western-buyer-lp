@@ -1,4 +1,5 @@
 import { Inter } from 'next/font/google';
+import Script from 'next/script';
 import { VoiceAgentRouteShell } from '@/components/voice-agent/voice-agent-route-shell';
 import '@/components/voice-agent/voice-agent.css';
 import '@vapi-ai/client-sdk-react/styles';
@@ -15,10 +16,15 @@ export default function VoiceAgentLayout({
   children: React.ReactNode;
 }) {
   return (
-    <VoiceAgentRouteShell
-      className={`${inter.className} relative min-h-screen text-zinc-100 antialiased selection:bg-emerald-500/30 selection:text-white`}
-    >
-      {children}
-    </VoiceAgentRouteShell>
+    <>
+      <Script id="voice-agent-paint" strategy="beforeInteractive">
+        {`try{document.documentElement.classList.add('voice-agent-paint');}catch(e){}`}
+      </Script>
+      <VoiceAgentRouteShell
+        className={`${inter.className} relative min-h-screen text-zinc-100 antialiased selection:bg-emerald-500/30 selection:text-white`}
+      >
+        {children}
+      </VoiceAgentRouteShell>
+    </>
   );
 }

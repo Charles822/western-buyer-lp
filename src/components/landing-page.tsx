@@ -18,8 +18,8 @@ import {
   Sprout,
   GitBranch,
 } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
+import { ConvertreeLogoLockup } from '@/components/convertree-logo-lockup';
 import { useState, useRef } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -123,8 +123,8 @@ export function LandingPage({ content, locale }: LandingPageProps) {
 
       <nav className="fixed top-0 left-0 w-full z-50">
         <div className="max-w-7xl mx-auto px-6 md:px-12 py-6 flex justify-between items-center">
-          <button onClick={() => window.scrollTo(0, 0)} className="flex items-center gap-3 group">
-            <Image src="/convertree_logo_transparent.png" alt="Convertree" width={168} height={67} className="h-[3.6rem] w-auto object-contain" priority />
+          <button onClick={() => window.scrollTo(0, 0)} className="flex items-center gap-3 group" aria-label="Convertree">
+            <ConvertreeLogoLockup variant="onLight" priority />
           </button>
 
           <div className="hidden md:flex items-center gap-8 bg-white/80 backdrop-blur-md px-6 py-3 rounded-full border border-jade/10 shadow-sm">
@@ -420,9 +420,11 @@ export function LandingPage({ content, locale }: LandingPageProps) {
       <footer className="py-12 bg-stone-900">
         <div className="max-w-7xl mx-auto px-6 md:px-12 flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-3">
-            <Image src="/convertree_logo_transparent.png" alt="Convertree" width={120} height={48} className="h-10 w-auto object-contain" />
+            <ConvertreeLogoLockup variant="onDark" size="footer" />
           </div>
-          <p className="text-stone-500 text-sm">{content.footer.copyright}</p>
+          <div className="flex flex-col items-center md:items-end">
+            <p className="text-sm text-stone-500">{content.footer.copyright}</p>
+          </div>
         </div>
       </footer>
     </div>

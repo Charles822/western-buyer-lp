@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ConciergeDemoSection } from '@/components/voice-agent/concierge-demo-section';
 import { FluidCanvas } from '@/components/voice-agent/fluid-canvas';
 import { WeChatContactModal } from '@/components/voice-agent/wechat-contact-modal';
+import { ConvertreeLogoLockup } from '@/components/convertree-logo-lockup';
 
 const SUPPORT_EMAIL = 'sam@convertree.com';
 
@@ -72,15 +73,8 @@ export function VoiceAgentLanding() {
       <div className="relative z-10">
         <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-zinc-950/80 backdrop-blur-md">
           <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-            <a href="#top" className="flex items-center">
-              {/* eslint-disable-next-line @next/next/no-img-element -- white treatment via CSS filter on brand PNG */}
-              <img
-                src="/convertree_logo_transparent.png"
-                alt="Convertree"
-                width={168}
-                height={67}
-                className="h-8 w-auto max-w-[9.5rem] object-contain brightness-0 invert opacity-95 sm:h-9 sm:max-w-[10.5rem]"
-              />
+            <a href="#top" className="flex items-center" aria-label="Convertree">
+              <ConvertreeLogoLockup variant="onDark" size="headerCompact" />
             </a>
 
             <nav className="hidden items-center gap-8 text-base font-medium text-zinc-400 md:flex">
@@ -619,8 +613,11 @@ export function VoiceAgentLanding() {
 
         <footer className="border-t border-zinc-800 bg-zinc-950 py-16">
           <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-8 px-6 md:flex-row">
-            <div className="text-base text-zinc-500">
-              © {new Date().getFullYear()} Convertree. All rights reserved.
+            <div className="text-center md:text-left">
+              <p className="text-base text-zinc-500">
+                © {new Date().getFullYear()} Convertree by Metaverse Lab Limited. All rights
+                reserved.
+              </p>
             </div>
             <div className="flex flex-wrap justify-center gap-8 text-base font-medium text-zinc-400 md:gap-10">
               <a href="#" className="hover:text-white">

@@ -164,7 +164,7 @@ export const contentZh: LandingContent = {
     error: '提交失败，请重试。',
   },
   footer: {
-    copyright: '© 2026 Convertree. 稳健增长。',
+    copyright: '© 2026 Convertree by Metaverse Lab Limited。稳健增长。',
   },
 };
 
@@ -254,6 +254,6 @@ export const contentEn: LandingContent = {
     error: 'Something went wrong. Please try again.',
   },
   footer: {
-    copyright: '© 2026 Convertree. Grow organically.',
+    copyright: '© 2026 Convertree by Metaverse Lab Limited. Grow organically.',
   },
 };
