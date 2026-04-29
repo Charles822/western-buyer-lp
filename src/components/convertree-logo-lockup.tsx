@@ -15,16 +15,16 @@ export type ConvertreeLogoLockupProps = {
 
 const sizeStyles = {
   nav: {
-    img: "h-[3.575rem] w-auto sm:h-[4.225rem]",
-    text: "text-xl font-semibold tracking-tight sm:text-2xl",
+    img: "h-[2.06rem] w-auto sm:h-[3.38rem]",
+    text: "text-xl font-semibold leading-none tracking-tight sm:text-2xl",
   },
   footer: {
-    img: "h-[2.925rem] w-auto",
-    text: "text-lg font-semibold tracking-tight",
+    img: "h-[2.34rem] w-auto",
+    text: "text-lg font-semibold leading-none tracking-tight",
   },
   headerCompact: {
-    img: "h-[2.925rem] w-auto sm:h-[3.25rem]",
-    text: "text-lg font-semibold tracking-tight sm:text-xl",
+    img: "h-[2.34rem] w-auto sm:h-[2.6rem]",
+    text: "text-lg font-semibold leading-none tracking-tight sm:text-xl",
   },
 } as const;
 
@@ -38,13 +38,13 @@ export function ConvertreeLogoLockup({
   const textColor = variant === "onLight" ? "text-stone-900" : "text-white";
 
   return (
-    <span className={cn("inline-flex items-center gap-1", className)}>
+    <span className={cn("inline-flex items-end gap-1", className)}>
       <Image
         src="/convertree_new_logo.png"
         alt=""
         width={LOGO_SRC_W}
         height={LOGO_SRC_H}
-        className={cn(s.img, "shrink-0 object-contain")}
+        className={cn(s.img, "block shrink-0 object-contain object-bottom")}
         sizes="140px"
         priority={priority}
         aria-hidden
