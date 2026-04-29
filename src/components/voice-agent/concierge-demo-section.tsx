@@ -6,6 +6,7 @@ import { ConciergeInlineVoice } from '@/components/voice-agent/concierge-inline-
 import { VoiceAgentPhoneMockup } from '@/components/voice-agent/voice-agent-phone-mockup';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import type { ConciergeDemoCopy, VoiceLeadSource } from '@/lib/voice-agent-landing-content';
 
 const PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY ?? '';
 const ASSISTANT_ID = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID ?? '';
@@ -16,7 +17,42 @@ function voiceDemoTelHref(phone: string) {
   return `tel:${phone.replace(/\s/g, '')}`;
 }
 
-export function ConciergeDemoSection() {
+function UnlockedBody({
+  template,
+  phone,
+}: {
+  template: string;
+  phone: string;
+}) {
+  const marker = 'Unlock web demo';
+  const [before, afterPhone = ''] = template.split('{{PHONE}}');
+  const idx = afterPhone.indexOf(marker);
+  if (idx === -1) {
+    return (
+      <>
+        {before}
+        <span className="font-medium text-emerald-300">{phone}</span>
+        {afterPhone}
+      </>
+    );
+  }
+  return (
+    <>
+      {before}
+      <span className="font-medium text-emerald-300">{phone}</span>
+      {afterPhone.slice(0, idx)}
+      <span className="font-medium text-white">{marker}</span>
+      {afterPhone.slice(idx + marker.length)}
+    </>
+  );
+}
+
+type ConciergeDemoSectionProps = {
+  demo: ConciergeDemoCopy;
+  leadSource: VoiceLeadSource;
+};
+
+export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionProps) {
   const [unlocked, setUnlocked] = useState(false);
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
@@ -40,6 +76,7 @@ export function ConciergeDemoSection() {
           email: email.trim(),
           company: company.trim(),
           phone: phone.trim() || undefined,
+          source: leadSource,
         }),
       });
       const data = (await res.json().catch(() => ({}))) as { error?: string };
@@ -66,13 +103,9 @@ export function ConciergeDemoSection() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-4xl font-semibold tracking-tight text-white md:text-5xl">
-            Try the concierge demo
+            {demo.sectionTitle}
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-zinc-400">
-            Opt in with your work email—then call our AI the way a Western buyer would.
-            We capture your details for follow-up; your production concierge can do the
-            same for real importer calls.
-          </p>
+          <p className="mx-auto max-w-2xl text-lg text-zinc-400">{demo.sectionSubtitle}</p>
         </div>
 
         <div className="flex flex-col items-center gap-16 lg:flex-row lg:items-start">
@@ -82,14 +115,17 @@ export function ConciergeDemoSection() {
 
           <div className="w-full space-y-8 lg:w-7/12">
             <div>
-              <h3 className="text-2xl font-semibold text-white">Why Convertree</h3>
+              <h3 className="text-2xl font-semibold text-white">{demo.whyHeading}</h3>
               <p className="mt-3 text-lg leading-relaxed text-zinc-300">
-                Asian exporters often rely on one English speaker—when they&apos;re away, a
-                random Western call becomes a scramble. We build a{' '}
-                <span className="text-emerald-400">premium, guardrailed</span> voice
-                concierge trained on your products and how you actually ship, so
-                importers get fluent English, structured qualification, and clean CRM
-                handoff—not a generic chatbot.
+                {demo.whySegments.map((seg, i) =>
+                  seg.accent ? (
+                    <span key={i} className="text-emerald-400">
+                      {seg.text}
+                    </span>
+                  ) : (
+                    <span key={i}>{seg.text}</span>
+                  )
+                )}
               </p>
             </div>
 
@@ -98,11 +134,7 @@ export function ConciergeDemoSection() {
                 onSubmit={handleSubmit}
                 className="glass-card space-y-5 rounded-2xl p-8"
               >
-                <p className="text-sm text-zinc-400">
-                  Enter your details to unlock the live voice demo. The demo may be recorded
-                  to improve the experience; use a microphone in a quiet place. Same flow we
-                  use in sales: opt in first, then experience the agent.
-                </p>
+                <p className="text-sm text-zinc-400">{demo.optInNotice}</p>
                 <div className="space-y-2">
                   <Label htmlFor="demo-name" className="text-zinc-200">
                     Full name
@@ -171,10 +203,10 @@ export function ConciergeDemoSection() {
                   className="flex w-full items-center justify-center gap-2 rounded-full bg-emerald-600 py-3.5 text-base font-semibold text-white transition-colors hover:bg-emerald-500 disabled:opacity-50"
                 >
                   {status === 'loading' ? (
-                    'Sending…'
+                    demo.unlockSubmitLoading
                   ) : (
                     <>
-                      Unlock voice demo
+                      {demo.unlockSubmitIdle}
                       <Icon
                         icon="solar:arrow-right-linear"
                         width="1.2em"
@@ -188,12 +220,9 @@ export function ConciergeDemoSection() {
               <div className="demo-unlocked-card glass-card space-y-6 rounded-2xl p-8">
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0 flex-1">
-                    <h3 className="text-xl font-semibold text-white">Voice demo ready</h3>
+                    <h3 className="text-xl font-semibold text-white">{demo.unlockedTitle}</h3>
                     <p className="mt-2 text-sm leading-relaxed text-emerald-400/90">
-                      You&apos;re in! Call the agent at{' '}
-                      <span className="font-medium text-emerald-300">{VOICE_DEMO_PHONE}</span>{' '}
-                      or tap <span className="font-medium text-white">Unlock web demo</span>{' '}
-                      at the bottom-right of your screen to start the web demo.
+                      <UnlockedBody template={demo.unlockedBodyTemplate} phone={VOICE_DEMO_PHONE} />
                     </p>
                     <a
                       href={voiceDemoTelHref(VOICE_DEMO_PHONE)}

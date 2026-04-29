@@ -6,6 +6,7 @@ import { ConciergeDemoSection } from '@/components/voice-agent/concierge-demo-se
 import { FluidCanvas } from '@/components/voice-agent/fluid-canvas';
 import { WeChatContactModal } from '@/components/voice-agent/wechat-contact-modal';
 import { ConvertreeLogoLockup } from '@/components/convertree-logo-lockup';
+import type { VoiceAgentLandingContent } from '@/lib/voice-agent-landing-content';
 
 const SUPPORT_EMAIL = 'sam@convertree.com';
 
@@ -18,7 +19,36 @@ const processStepCircleBase =
 const processStepCircleActive = 'bg-emerald-600 shadow-lg shadow-emerald-500/20';
 const processStepCircleIdle = 'border border-zinc-700 bg-zinc-800';
 
-export function VoiceAgentLanding() {
+const SERVICE_CARD_UI = [
+  {
+    hover: 'hover:border-emerald-500/50',
+    gradFrom: 'from-emerald-500/5',
+    iconBox: 'bg-emerald-500/10 text-emerald-400',
+    check: 'text-emerald-500',
+    icon: 'solar:widget-2-linear',
+  },
+  {
+    hover: 'hover:border-green-500/50',
+    gradFrom: 'from-green-500/5',
+    iconBox: 'bg-green-500/10 text-green-400',
+    check: 'text-green-500',
+    icon: 'solar:document-text-linear',
+  },
+  {
+    hover: 'hover:border-teal-500/50',
+    gradFrom: 'from-teal-500/5',
+    iconBox: 'bg-teal-500/10 text-teal-400',
+    check: 'text-teal-500',
+    icon: 'solar:users-group-two-rounded-linear',
+  },
+] as const;
+
+type VoiceAgentLandingProps = {
+  content: VoiceAgentLandingContent;
+};
+
+export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
+  const c = content;
   const [mobileOpen, setMobileOpen] = useState(false);
   const [weChatOpen, setWeChatOpen] = useState(false);
   const [activeProcessStep, setActiveProcessStep] = useState(1);
@@ -85,22 +115,13 @@ export function VoiceAgentLanding() {
               >
                 Demo
               </button>
-              <a
-                href="#services"
-                className="transition-colors hover:text-white"
-              >
+              <a href="#services" className="transition-colors hover:text-white">
                 Offerings
               </a>
-              <a
-                href="#process"
-                className="transition-colors hover:text-white"
-              >
+              <a href="#process" className="transition-colors hover:text-white">
                 Process
               </a>
-              <a
-                href="#insights"
-                className="transition-colors hover:text-white"
-              >
+              <a href="#insights" className="transition-colors hover:text-white">
                 Insights
               </a>
             </nav>
@@ -110,7 +131,7 @@ export function VoiceAgentLanding() {
               onClick={() => setWeChatOpen(true)}
               className="hidden items-center gap-2 text-base font-medium text-white transition-colors hover:text-emerald-400 md:inline-flex"
             >
-              Talk on WeChat
+              {c.wechatCta}
               <Icon icon="solar:arrow-right-linear" className="size-[1.1em]" aria-hidden />
             </button>
 
@@ -121,11 +142,7 @@ export function VoiceAgentLanding() {
               aria-controls="mobile-menu"
               onClick={() => setMobileOpen((o) => !o)}
             >
-              <Icon
-                icon="solar:hamburger-menu-linear"
-                width="1.5em"
-                height="1.5em"
-              />
+              <Icon icon="solar:hamburger-menu-linear" width="1.5em" height="1.5em" />
             </button>
           </div>
 
@@ -172,7 +189,7 @@ export function VoiceAgentLanding() {
                 closeMobile();
               }}
             >
-              Talk on WeChat
+              {c.wechatCta}
               <Icon icon="solar:arrow-right-linear" className="size-[1.1em]" aria-hidden />
             </button>
           </div>
@@ -188,28 +205,25 @@ export function VoiceAgentLanding() {
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
                 </span>
-                PREMIUM VOICE CONCIERGE
+                {c.hero.badge}
               </div>
 
-              <h1 className="text-5xl font-semibold tracking-tight text-white leading-[1.05] md:text-7xl">
-                The premier AI concierge <br className="hidden sm:block" />
-                for Asian exporters.{' '}
+              <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight text-white md:text-7xl">
+                {c.hero.h1Line1} <br className="hidden sm:block" />
+                {c.hero.h1Line2}
                 <span className="block bg-gradient-to-r from-emerald-200 to-emerald-500 bg-clip-text text-transparent md:inline md:bg-gradient-to-r">
-                  Every Western call handled in flawless English.
+                  {c.hero.h1Gradient}
                 </span>
               </h1>
 
               <p className="mx-auto max-w-3xl text-xl leading-relaxed text-zinc-400 md:text-2xl">
-                When your one English speaker is away, importer calls go sideways—or get
-                lost. Convertree is a custom voice concierge: trained on your products and
-                operations, with tight guardrails, so you qualify and capture every serious
-                buyer.
+                {c.hero.sub}
               </p>
 
               <div className="flex flex-col items-center justify-center gap-4 pt-4 md:flex-row md:gap-6">
                 <a href="#demo" className="shiny-cta group text-base sm:text-lg">
                   <span>
-                    Try the concierge demo
+                    {c.hero.ctaDemo}
                     <Icon
                       icon="solar:arrow-right-linear"
                       width="1.2em"
@@ -224,51 +238,28 @@ export function VoiceAgentLanding() {
                   onClick={() => scrollToId('process')}
                   className="flex items-center gap-3 rounded-full border border-zinc-700 px-8 py-4 text-lg font-medium text-zinc-200 transition-colors hover:bg-zinc-800"
                 >
-                  <Icon
-                    icon="solar:route-linear"
-                    width="1.2em"
-                    height="1.2em"
-                  />
-                  How we onboard clients
+                  <Icon icon="solar:route-linear" width="1.2em" height="1.2em" />
+                  {c.hero.ctaProcess}
                 </button>
               </div>
 
               <div className="mx-auto mt-14 grid max-w-3xl grid-cols-1 gap-8 border-t border-white/5 pt-14 sm:grid-cols-3">
-                <div className="text-center">
-                  <p className="text-lg font-semibold text-white">
-                    Fluent English, 24/7
-                  </p>
-                  <p className="mt-2 text-sm text-zinc-500">
-                    Answers like your best sales engineer—on your number or web
-                  </p>
-                </div>
-                <div className="text-center">
-                  <p className="text-lg font-semibold text-white">
-                    Your products, your rules
-                  </p>
-                  <p className="mt-2 text-sm text-zinc-500">
-                    Multi-round discovery &amp; guardrailed prompts—not a generic bot
-                  </p>
-                </div>
-                <div className="text-center">
-                  <p className="text-lg font-semibold text-white">CRM-ready</p>
-                  <p className="mt-2 text-sm text-zinc-500">
-                    Qualify, capture, and hand off to your team—already structured
-                  </p>
-                </div>
+                {c.hero.pillars.map((pillar) => (
+                  <div key={pillar.title} className="text-center">
+                    <p className="text-lg font-semibold text-white">{pillar.title}</p>
+                    <p className="mt-2 text-sm text-zinc-500">{pillar.description}</p>
+                  </div>
+                ))}
               </div>
             </div>
           </section>
 
-          <ConciergeDemoSection />
+          <ConciergeDemoSection demo={c.demo} leadSource={c.leadSource} />
 
-          <section
-            className="border-y border-white/5 bg-zinc-900/30 py-14"
-            aria-label="Stack"
-          >
+          <section className="border-y border-white/5 bg-zinc-900/30 py-14" aria-label="Stack">
             <div className="mx-auto max-w-7xl px-6 text-center">
               <p className="mb-8 text-sm tracking-widest text-zinc-500 uppercase">
-                Plays with your stack
+                {c.stackLabel}
               </p>
               <div className="flex flex-wrap justify-center gap-10 opacity-80 transition-all duration-500 md:gap-16">
                 <div className="flex items-center gap-2 text-lg font-medium text-zinc-300">
@@ -299,231 +290,98 @@ export function VoiceAgentLanding() {
           <section id="services" className="mx-auto max-w-7xl px-6 py-28">
             <div className="mb-20">
               <h2 className="mb-6 text-4xl font-semibold tracking-tight text-white md:text-5xl">
-                Go beyond the base concierge
+                {c.servicesIntro.title}
               </h2>
-              <p className="max-w-2xl text-xl text-zinc-400">
-                Optional add-ons for teams that want more automation, scale at the booth, or
-                instant follow-up after a call. No public pricing on this page—we scope with
-                you.
-              </p>
+              <p className="max-w-2xl text-xl text-zinc-400">{c.servicesIntro.body}</p>
             </div>
 
             <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-              <div className="glass-card group relative overflow-hidden rounded-2xl p-10 transition-colors hover:border-emerald-500/50">
-                <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-                <div className="relative z-10 mb-8 flex h-14 w-14 items-center justify-center rounded-xl bg-emerald-500/10 text-emerald-400 transition-transform group-hover:scale-110">
-                  <Icon
-                    icon="solar:widget-2-linear"
-                    width="1.5em"
-                    height="1.5em"
-                  />
-                </div>
-                <h3 className="relative z-10 mb-4 text-2xl font-medium text-white">
-                  CRM &amp; workflow integration
-                </h3>
-                <p className="relative z-10 text-base leading-relaxed text-zinc-400">
-                  Connect the concierge to the systems your sales team already uses—so
-                  nothing sits in a silo. Routing, fields, and handoff rules you control.
-                </p>
-                <ul className="relative z-10 mt-6 space-y-3 text-sm text-zinc-500">
-                  <li className="flex items-center gap-3">
-                    <Icon
-                      icon="solar:check-circle-linear"
-                      className="text-emerald-500"
-                      width="1.2em"
-                      height="1.2em"
+              {c.servicesCards.map((card, i) => {
+                const ui = SERVICE_CARD_UI[i];
+                return (
+                  <div
+                    key={card.title}
+                    className={`glass-card group relative overflow-hidden rounded-2xl p-10 transition-colors ${ui.hover}`}
+                  >
+                    <div
+                      className={`absolute inset-0 bg-gradient-to-br ${ui.gradFrom} to-transparent opacity-0 transition-opacity group-hover:opacity-100`}
                     />
-                    Field mapping &amp; handoff
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <Icon
-                      icon="solar:check-circle-linear"
-                      className="text-emerald-500"
-                      width="1.2em"
-                      height="1.2em"
-                    />
-                    n8n / automation glue
-                  </li>
-                </ul>
-              </div>
-
-              <div className="glass-card group relative overflow-hidden rounded-2xl p-10 transition-colors hover:border-green-500/50">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-                <div className="relative z-10 mb-8 flex h-14 w-14 items-center justify-center rounded-xl bg-green-500/10 text-green-400 transition-transform group-hover:scale-110">
-                  <Icon
-                    icon="solar:document-text-linear"
-                    width="1.5em"
-                    height="1.5em"
-                  />
-                </div>
-                <h3 className="relative z-10 mb-4 text-2xl font-medium text-white">
-                  Automated lead magnets
-                </h3>
-                <p className="relative z-10 text-base leading-relaxed text-zinc-400">
-                  After a call, send a customized AI summary or quote draft—optionally
-                  for your rep to review before it goes out, so you move faster without
-                  losing control.
-                </p>
-                <ul className="relative z-10 mt-6 space-y-3 text-sm text-zinc-500">
-                  <li className="flex items-center gap-3">
-                    <Icon
-                      icon="solar:check-circle-linear"
-                      className="text-green-500"
-                      width="1.2em"
-                      height="1.2em"
-                    />
-                    Post-call follow-up assets
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <Icon
-                      icon="solar:check-circle-linear"
-                      className="text-green-500"
-                      width="1.2em"
-                      height="1.2em"
-                    />
-                    Human-in-the-loop review
-                  </li>
-                </ul>
-              </div>
-
-              <div className="glass-card group relative overflow-hidden rounded-2xl p-10 transition-colors hover:border-teal-500/50">
-                <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-transparent opacity-0 transition-opacity group-hover:opacity-100" />
-                <div className="relative z-10 mb-8 flex h-14 w-14 items-center justify-center rounded-xl bg-teal-500/10 text-teal-400 transition-transform group-hover:scale-110">
-                  <Icon
-                    icon="solar:users-group-two-rounded-linear"
-                    width="1.5em"
-                    height="1.5em"
-                  />
-                </div>
-                <h3 className="relative z-10 mb-4 text-2xl font-medium text-white">
-                  Trade-fair &amp; per-product agents
-                </h3>
-                <p className="relative z-10 text-base leading-relaxed text-zinc-400">
-                  Dedicated phone lines for a flagship machine or product line. Multiple
-                  buyers can talk at once while your small team works the floor—serious
-                  Q&amp;A in English, no translation scramble.
-                </p>
-                <ul className="relative z-10 mt-6 space-y-3 text-sm text-zinc-500">
-                  <li className="flex items-center gap-3">
-                    <Icon
-                      icon="solar:check-circle-linear"
-                      className="text-teal-500"
-                      width="1.2em"
-                      height="1.2em"
-                    />
-                    On-the-spot product depth
-                  </li>
-                  <li className="flex items-center gap-3">
-                    <Icon
-                      icon="solar:check-circle-linear"
-                      className="text-teal-500"
-                      width="1.2em"
-                      height="1.2em"
-                    />
-                    Parallel conversations
-                  </li>
-                </ul>
-              </div>
+                    <div
+                      className={`relative z-10 mb-8 flex h-14 w-14 items-center justify-center rounded-xl ${ui.iconBox} transition-transform group-hover:scale-110`}
+                    >
+                      <Icon icon={ui.icon} width="1.5em" height="1.5em" />
+                    </div>
+                    <h3 className="relative z-10 mb-4 text-2xl font-medium text-white">
+                      {card.title}
+                    </h3>
+                    <p className="relative z-10 text-base leading-relaxed text-zinc-400">
+                      {card.body}
+                    </p>
+                    <ul className="relative z-10 mt-6 space-y-3 text-sm text-zinc-500">
+                      {card.bullets.map((b) => (
+                        <li key={b} className="flex items-center gap-3">
+                          <Icon
+                            icon="solar:check-circle-linear"
+                            className={ui.check}
+                            width="1.2em"
+                            height="1.2em"
+                          />
+                          {b}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                );
+              })}
             </div>
           </section>
 
-          <section
-            id="process"
-            className="border-y border-white/5 bg-zinc-900/20 py-28"
-          >
+          <section id="process" className="border-y border-white/5 bg-zinc-900/20 py-28">
             <div className="mx-auto max-w-7xl px-6">
               <div className="flex flex-col gap-20 md:flex-row">
                 <div className="md:w-1/3 md:sticky md:top-32 md:h-fit">
                   <h2 className="mb-8 text-4xl font-semibold tracking-tight text-white md:text-5xl">
-                    How we bring you live
+                    {c.processSticky.title}
                   </h2>
-                  <p className="mb-10 text-xl text-zinc-400">
-                    From first conversation to a production concierge and ongoing tuning—the
-                    same pattern we use with exporter teams in machinery, parts, and
-                    industrial B2B.
-                  </p>
+                  <p className="mb-10 text-xl text-zinc-400">{c.processSticky.body}</p>
                   <button
                     type="button"
                     onClick={() => setWeChatOpen(true)}
                     className="inline-flex items-center gap-2 rounded-lg bg-zinc-100 px-6 py-3 text-base font-semibold text-zinc-950 transition-colors hover:bg-zinc-200"
                   >
-                    Talk on WeChat
+                    {c.wechatCta}
                     <Icon icon="solar:arrow-right-linear" className="size-[1.1em]" aria-hidden />
                   </button>
                 </div>
 
                 <div className="space-y-16 md:w-2/3">
-                  <div
-                    ref={processStep1Ref}
-                    data-step={1}
-                    className="flex scroll-mt-28 gap-8 md:scroll-mt-36"
-                  >
-                    <div className="flex flex-col items-center">
+                  {c.processSteps.map((step, idx) => {
+                    const stepNum = idx + 1;
+                    const ref =
+                      stepNum === 1 ? processStep1Ref : stepNum === 2 ? processStep2Ref : processStep3Ref;
+                    const showConnector = idx < 2;
+                    return (
                       <div
-                        className={`${processStepCircleBase} ${activeProcessStep === 1 ? processStepCircleActive : processStepCircleIdle}`}
+                        key={step.title}
+                        ref={ref}
+                        data-step={stepNum}
+                        className="flex scroll-mt-28 gap-8 md:scroll-mt-36"
                       >
-                        1
+                        <div className="flex flex-col items-center">
+                          <div
+                            className={`${processStepCircleBase} ${activeProcessStep === stepNum ? processStepCircleActive : processStepCircleIdle}`}
+                          >
+                            {stepNum}
+                          </div>
+                          {showConnector ? <div className="my-4 h-full w-px grow bg-zinc-800" /> : null}
+                        </div>
+                        <div className={showConnector ? 'pb-2' : ''}>
+                          <h3 className="mb-3 text-2xl font-medium text-white">{step.title}</h3>
+                          <p className="text-lg text-zinc-400">{step.body}</p>
+                        </div>
                       </div>
-                      <div className="my-4 h-full w-px grow bg-zinc-800" />
-                    </div>
-                    <div className="pb-2">
-                      <h3 className="mb-3 text-2xl font-medium text-white">
-                        Value discovery
-                      </h3>
-                      <p className="text-lg text-zinc-400">
-                        Structured Q&amp;A with sales or product (typically multiple
-                        rounds): what the concierge can say, must not say, and how you ship.
-                        We align on the Western buyer you serve.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    ref={processStep2Ref}
-                    data-step={2}
-                    className="flex scroll-mt-28 gap-8 md:scroll-mt-36"
-                  >
-                    <div className="flex flex-col items-center">
-                      <div
-                        className={`${processStepCircleBase} ${activeProcessStep === 2 ? processStepCircleActive : processStepCircleIdle}`}
-                      >
-                        2
-                      </div>
-                      <div className="my-4 h-full w-px grow bg-zinc-800" />
-                    </div>
-                    <div className="pb-2">
-                      <h3 className="mb-3 text-2xl font-medium text-white">
-                        Custom agent build
-                      </h3>
-                      <p className="text-lg text-zinc-400">
-                        We wire your number, web entry points, and CRM—so qual calls land in
-                        your process with the right fields. Guardrails and prompts are dialed
-                        in for your catalog and your risk bar.
-                      </p>
-                    </div>
-                  </div>
-                  <div
-                    ref={processStep3Ref}
-                    data-step={3}
-                    className="flex scroll-mt-28 gap-8 md:scroll-mt-36"
-                  >
-                    <div className="flex flex-col items-center">
-                      <div
-                        className={`${processStepCircleBase} ${activeProcessStep === 3 ? processStepCircleActive : processStepCircleIdle}`}
-                      >
-                        3
-                      </div>
-                    </div>
-                    <div>
-                      <h3 className="mb-3 text-2xl font-medium text-white">
-                        Ongoing optimization
-                      </h3>
-                      <p className="text-lg text-zinc-400">
-                        We monitor behavior, refine prompts, and help you add upsells (lead
-                        magnets, booth agents) as you scale. You get a partner, not a
-                        one-off handoff.
-                      </p>
-                    </div>
-                  </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -534,35 +392,19 @@ export function VoiceAgentLanding() {
               Insights
             </h2>
             <p className="mx-auto mb-20 max-w-2xl text-center text-xl text-zinc-400">
-              We&apos;ll publish articles on voice QA for industrial buyers, running agents at
-              trade shows, and more—placeholders for now while we focus on shipping.
+              {c.insightsIntro}
             </p>
 
             <div className="grid gap-8 md:grid-cols-3">
-              {[
-                {
-                  t: 'Coming soon',
-                  d: 'Why generic voice bots break on high-ticket B2B calls',
-                },
-                {
-                  t: 'Coming soon',
-                  d: 'Designing a concierge for one flagship CNC line',
-                },
-                {
-                  t: 'Coming soon',
-                  d: 'From trade-floor chaos to parallel buyer conversations',
-                },
-              ].map((post) => (
+              {c.insightsPosts.map((post) => (
                 <div
-                  key={post.d}
+                  key={post.title}
                   className="glass-card flex flex-col overflow-hidden rounded-2xl p-0"
                 >
                   <div className="h-32 w-full bg-zinc-900/80" />
                   <div className="flex grow flex-col p-8">
-                    <span className="mb-2 text-sm font-medium text-zinc-500">
-                      {post.t}
-                    </span>
-                    <h3 className="mb-3 text-xl font-medium text-white">{post.d}</h3>
+                    <span className="mb-2 text-sm font-medium text-zinc-500">{post.tag}</span>
+                    <h3 className="mb-3 text-xl font-medium text-white">{post.title}</h3>
                     <p className="text-sm text-zinc-500">Link TBD for SEO</p>
                   </div>
                 </div>
@@ -570,40 +412,30 @@ export function VoiceAgentLanding() {
             </div>
           </section>
 
-          <section
-            id="contact"
-            className="relative overflow-hidden px-6 py-32 text-center"
-          >
+          <section id="contact" className="relative overflow-hidden px-6 py-32 text-center">
             <div className="absolute inset-0 -z-10 scale-50 transform rounded-full bg-emerald-900/20 blur-3xl" />
 
             <div className="mx-auto max-w-3xl space-y-10">
               <h2 className="text-4xl font-semibold tracking-tight text-white md:text-5xl">
-                Hear it for yourself, then we&apos;ll scope your build
+                {c.contact.title}
               </h2>
-              <p className="text-xl text-zinc-300">
-                Try the opt-in voice demo above, or reach us on WeChat—we&apos;ll map your
-                buyers, your products, and what &quot;good&quot; handoff looks like in your
-                CRM.
-              </p>
+              <p className="text-xl text-zinc-300">{c.contact.body}</p>
               <div className="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row sm:gap-6">
                 <a href="#demo" className="shiny-cta">
-                  <span className="inline-flex whitespace-nowrap">Try the concierge demo</span>
+                  <span className="inline-flex whitespace-nowrap">{c.contact.ctaDemo}</span>
                 </a>
                 <button
                   type="button"
                   onClick={() => setWeChatOpen(true)}
                   className="inline-flex items-center gap-2 rounded-full border border-zinc-600 px-8 py-4 text-lg font-medium text-zinc-200 transition-colors hover:border-emerald-500/50 hover:text-white"
                 >
-                  Talk on WeChat
+                  {c.wechatCta}
                   <Icon icon="solar:arrow-right-linear" className="size-[1.1em]" aria-hidden />
                 </button>
               </div>
               <p className="text-sm text-zinc-500">
                 Or email{' '}
-                <a
-                  href={`mailto:${SUPPORT_EMAIL}`}
-                  className="text-emerald-400 hover:underline"
-                >
+                <a href={`mailto:${SUPPORT_EMAIL}`} className="text-emerald-400 hover:underline">
                   {SUPPORT_EMAIL}
                 </a>
               </p>
@@ -626,10 +458,7 @@ export function VoiceAgentLanding() {
               <a href="#" className="hover:text-white">
                 Terms
               </a>
-              <a
-                href={`mailto:${SUPPORT_EMAIL}`}
-                className="hover:text-white"
-              >
+              <a href={`mailto:${SUPPORT_EMAIL}`} className="hover:text-white">
                 Contact
               </a>
             </div>

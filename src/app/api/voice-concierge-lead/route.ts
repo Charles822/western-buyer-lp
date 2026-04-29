@@ -8,12 +8,20 @@ function isValidEmail(v: string) {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { name, email, company, phone } = body as {
+    const { name, email, company, phone, source } = body as {
       name?: string;
       email?: string;
       company?: string;
       phone?: string;
+      source?: string;
     };
+
+    const sourceLabel =
+      source === 'voice-concierge'
+        ? '/voice-concierge'
+        : source === 'voice-agent'
+          ? '/voice-agent'
+          : source || 'unknown';
 
     if (!name?.trim() || !email?.trim() || !company?.trim()) {
       return NextResponse.json(
@@ -49,7 +57,7 @@ export async function POST(request: Request) {
     });
 
     const toEmail = process.env.CONTACT_EMAIL || process.env.SMTP_USER;
-    const subject = `[Convertree] Concierge demo lead — ${name.trim()}`;
+    const subject = `[Convertree] Concierge demo lead (${sourceLabel}) — ${name.trim()}`;
 
     const phoneLine = phone?.trim() ? `Phone: ${phone.trim()}` : 'Phone: (not provided)';
 
@@ -59,24 +67,26 @@ export async function POST(request: Request) {
       replyTo: email.trim(),
       subject,
       text: `
-New concierge demo opt-in (voice-agent page):
+New concierge demo opt-in:
 
+Page: ${sourceLabel}
 Name: ${name.trim()}
 Email: ${email.trim()}
 Company: ${company.trim()}
 ${phoneLine}
 
 ---
-Sent from /voice-agent concierge form
+Sent from Convertree concierge lead form
       `.trim(),
       html: `
         <h2>Concierge demo lead</h2>
+        <p><strong>Page:</strong> ${escapeHtml(sourceLabel)}</p>
         <p><strong>Name:</strong> ${escapeHtml(name.trim())}</p>
         <p><strong>Email:</strong> <a href="mailto:${escapeHtml(email.trim())}">${escapeHtml(email.trim())}</a></p>
         <p><strong>Company:</strong> ${escapeHtml(company.trim())}</p>
         <p><strong>Phone:</strong> ${phone?.trim() ? escapeHtml(phone.trim()) : '(not provided)'}</p>
         <hr>
-        <p><small>Sent from /voice-agent</small></p>
+        <p><small>Sent from Convertree concierge lead form</small></p>
       `,
     });
 

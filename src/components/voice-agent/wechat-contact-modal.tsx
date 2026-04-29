@@ -63,10 +63,19 @@ export function WeChatContactModal({ open, onClose }: WeChatContactModalProps) {
         </p>
         {/* eslint-disable-next-line @next/next/no-img-element -- static asset from /public */}
         <img
-          src="/convertree_wechat.jpg"
-          alt="WeChat QR code to add Convertree"
+          src="/talk_to_sam_on_wechat.jpg"
+          alt="WeChat QR code to talk to Sam on WeChat"
           className="mx-auto mt-6 max-h-[min(70vh,420px)] w-full max-w-[280px] rounded-lg object-contain"
         />
+        <p className="mt-4 text-center text-sm text-zinc-400">
+          Or email{' '}
+          <a
+            href="mailto:sam@convertree.com"
+            className="font-medium text-emerald-400 hover:text-emerald-300 hover:underline"
+          >
+            sam@convertree.com
+          </a>
+        </p>
       </div>
     </div>
   );

@@ -1,9 +1,12 @@
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 
-/** Matches `public/convertree_new_logo.png` pixel dimensions for correct layout width from height. */
-const LOGO_SRC_W = 1276;
-const LOGO_SRC_H = 832;
+/** Intrinsic size of `public/convertree_new_logo.png` (color, light backgrounds). */
+const LOGO_COLOR_W = 1276;
+const LOGO_COLOR_H = 832;
+/** Intrinsic size of `public/convertree_new_logo_white.png` (dark backgrounds). */
+const LOGO_WHITE_W = 356;
+const LOGO_WHITE_H = 648;
 
 export type ConvertreeLogoLockupProps = {
   /** Icon + wordmark contrast */
@@ -36,14 +39,26 @@ export function ConvertreeLogoLockup({
 }: ConvertreeLogoLockupProps) {
   const s = sizeStyles[size];
   const textColor = variant === "onLight" ? "text-stone-900" : "text-white";
+  const logoAsset =
+    variant === "onDark"
+      ? {
+          src: "/convertree_new_logo_white.png",
+          width: LOGO_WHITE_W,
+          height: LOGO_WHITE_H,
+        }
+      : {
+          src: "/convertree_new_logo.png",
+          width: LOGO_COLOR_W,
+          height: LOGO_COLOR_H,
+        };
 
   return (
     <span className={cn("inline-flex items-end gap-1", className)}>
       <Image
-        src="/convertree_new_logo.png"
+        src={logoAsset.src}
         alt=""
-        width={LOGO_SRC_W}
-        height={LOGO_SRC_H}
+        width={logoAsset.width}
+        height={logoAsset.height}
         className={cn(s.img, "block shrink-0 object-contain object-bottom")}
         sizes="140px"
         priority={priority}

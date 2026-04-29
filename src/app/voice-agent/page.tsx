@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { VoiceAgentLanding } from '@/components/voice-agent/voice-agent-landing';
+import { voiceAgentLandingExporter } from '@/lib/voice-agent-landing-content';
 
 export const metadata: Metadata = {
   title: 'Convertree | Premier AI voice concierge for Asian exporters',
@@ -8,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function VoiceAgentPage() {
-  return <VoiceAgentLanding />;
+  return <VoiceAgentLanding content={voiceAgentLandingExporter} />;
 }
