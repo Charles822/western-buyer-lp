@@ -209,11 +209,17 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
               </div>
 
               <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight text-white md:text-7xl">
-                {c.hero.h1Line1} <br className="hidden sm:block" />
-                {c.hero.h1Line2}
-                <span className="block bg-gradient-to-r from-emerald-200 to-emerald-500 bg-clip-text text-transparent md:inline md:bg-gradient-to-r">
-                  {c.hero.h1Gradient}
-                </span>
+                {c.hero.title.kind === 'plain' ? (
+                  <span className="mx-auto block max-w-4xl">{c.hero.title.h1}</span>
+                ) : (
+                  <>
+                    {c.hero.title.h1Line1} <br className="hidden sm:block" />
+                    {c.hero.title.h1Line2}
+                    <span className="block bg-gradient-to-r from-emerald-200 to-emerald-500 bg-clip-text text-transparent md:inline md:bg-gradient-to-r">
+                      {c.hero.title.h1Gradient}
+                    </span>
+                  </>
+                )}
               </h1>
 
               <p className="mx-auto max-w-3xl text-xl leading-relaxed text-zinc-400 md:text-2xl">
@@ -243,18 +249,58 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                 </button>
               </div>
 
-              <div className="mx-auto mt-14 grid max-w-3xl grid-cols-1 gap-8 border-t border-white/5 pt-14 sm:grid-cols-3">
-                {c.hero.pillars.map((pillar) => (
-                  <div key={pillar.title} className="text-center">
-                    <p className="text-lg font-semibold text-white">{pillar.title}</p>
-                    <p className="mt-2 text-sm text-zinc-500">{pillar.description}</p>
+              {c.hero.belowFold.mode === 'pillars' ? (
+                <div className="mx-auto mt-14 grid max-w-3xl grid-cols-1 gap-8 border-t border-white/5 pt-14 sm:grid-cols-3">
+                  {c.hero.belowFold.pillars.map((pillar) => (
+                    <div key={pillar.title} className="text-center">
+                      <p className="text-lg font-semibold text-white">{pillar.title}</p>
+                      <p className="mt-2 text-sm text-zinc-500">{pillar.description}</p>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="mx-auto mt-14 max-w-5xl border-t border-white/5 pt-14 text-left">
+                  <h2 className="mb-10 text-center text-2xl font-semibold tracking-tight text-white md:text-3xl">
+                    {c.hero.belowFold.sectionTitle}
+                  </h2>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                    {c.hero.belowFold.tiles.map((tile) => (
+                      <div
+                        key={tile.label}
+                        className="glass-card rounded-2xl border border-white/5 p-6 transition-colors hover:border-emerald-500/30"
+                      >
+                        <p className="text-lg font-semibold text-white">{tile.label}</p>
+                        <p className="mt-2 text-sm leading-relaxed text-zinc-400">{tile.description}</p>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
             </div>
           </section>
 
           <ConciergeDemoSection demo={c.demo} leadSource={c.leadSource} />
+
+          {c.valueEquation ? (
+            <section
+              className="border-b border-white/5 bg-zinc-950/40 py-16 md:py-20"
+              aria-label="Why it works"
+            >
+              <div className="mx-auto max-w-7xl px-6">
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
+                  {c.valueEquation.cards.map((card) => (
+                    <div
+                      key={card.title}
+                      className="glass-card flex flex-col rounded-2xl border border-emerald-500/10 bg-zinc-900/40 p-6"
+                    >
+                      <h3 className="text-lg font-semibold text-emerald-200">{card.title}</h3>
+                      <p className="mt-3 text-sm leading-relaxed text-zinc-400">{card.body}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+          ) : null}
 
           <section className="border-y border-white/5 bg-zinc-900/30 py-14" aria-label="Stack">
             <div className="mx-auto max-w-7xl px-6 text-center">

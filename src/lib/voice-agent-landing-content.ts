@@ -22,11 +22,35 @@ export interface VoiceWhySegment {
   accent?: boolean;
 }
 
+export type HeroTitle =
+  | { kind: 'split'; h1Line1: string; h1Line2: string; h1Gradient: string }
+  | { kind: 'plain'; h1: string };
+
+export type HeroBelowFold =
+  | {
+      mode: 'pillars';
+      pillars: [
+        { title: string; description: string },
+        { title: string; description: string },
+        { title: string; description: string },
+      ];
+    }
+  | {
+      mode: 'perfectFor';
+      sectionTitle: string;
+      tiles: { label: string; description: string }[];
+    };
+
 export interface ConciergeDemoCopy {
   sectionTitle: string;
   sectionSubtitle: string;
   whyHeading: string;
+  /** Used when `whyBullets` is absent (exporter page). */
   whySegments: VoiceWhySegment[];
+  /** SMB-friendly benefit bullets; when set, segments are ignored in UI. */
+  whyBullets?: string[];
+  /** Optional one-line intro above bullets. */
+  whyIntro?: string;
   optInNotice: string;
   unlockSubmitIdle: string;
   unlockSubmitLoading: string;
@@ -35,23 +59,24 @@ export interface ConciergeDemoCopy {
   unlockedBodyTemplate: string;
 }
 
+export interface VoiceValueEquationCard {
+  title: string;
+  body: string;
+}
+
 export interface VoiceAgentLandingContent {
   leadSource: VoiceLeadSource;
   hero: {
     badge: string;
-    h1Line1: string;
-    h1Line2: string;
-    h1Gradient: string;
+    title: HeroTitle;
     sub: string;
     ctaDemo: string;
     ctaProcess: string;
-    pillars: [
-      { title: string; description: string },
-      { title: string; description: string },
-      { title: string; description: string },
-    ];
+    belowFold: HeroBelowFold;
   };
   demo: ConciergeDemoCopy;
+  /** Four-up strip after demo (general landing only). */
+  valueEquation?: { cards: [VoiceValueEquationCard, VoiceValueEquationCard, VoiceValueEquationCard, VoiceValueEquationCard] };
   stackLabel: string;
   servicesIntro: {
     title: string;
@@ -73,33 +98,45 @@ export interface VoiceAgentLandingContent {
   wechatCta: string;
 }
 
+/** Backup hero headlines from PDF — not shown in UI; for future A/B or CMS. */
+export const voiceConciergeHeroAlternatives = [
+  'How does 0 missed calls from paying customers sound?',
+  "Install a 24/7 AI receptionist that never misses a paying customer call – for half a month's salary of a human receptionist.",
+] as const;
+
 export const voiceAgentLandingExporter: VoiceAgentLandingContent = {
   leadSource: 'voice-agent',
   hero: {
     badge: 'PREMIUM VOICE CONCIERGE',
-    h1Line1: 'The premier AI concierge',
-    h1Line2: 'for Asian exporters. ',
-    h1Gradient: 'Every Western call handled in flawless English.',
+    title: {
+      kind: 'split',
+      h1Line1: 'The premier AI concierge',
+      h1Line2: 'for Asian exporters. ',
+      h1Gradient: 'Every Western call handled in flawless English.',
+    },
     sub:
       'When your one English speaker is away, importer calls go sideways—or get lost. Convertree is a custom voice concierge: trained on your products and operations, with tight guardrails, so you qualify and capture every serious buyer.',
     ctaDemo: 'Try the concierge demo',
     ctaProcess: 'How we onboard clients',
-    pillars: [
-      {
-        title: 'Fluent English, 24/7',
-        description:
-          'Answers like your best sales engineer—on your number or web',
-      },
-      {
-        title: 'Your products, your rules',
-        description:
-          'Multi-round discovery & guardrailed prompts—not a generic bot',
-      },
-      {
-        title: 'CRM-ready',
-        description: 'Qualify, capture, and hand off to your team—already structured',
-      },
-    ],
+    belowFold: {
+      mode: 'pillars',
+      pillars: [
+        {
+          title: 'Fluent English, 24/7',
+          description:
+            'Answers like your best sales engineer—on your number or web',
+        },
+        {
+          title: 'Your products, your rules',
+          description:
+            'Multi-round discovery & guardrailed prompts—not a generic bot',
+        },
+        {
+          title: 'CRM-ready',
+          description: 'Qualify, capture, and hand off to your team—already structured',
+        },
+      ],
+    },
   },
   demo: {
     sectionTitle: 'Try the concierge demo',
@@ -202,46 +239,58 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
   leadSource: 'voice-concierge',
   hero: {
     badge: 'PREMIUM VOICE CONCIERGE',
-    h1Line1: 'Enterprise-grade AI voice',
-    h1Line2: 'for pipeline & partner calls. ',
-    h1Gradient: 'Never leave qualified revenue on hold.',
+    title: {
+      kind: 'plain',
+      h1: 'Never miss a paying customer call – without hiring more staff',
+    },
     sub:
-      'When coverage is thin, inbound calls stall or slip through the cracks. Convertree builds a concierge trained on your offerings and policies—guardrailed and CRM-ready—so every serious prospect gets structured qualification and a clean handoff.',
-    ctaDemo: 'Try the concierge demo',
+      'Convertree installs an AI receptionist on your phone line that answers every call, speaks clear English, handles FAQs, and books appointments for you – so your team can focus on serving customers, not chasing missed calls.',
+    ctaDemo: 'Try our 5-minute agent demo now',
     ctaProcess: 'How we onboard teams',
-    pillars: [
-      {
-        title: 'Always-on coverage',
-        description:
-          'Answers like your best rep—on your number or web—when humans are tied up',
-      },
-      {
-        title: 'Your playbook, enforced',
-        description:
-          'Discovery flows & guardrails tuned to how you sell—not a generic bot',
-      },
-      {
-        title: 'CRM-ready handoffs',
-        description:
-          'Qualify, capture, and route with fields your team already uses',
-      },
-    ],
+    belowFold: {
+      mode: 'perfectFor',
+      sectionTitle: 'Who Convertree is perfect for',
+      tiles: [
+        {
+          label: 'Dentists & clinics',
+          description:
+            'New patient enquiries, treatment questions, and reschedules handled without front-desk chaos.',
+        },
+        {
+          label: 'Real estate agents',
+          description:
+            'Viewing requests and lead calls answered 24/7, even when you’re on the road or in a viewing.',
+        },
+        {
+          label: 'Beauty salons & gyms',
+          description:
+            'Bookings and cancellations managed automatically, so staff can focus on clients in front of them.',
+        },
+        {
+          label: 'Logistics & freight forwarders',
+          description:
+            'Shipment and rate enquiries captured and summarised instead of lost in missed calls.',
+        },
+        {
+          label: 'Other busy service businesses',
+          description:
+            'If your team is always “too busy to pick up”, we built this for you.',
+        },
+      ],
+    },
   },
   demo: {
     sectionTitle: 'Try the concierge demo',
     sectionSubtitle:
-      'Opt in with your work email—then speak with the agent like a real prospect or partner would. We capture your details for follow-up; the same flow powers production concierge lines.',
+      'Pop in your work email to unlock a quick demo—like a real caller would. Same setup we use when we switch on your line.',
     whyHeading: 'Why Convertree',
-    whySegments: [
-      {
-        text:
-          'B2B teams lose deals when specialist coverage disappears—calls overflow or go unanswered. We deploy a ',
-      },
-      { text: 'premium, guardrailed', accent: true },
-      {
-        text:
-          ' voice concierge trained on how you sell and deliver, so callers get accurate answers, structured qualification, and consistent CRM capture—not a toy chatbot.',
-      },
+    whySegments: [],
+    whyIntro:
+      'You didn’t start a business to wrestle the phone. Here’s what owners tell us they want most:',
+    whyBullets: [
+      'More new customers from the same ad spend and foot traffic.',
+      'Fewer interruptions for staff; less time stuck on the phone.',
+      'No more stress about missed calls when you’re out or the front desk is slammed.',
     ],
     optInNotice:
       'Enter your details to unlock the live voice demo. The demo may be recorded to improve the experience; use a microphone in a quiet place. Same flow we use in sales: opt in first, then experience the agent.',
@@ -250,6 +299,30 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
     unlockedTitle: 'Voice demo ready',
     unlockedBodyTemplate:
       "You're in! Call the agent at {{PHONE}} or tap Unlock web demo at the bottom-right of your screen to start the web demo.",
+  },
+  valueEquation: {
+    cards: [
+      {
+        title: 'Installed by next week',
+        body:
+          'We set up your AI receptionist, connect it to your phone line, and start taking real customer calls within 7 days of our kick-off call.',
+      },
+      {
+        title: '0 missed calls',
+        body:
+          'Your AI receptionist answers every call that comes in—even when your staff are busy or off. No more customers stuck with endless ringing or voicemail.',
+      },
+      {
+        title: '30-day guarantee',
+        body:
+          'If you’re not happy with the AI receptionist in the first 30 days, tell us and we’ll give you a full refund—no questions asked.',
+      },
+      {
+        title: 'More revenue from the same calls',
+        body:
+          'Small businesses lose serious money when calls go unanswered; even a few missed calls a day can add up to thousands lost each month. Turning those calls into booked appointments and enquiries goes straight to your bottom line.',
+      },
+    ],
   },
   stackLabel: 'Plays with your stack',
   servicesIntro: {
@@ -280,27 +353,27 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
   processSticky: {
     title: 'How we bring you live',
     body:
-      'From first workshop to a production concierge and ongoing tuning—the same playbook we use across industrial, SaaS, and services teams.',
+      'From a quick kick-off to your AI receptionist answering real calls—we keep it simple so you can get back to running the shop.',
   },
   processSteps: [
     {
       title: 'Value discovery',
       body:
-        'Structured sessions with sales or product (often multiple rounds): what the concierge may say, must not say, and how deals move through your process. We align on the buyer you serve.',
+        'We learn how you take calls today, what callers ask for, and what “booked” looks like for you—no jargon, just your workflow.',
     },
     {
       title: 'Custom agent build',
       body:
-        'We wire your numbers, web entry points, and CRM—so qualified calls land with the right fields. Guardrails and prompts reflect your catalog, policies, and risk bar.',
+        'We connect your line and tune greetings, FAQs, and booking rules so the receptionist sounds like your business—not a generic bot.',
     },
     {
       title: 'Ongoing optimization',
       body:
-        'We monitor behavior, refine prompts, and layer in add-ons (lead magnets, event lines) as you scale. You get a partner, not a one-off handoff.',
+        'We refine prompts from real calls and help you add extras as you grow. You get a partner, not a one-off handoff.',
     },
   ],
   insightsIntro:
-    "We'll publish articles on voice QA for complex B2B calls, running agents at scale, and more—placeholders for now while we focus on shipping.",
+    "We'll publish practical tips on managing inbound calls, reminders, and more—placeholders for now while we focus on shipping.",
   insightsPosts: [
     {
       tag: 'Coming soon',
@@ -318,8 +391,8 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
   contact: {
     title: "Hear it for yourself, then we'll scope your build",
     body:
-      'Try the opt-in voice demo above, or reach us on WeChat—we\'ll map your customers, your offers, and what a clean handoff looks like in your CRM.',
-    ctaDemo: 'Try the concierge demo',
+      'Try the five-minute demo above, or reach us on WeChat—we’ll map your callers, your schedule, and what a great handoff looks like for your team.',
+    ctaDemo: 'Try our 5-minute agent demo now',
   },
   wechatCta: 'Talk on WeChat',
 };

@@ -11,7 +11,7 @@ import type { ConciergeDemoCopy, VoiceLeadSource } from '@/lib/voice-agent-landi
 const PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY ?? '';
 const ASSISTANT_ID = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID ?? '';
 const VOICE_DEMO_PHONE =
-  process.env.NEXT_PUBLIC_VOICE_DEMO_PHONE?.trim() || '+85200000000';
+  process.env.NEXT_PUBLIC_VOICE_DEMO_PHONE?.trim() || '+852 9290 3426';
 
 function voiceDemoTelHref(phone: string) {
   return `tel:${phone.replace(/\s/g, '')}`;
@@ -116,17 +116,30 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
           <div className="w-full space-y-8 lg:w-7/12">
             <div>
               <h3 className="text-2xl font-semibold text-white">{demo.whyHeading}</h3>
-              <p className="mt-3 text-lg leading-relaxed text-zinc-300">
-                {demo.whySegments.map((seg, i) =>
-                  seg.accent ? (
-                    <span key={i} className="text-emerald-400">
-                      {seg.text}
-                    </span>
-                  ) : (
-                    <span key={i}>{seg.text}</span>
-                  )
-                )}
-              </p>
+              {demo.whyBullets?.length ? (
+                <div className="mt-3 space-y-3 text-lg text-zinc-300">
+                  {demo.whyIntro ? (
+                    <p className="leading-relaxed text-zinc-300">{demo.whyIntro}</p>
+                  ) : null}
+                  <ul className="list-disc space-y-2 pl-5 text-left leading-relaxed text-zinc-300 marker:text-emerald-500">
+                    {demo.whyBullets.map((b) => (
+                      <li key={b}>{b}</li>
+                    ))}
+                  </ul>
+                </div>
+              ) : (
+                <p className="mt-3 text-lg leading-relaxed text-zinc-300">
+                  {demo.whySegments.map((seg, i) =>
+                    seg.accent ? (
+                      <span key={i} className="text-emerald-400">
+                        {seg.text}
+                      </span>
+                    ) : (
+                      <span key={i}>{seg.text}</span>
+                    )
+                  )}
+                </p>
+              )}
             </div>
 
             {!unlocked ? (

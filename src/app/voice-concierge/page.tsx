@@ -3,9 +3,9 @@ import { VoiceAgentLanding } from '@/components/voice-agent/voice-agent-landing'
 import { voiceAgentLandingGeneral } from '@/lib/voice-agent-landing-content';
 
 export const metadata: Metadata = {
-  title: 'Convertree | AI voice concierge for B2B teams',
+  title: 'Convertree | Never miss a paying customer call',
   description:
-    'Enterprise-grade voice AI for pipeline and partner calls—trained on your business, guardrailed, CRM-ready. Try the live concierge demo.',
+    'AI receptionist for your phone line—answers every call in clear English, handles FAQs, and books appointments. Try a 5-minute demo.',
 };
 
 export default function VoiceConciergePage() {
