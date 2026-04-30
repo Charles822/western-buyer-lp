@@ -91,7 +91,7 @@ export default function LogoAlternativesDemoPage() {
             Home
           </Link>
           {' · '}
-          <Link href="/voice-agent" className="underline-offset-2 hover:underline">
+          <Link href="/voice-agent-for-manufacturers" className="underline-offset-2 hover:underline">
             Voice agent
           </Link>
         </p>

@@ -8,6 +8,6 @@ export const metadata: Metadata = {
     'AI receptionist for your phone line—answers every call in clear English, handles FAQs, and books appointments. Try a 5-minute demo.',
 };
 
-export default function VoiceConciergePage() {
+export default function HomePage() {
   return <VoiceAgentLanding content={voiceAgentLandingGeneral} />;
 }

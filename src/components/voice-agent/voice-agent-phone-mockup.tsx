@@ -2,8 +2,7 @@
 
 import { Icon } from '@iconify/react';
 
-const AVATAR_SRC =
-  'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80';
+const AVATAR_SRC = '/evelyn.jpeg';
 
 /**
  * Decorative in-call phone frame (visual only; no real controls).

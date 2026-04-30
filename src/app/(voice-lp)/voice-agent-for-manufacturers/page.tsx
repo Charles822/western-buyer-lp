@@ -8,6 +8,6 @@ export const metadata: Metadata = {
     'A premium English-speaking AI concierge for Western importer calls—trained on your products, guardrailed, and connected to your CRM. Try the live demo.',
 };
 
-export default function VoiceAgentPage() {
+export default function VoiceAgentForManufacturersPage() {
   return <VoiceAgentLanding content={voiceAgentLandingExporter} />;
 }

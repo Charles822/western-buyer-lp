@@ -2,7 +2,7 @@
 
 import { Icon } from '@iconify/react';
 import { useEffect, useRef, useState } from 'react';
-import { PerfectForEditorial } from '@/components/voice-agent/perfect-for-variants';
+import { PerfectForChips } from '@/components/voice-agent/perfect-for-variants';
 import { ValueEquationBigNumbers } from '@/components/voice-agent/value-equation-variants';
 import { ConciergeDemoSection } from '@/components/voice-agent/concierge-demo-section';
 import { FluidCanvas } from '@/components/voice-agent/fluid-canvas';
@@ -12,11 +12,14 @@ import type { VoiceAgentLandingContent } from '@/lib/voice-agent-landing-content
 
 const SUPPORT_EMAIL = 'sam@convertree.com';
 
-/** Multicolor mark for voice landings — `public/logo-alternatives/multicolor_alternative.png` */
+/** Set true when the Insights block is ready to show (both voice LP routes). */
+const SHOW_INSIGHTS_SECTION = false;
+
+/** Multicolor mark for voice landings — `public/logo-alternatives/multicolor_alternativeV2.png` */
 const VOICE_LANDING_LOGO_MARK = {
-  src: '/logo-alternatives/multicolor_alternative.png',
-  width: 495,
-  height: 654,
+  src: '/logo-alternatives/multicolor_alternativeV2.png',
+  width: 841,
+  height: 1117,
 } as const;
 
 function scrollToId(id: string) {
@@ -150,9 +153,11 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
               <a href="#process" className="transition-colors hover:text-white">
                 Process
               </a>
-              <a href="#insights" className="transition-colors hover:text-white">
-                Insights
-              </a>
+              {SHOW_INSIGHTS_SECTION ? (
+                <a href="#insights" className="transition-colors hover:text-white">
+                  Insights
+                </a>
+              ) : null}
             </nav>
 
             <button
@@ -203,13 +208,15 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
             >
               Process
             </a>
-            <a
-              href="#insights"
-              className="text-lg text-zinc-400 hover:text-white"
-              onClick={closeMobile}
-            >
-              Insights
-            </a>
+            {SHOW_INSIGHTS_SECTION ? (
+              <a
+                href="#insights"
+                className="text-lg text-zinc-400 hover:text-white"
+                onClick={closeMobile}
+              >
+                Insights
+              </a>
+            ) : null}
             <button
               type="button"
               className="inline-flex items-center gap-2 text-left text-lg text-emerald-400 hover:text-emerald-300"
@@ -225,7 +232,7 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
         </header>
 
         <main id="top">
-          <section className="relative overflow-hidden px-6 pt-44 pb-20 md:pt-52 md:pb-28">
+          <section className="relative overflow-hidden px-6 pt-44 pb-14 md:pt-52 md:pb-20">
             <div className="absolute top-1/2 left-1/2 -z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-600/15 blur-[120px]" />
 
             <div className="relative z-10 mx-auto max-w-5xl space-y-10 text-center">
@@ -297,8 +304,8 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                   ))}
                 </div>
               ) : (
-                <div className="mx-auto mt-14 max-w-5xl border-t border-white/5 pt-14">
-                  <PerfectForEditorial
+                <div className="mx-auto mt-20 max-w-5xl border-t border-white/5 pt-16">
+                  <PerfectForChips
                     sectionTitle={c.hero.belowFold.sectionTitle}
                     tiles={c.hero.belowFold.tiles}
                   />
@@ -325,18 +332,34 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
               <p className="mb-8 text-sm tracking-widest text-zinc-500 uppercase">
                 {c.stackLabel}
               </p>
-              <div className="flex flex-wrap justify-center gap-10 opacity-80 transition-all duration-500 md:gap-16">
+              <div className="flex flex-wrap justify-center gap-6 opacity-80 transition-all duration-500 md:gap-12">
                 <div className="flex items-center gap-2 text-lg font-medium text-zinc-300">
                   <Icon icon="simple-icons:n8n" width="1.5em" height="1.5em" />
                   n8n
+                </div>
+                <div className="flex items-center gap-2 text-lg font-medium text-zinc-300">
+                  <Icon icon="simple-icons:make" width="1.5em" height="1.5em" />
+                  Make
                 </div>
                 <div className="flex items-center gap-2 text-lg font-medium text-zinc-300">
                   <Icon icon="simple-icons:openai" width="1.5em" height="1.5em" />
                   OpenAI
                 </div>
                 <div className="flex items-center gap-2 text-lg font-medium text-zinc-300">
+                  <Icon icon="simple-icons:anthropic" width="1.5em" height="1.5em" />
+                  Anthropic
+                </div>
+                <div className="flex items-center gap-2 text-lg font-medium text-zinc-300">
+                  <Icon icon="simple-icons:elevenlabs" width="1.5em" height="1.5em" />
+                  ElevenLabs
+                </div>
+                <div className="flex items-center gap-2 text-lg font-medium text-zinc-300">
                   <Icon icon="simple-icons:twilio" width="1.5em" height="1.5em" />
                   Twilio
+                </div>
+                <div className="flex items-center gap-2 text-lg font-medium text-zinc-300">
+                  <Icon icon="simple-icons:calendly" width="1.5em" height="1.5em" />
+                  Calendly
                 </div>
                 <div className="flex items-center gap-2 text-lg font-medium text-zinc-300">
                   <Icon
@@ -451,30 +474,32 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
             </div>
           </section>
 
-          <section id="insights" className="mx-auto max-w-7xl px-6 py-28">
-            <h2 className="mb-6 text-center text-4xl font-semibold tracking-tight text-white md:text-5xl">
-              Insights
-            </h2>
-            <p className="mx-auto mb-20 max-w-2xl text-center text-xl text-zinc-400">
-              {c.insightsIntro}
-            </p>
+          {SHOW_INSIGHTS_SECTION ? (
+            <section id="insights" className="mx-auto max-w-7xl px-6 py-28">
+              <h2 className="mb-6 text-center text-4xl font-semibold tracking-tight text-white md:text-5xl">
+                Insights
+              </h2>
+              <p className="mx-auto mb-20 max-w-2xl text-center text-xl text-zinc-400">
+                {c.insightsIntro}
+              </p>
 
-            <div className="grid gap-8 md:grid-cols-3">
-              {c.insightsPosts.map((post) => (
-                <div
-                  key={post.title}
-                  className="glass-card flex flex-col overflow-hidden rounded-2xl p-0"
-                >
-                  <div className="h-32 w-full bg-zinc-900/80" />
-                  <div className="flex grow flex-col p-8">
-                    <span className="mb-2 text-sm font-medium text-zinc-500">{post.tag}</span>
-                    <h3 className="mb-3 text-xl font-medium text-white">{post.title}</h3>
-                    <p className="text-sm text-zinc-500">Link TBD for SEO</p>
+              <div className="grid gap-8 md:grid-cols-3">
+                {c.insightsPosts.map((post) => (
+                  <div
+                    key={post.title}
+                    className="glass-card flex flex-col overflow-hidden rounded-2xl p-0"
+                  >
+                    <div className="h-32 w-full bg-zinc-900/80" />
+                    <div className="flex grow flex-col p-8">
+                      <span className="mb-2 text-sm font-medium text-zinc-500">{post.tag}</span>
+                      <h3 className="mb-3 text-xl font-medium text-white">{post.title}</h3>
+                      <p className="text-sm text-zinc-500">Link TBD for SEO</p>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
-          </section>
+                ))}
+              </div>
+            </section>
+          ) : null}
 
           <section id="contact" className="relative overflow-hidden px-6 py-32 text-center">
             <div className="absolute inset-0 -z-10 scale-50 transform rounded-full bg-emerald-900/20 blur-3xl" />

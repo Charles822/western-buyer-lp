@@ -18,9 +18,9 @@ export async function POST(request: Request) {
 
     const sourceLabel =
       source === 'voice-concierge'
-        ? '/voice-concierge'
+        ? '/'
         : source === 'voice-agent'
-          ? '/voice-agent'
+          ? '/voice-agent-for-manufacturers'
           : source || 'unknown';
 
     if (!name?.trim() || !email?.trim() || !company?.trim()) {

@@ -39,7 +39,7 @@ export type HeroBelowFold =
   | {
       mode: 'perfectFor';
       sectionTitle: string;
-      tiles: { label: string; description: string }[];
+      tiles: { label: string }[];
     };
 
 export interface ConciergeDemoCopy {
@@ -169,7 +169,7 @@ export const voiceAgentLandingExporter: VoiceAgentLandingContent = {
     unlockedBodyTemplate:
       "You're in! Call the demo line here: {{PHONE}} Or tap Unlock web demo at the bottom-right of your screen to start the web demo.",
   },
-  stackLabel: 'Plays with your stack',
+  stackLabel: 'Technologies we use',
   servicesIntro: {
     title: 'Go beyond the base concierge',
     body:
@@ -259,36 +259,18 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
       mode: 'perfectFor',
       sectionTitle: 'Who Convertree is perfect for',
       tiles: [
-        {
-          label: 'Dentists & clinics',
-          description:
-            'New patient enquiries, treatment questions, and reschedules handled without front-desk chaos.',
-        },
-        {
-          label: 'Real estate agents',
-          description:
-            'Viewing requests and lead calls answered 24/7, even when you’re on the road or in a viewing.',
-        },
-        {
-          label: 'Beauty salons & gyms',
-          description:
-            'Bookings and cancellations managed automatically, so staff can focus on clients in front of them.',
-        },
-        {
-          label: 'Home services & trades',
-          description:
-            'Quote requests, scheduling, and dispatch calls answered while your crews are on the road—not lost to voicemail.',
-        },
-        {
-          label: 'Restaurants',
-          description:
-            'Reservations, takeout, and hours handled quickly so hosts and servers stay focused on guests.',
-        },
-        {
-          label: 'Other busy service businesses',
-          description:
-            'If your team is always “too busy to pick up”, we built this for you.',
-        },
+        { label: 'Dentists & clinics' },
+        { label: 'Real estate agents' },
+        { label: 'Beauty salons & spas' },
+        { label: 'Home services & trades' },
+        { label: 'Restaurants' },
+        { label: 'Veterinary & pet care' },
+        { label: 'Legal & professional' },
+        { label: 'Hotels & lodging' },
+        { label: 'Retail & storefronts' },
+        { label: 'Automotive repair' },
+        { label: 'Tutoring & education' },
+        { label: 'Other service businesses' },
       ],
     },
   },
@@ -345,7 +327,7 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
       },
     ],
   },
-  stackLabel: 'Plays with your stack',
+  stackLabel: 'Technologies we use',
   servicesIntro: {
     title: 'Go beyond the base concierge',
     body:

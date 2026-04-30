@@ -10,14 +10,10 @@ const inter = Inter({
   display: 'swap',
 });
 
-export default function VoiceConciergeLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function VoiceLpLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <Script id="voice-concierge-paint" strategy="beforeInteractive">
+      <Script id="voice-lp-paint" strategy="beforeInteractive">
         {`try{document.documentElement.classList.add('voice-agent-paint');}catch(e){}`}
       </Script>
       <VoiceAgentRouteShell

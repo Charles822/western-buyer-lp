@@ -9,7 +9,10 @@ import { Label } from '@/components/ui/label';
 import type { ConciergeDemoCopy, VoiceLeadSource } from '@/lib/voice-agent-landing-content';
 
 const PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY ?? '';
-const ASSISTANT_ID = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID ?? '';
+/** Voice-agent (exporter) landing — `/voice-agent-for-manufacturers` */
+const ASSISTANT_ID_EXPORTER = process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID ?? '';
+/** General SMB landing — site root `/` */
+const ASSISTANT_ID_GENERAL = process.env.NEXT_PUBLIC_VAPI_GENERAL_ASSISTANT_ID ?? '';
 const VOICE_DEMO_PHONE =
   process.env.NEXT_PUBLIC_VOICE_DEMO_PHONE?.trim() || '+852 9290 3426';
 
@@ -65,6 +68,13 @@ type ConciergeDemoSectionProps = {
 };
 
 export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionProps) {
+  const assistantId =
+    leadSource === 'voice-concierge' ? ASSISTANT_ID_GENERAL : ASSISTANT_ID_EXPORTER;
+  const assistantIdEnvName =
+    leadSource === 'voice-concierge'
+      ? 'NEXT_PUBLIC_VAPI_GENERAL_ASSISTANT_ID'
+      : 'NEXT_PUBLIC_VAPI_ASSISTANT_ID';
+
   const [unlocked, setUnlocked] = useState(false);
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
@@ -105,12 +115,12 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
     }
   }
 
-  const hasVapi = Boolean(PUBLIC_KEY && ASSISTANT_ID);
+  const hasVapi = Boolean(PUBLIC_KEY && assistantId);
 
   return (
     <section
       id="demo"
-      className="border-b border-zinc-800 bg-gradient-to-b from-zinc-950 to-zinc-900 py-24 md:py-32"
+      className="border-b border-zinc-800 bg-gradient-to-b from-zinc-950 to-zinc-900 pt-16 pb-24 md:pt-20 md:pb-32"
     >
       <div className="mx-auto max-w-6xl px-6">
         <div className="mb-16 text-center">
@@ -261,7 +271,7 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
                 {hasVapi ? (
                   <ConciergeInlineVoice
                     publicKey={PUBLIC_KEY}
-                    assistantId={ASSISTANT_ID}
+                    assistantId={assistantId}
                   />
                 ) : (
                   <div className="rounded-xl border border-zinc-600/50 bg-zinc-950/30 p-8 text-center text-zinc-400">
@@ -269,10 +279,8 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
                       Voice demo is being configured. Add{' '}
                       <code className="text-emerald-400">NEXT_PUBLIC_VAPI_PUBLIC_KEY</code>{' '}
                       and{' '}
-                      <code className="text-emerald-400">
-                        NEXT_PUBLIC_VAPI_ASSISTANT_ID
-                      </code>{' '}
-                      to your environment to enable the live call.
+                      <code className="text-emerald-400">{assistantIdEnvName}</code> to your
+                      environment to enable the live call.
                     </p>
                   </div>
                 )}

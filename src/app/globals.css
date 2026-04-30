@@ -228,7 +228,7 @@ body {
   background: var(--jade-muted);
 }
 
-/* /voice-agent — early paint (beforeInteractive sets html.voice-agent-paint) */
+/* Voice landings (/, /voice-agent-for-manufacturers) — early paint (beforeInteractive sets html.voice-agent-paint) */
 html.voice-agent-paint {
   background-color: #09090b;
 }
@@ -242,7 +242,7 @@ html.voice-agent-paint .noise-overlay {
   display: none !important;
 }
 
-/* /voice-agent — isolate from Convertree root layout (client after mount) */
+/* Voice landings — isolate from Convertree root layout (client after mount) */
 body.voice-agent-lp {
   background-color: #09090b;
   color: #f4f4f5;

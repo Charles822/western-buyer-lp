@@ -3,8 +3,9 @@ import "./globals.css";
 import { SetHtmlLang } from "@/components/set-html-lang";
 
 export const metadata: Metadata = {
-  title: "Convertree | Get a Waiting List of Western Buyers",
-  description: "We build your company a predictable pipeline of direct western buyers who place larger orders at better margins—you only pay when it works.",
+  title: "Convertree | Never miss a paying customer call",
+  description:
+    "AI receptionist for your phone line—answers every call in clear English, handles FAQs, and books appointments. Try a 5-minute demo.",
   icons: {
     icon: "/convertree_new_logo_white.png",
   },
