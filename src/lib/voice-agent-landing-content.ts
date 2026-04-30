@@ -62,6 +62,10 @@ export interface ConciergeDemoCopy {
 export interface VoiceValueEquationCard {
   title: string;
   body: string;
+  /** Giant headline figure for the value strip (e.g. 7, 0, 30, $$$). */
+  stat?: string;
+  /** Short line under the stat (e.g. Days to install). */
+  statLabel?: string;
 }
 
 export interface VoiceAgentLandingContent {
@@ -76,7 +80,9 @@ export interface VoiceAgentLandingContent {
   };
   demo: ConciergeDemoCopy;
   /** Four-up strip after demo (general landing only). */
-  valueEquation?: { cards: [VoiceValueEquationCard, VoiceValueEquationCard, VoiceValueEquationCard, VoiceValueEquationCard] };
+  valueEquation?: {
+    cards: [VoiceValueEquationCard, VoiceValueEquationCard, VoiceValueEquationCard, VoiceValueEquationCard];
+  };
   stackLabel: string;
   servicesIntro: {
     title: string;
@@ -304,21 +310,29 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
     cards: [
       {
         title: 'Installed by next week',
+        stat: '7',
+        statLabel: 'Days to install',
         body:
           'We set up your AI receptionist, connect it to your phone line, and start taking real customer calls within 7 days of our kick-off call.',
       },
       {
         title: '0 missed calls',
+        stat: '0',
+        statLabel: 'Missed calls',
         body:
           'Your AI receptionist answers every call that comes in—even when your staff are busy or off. No more customers stuck with endless ringing or voicemail.',
       },
       {
         title: '30-day guarantee',
+        stat: '30',
+        statLabel: 'Day guarantee',
         body:
           'If you’re not happy with the AI receptionist in the first 30 days, tell us and we’ll give you a full refund—no questions asked.',
       },
       {
         title: 'More revenue from the same calls',
+        stat: '$$$',
+        statLabel: 'More revenue',
         body:
           'Small businesses lose serious money when calls go unanswered; even a few missed calls a day can add up to thousands lost each month. Turning those calls into booked appointments and enquiries goes straight to your bottom line.',
       },

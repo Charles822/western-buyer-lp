@@ -2,6 +2,8 @@
 
 import { Icon } from '@iconify/react';
 import { useEffect, useRef, useState } from 'react';
+import { PerfectForEditorial } from '@/components/voice-agent/perfect-for-variants';
+import { ValueEquationBigNumbers } from '@/components/voice-agent/value-equation-variants';
 import { ConciergeDemoSection } from '@/components/voice-agent/concierge-demo-section';
 import { FluidCanvas } from '@/components/voice-agent/fluid-canvas';
 import { WeChatContactModal } from '@/components/voice-agent/wechat-contact-modal';
@@ -9,6 +11,13 @@ import { ConvertreeLogoLockup } from '@/components/convertree-logo-lockup';
 import type { VoiceAgentLandingContent } from '@/lib/voice-agent-landing-content';
 
 const SUPPORT_EMAIL = 'sam@convertree.com';
+
+/** Multicolor mark for voice landings — `public/logo-alternatives/multicolor_alternative.png` */
+const VOICE_LANDING_LOGO_MARK = {
+  src: '/logo-alternatives/multicolor_alternative.png',
+  width: 495,
+  height: 654,
+} as const;
 
 function scrollToId(id: string) {
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -104,7 +113,11 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
         <header className="fixed top-0 z-50 w-full border-b border-white/5 bg-zinc-950/80 backdrop-blur-md">
           <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
             <a href="#top" className="flex items-center" aria-label="Convertree">
-              <ConvertreeLogoLockup variant="onDark" size="headerCompact" />
+              <ConvertreeLogoLockup
+                variant="onDark"
+                size="headerCompact"
+                markImage={VOICE_LANDING_LOGO_MARK}
+              />
             </a>
 
             <nav className="hidden items-center gap-8 text-base font-medium text-zinc-400 md:flex">
@@ -259,21 +272,11 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                   ))}
                 </div>
               ) : (
-                <div className="mx-auto mt-14 max-w-5xl border-t border-white/5 pt-14 text-left">
-                  <h2 className="mb-10 text-center text-2xl font-semibold tracking-tight text-white md:text-3xl">
-                    {c.hero.belowFold.sectionTitle}
-                  </h2>
-                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                    {c.hero.belowFold.tiles.map((tile) => (
-                      <div
-                        key={tile.label}
-                        className="glass-card rounded-2xl border border-white/5 p-6 transition-colors hover:border-emerald-500/30"
-                      >
-                        <p className="text-lg font-semibold text-white">{tile.label}</p>
-                        <p className="mt-2 text-sm leading-relaxed text-zinc-400">{tile.description}</p>
-                      </div>
-                    ))}
-                  </div>
+                <div className="mx-auto mt-14 max-w-5xl border-t border-white/5 pt-14">
+                  <PerfectForEditorial
+                    sectionTitle={c.hero.belowFold.sectionTitle}
+                    tiles={c.hero.belowFold.tiles}
+                  />
                 </div>
               )}
             </div>
@@ -287,17 +290,7 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
               aria-label="Why it works"
             >
               <div className="mx-auto max-w-7xl px-6">
-                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4">
-                  {c.valueEquation.cards.map((card) => (
-                    <div
-                      key={card.title}
-                      className="glass-card flex flex-col rounded-2xl border border-emerald-500/10 bg-zinc-900/40 p-6"
-                    >
-                      <h3 className="text-lg font-semibold text-emerald-200">{card.title}</h3>
-                      <p className="mt-3 text-sm leading-relaxed text-zinc-400">{card.body}</p>
-                    </div>
-                  ))}
-                </div>
+                <ValueEquationBigNumbers cards={c.valueEquation.cards} />
               </div>
             </section>
           ) : null}

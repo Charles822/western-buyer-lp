@@ -8,12 +8,20 @@ const LOGO_COLOR_H = 832;
 const LOGO_WHITE_W = 356;
 const LOGO_WHITE_H = 648;
 
+export type ConvertreeLogoMarkOverride = {
+  src: string;
+  width: number;
+  height: number;
+};
+
 export type ConvertreeLogoLockupProps = {
   /** Icon + wordmark contrast */
   variant: "onLight" | "onDark";
   size?: "nav" | "footer" | "headerCompact";
   className?: string;
   priority?: boolean;
+  /** When set, replaces the default mark (e.g. multicolor icon on voice landings). */
+  markImage?: ConvertreeLogoMarkOverride;
 };
 
 const sizeStyles = {
@@ -36,11 +44,13 @@ export function ConvertreeLogoLockup({
   size = "nav",
   className,
   priority,
+  markImage,
 }: ConvertreeLogoLockupProps) {
   const s = sizeStyles[size];
   const textColor = variant === "onLight" ? "text-stone-900" : "text-white";
-  const logoAsset =
-    variant === "onDark"
+  const logoAsset = markImage
+    ? markImage
+    : variant === "onDark"
       ? {
           src: "/convertree_new_logo_white.png",
           width: LOGO_WHITE_W,
