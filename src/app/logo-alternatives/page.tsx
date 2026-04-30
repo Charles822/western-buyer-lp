@@ -8,9 +8,9 @@ export const metadata: Metadata = {
 };
 
 const ALT_FILES = [
-  'WhatsApp Image 2026-04-29 at 18.09.41.jpeg',
-  'WhatsApp Image 2026-04-29 at 18.09.41 (1).jpeg',
-  'WhatsApp Image 2026-04-29 at 18.09.41 (2).jpeg',
+  'green_alternative.png',
+  'green_brown_alternative.png',
+  'multicolor_alternative.png',
 ] as const;
 
 function LockupRow({

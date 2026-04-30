@@ -160,7 +160,7 @@ export const voiceAgentLandingExporter: VoiceAgentLandingContent = {
     unlockSubmitLoading: 'Sending…',
     unlockedTitle: 'Voice demo ready',
     unlockedBodyTemplate:
-      "You're in! Call the agent at {{PHONE}} or tap Unlock web demo at the bottom-right of your screen to start the web demo.",
+      "You're in! Call the demo line here: {{PHONE}} Or tap Unlock web demo at the bottom-right of your screen to start the web demo.",
   },
   stackLabel: 'Plays with your stack',
   servicesIntro: {
@@ -298,7 +298,7 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
     unlockSubmitLoading: 'Sending…',
     unlockedTitle: 'Voice demo ready',
     unlockedBodyTemplate:
-      "You're in! Call the agent at {{PHONE}} or tap Unlock web demo at the bottom-right of your screen to start the web demo.",
+      "You're in! Call the demo line here: {{PHONE}} Or tap Unlock web demo at the bottom-right of your screen to start the web demo.",
   },
   valueEquation: {
     cards: [

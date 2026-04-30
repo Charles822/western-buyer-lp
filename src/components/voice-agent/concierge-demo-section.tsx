@@ -25,25 +25,37 @@ function UnlockedBody({
   phone: string;
 }) {
   const marker = 'Unlock web demo';
-  const [before, afterPhone = ''] = template.split('{{PHONE}}');
-  const idx = afterPhone.indexOf(marker);
-  if (idx === -1) {
+  const telHref = voiceDemoTelHref(phone);
+  const parts = template.split('{{PHONE}}');
+
+  if (parts.length < 2) {
     return (
-      <>
-        {before}
-        <span className="font-medium text-emerald-300">{phone}</span>
-        {afterPhone}
-      </>
+      <p className="text-sm leading-relaxed text-emerald-400/90">{template}</p>
     );
   }
+
+  const [before, afterPhone = ''] = parts;
+  const idx = afterPhone.indexOf(marker);
+
   return (
-    <>
-      {before}
-      <span className="font-medium text-emerald-300">{phone}</span>
-      {afterPhone.slice(0, idx)}
-      <span className="font-medium text-white">{marker}</span>
-      {afterPhone.slice(idx + marker.length)}
-    </>
+    <div className="space-y-3">
+      <p className="text-sm leading-relaxed text-emerald-400/90">{before.trimEnd()}</p>
+      <a
+        href={telHref}
+        className="flex w-full items-center justify-center gap-3 rounded-xl border border-emerald-400/45 bg-emerald-600 px-4 py-3.5 text-base font-semibold text-white shadow-lg shadow-emerald-950/50 ring-1 ring-emerald-300/20 transition hover:bg-emerald-500 hover:shadow-emerald-900/60 active:scale-[0.99]"
+      >
+        <Icon icon="solar:phone-calling-bold" className="size-6 shrink-0" aria-hidden />
+        <span>{phone}</span>
+      </a>
+      {idx === -1 ? (
+        <p className="text-sm leading-relaxed text-emerald-400/90">{afterPhone.trim()}</p>
+      ) : (
+        <p className="text-sm leading-relaxed text-emerald-400/90">
+          Or tap <span className="font-medium text-white">{marker}</span>
+          {afterPhone.slice(idx + marker.length)}
+        </p>
+      )}
+    </div>
   );
 }
 
@@ -234,16 +246,9 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0 flex-1">
                     <h3 className="text-xl font-semibold text-white">{demo.unlockedTitle}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-emerald-400/90">
+                    <div className="mt-2">
                       <UnlockedBody template={demo.unlockedBodyTemplate} phone={VOICE_DEMO_PHONE} />
-                    </p>
-                    <a
-                      href={voiceDemoTelHref(VOICE_DEMO_PHONE)}
-                      className="mt-4 flex w-full items-center justify-center gap-2 rounded-full bg-emerald-600 py-3 text-sm font-semibold text-white transition-colors hover:bg-emerald-500 md:hidden"
-                    >
-                      <Icon icon="solar:phone-calling-bold" className="size-5" aria-hidden />
-                      Call the demo line
-                    </a>
+                    </div>
                   </div>
                   <div className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 sm:flex">
                     <Icon
