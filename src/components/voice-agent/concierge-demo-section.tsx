@@ -122,7 +122,7 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
 
         <div className="flex flex-col items-center gap-16 lg:flex-row lg:items-start">
           <div className="w-full lg:w-5/12">
-            <VoiceAgentPhoneMockup />
+            <VoiceAgentPhoneMockup variant={leadSource === 'voice-concierge' ? 'evelyn' : 'default'} />
           </div>
 
           <div className="w-full space-y-8 lg:w-7/12">

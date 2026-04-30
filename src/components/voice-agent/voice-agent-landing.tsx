@@ -48,7 +48,7 @@ const SERVICE_CARD_UI = [
     gradFrom: 'from-teal-500/5',
     iconBox: 'bg-teal-500/10 text-teal-400',
     check: 'text-teal-500',
-    icon: 'solar:users-group-two-rounded-linear',
+    icon: 'solar:chart-2-linear',
   },
 ] as const;
 
@@ -68,36 +68,52 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
   const closeMobile = () => setMobileOpen(false);
 
   useEffect(() => {
-    const nodes = [processStep1Ref.current, processStep2Ref.current, processStep3Ref.current].filter(
-      (n): n is HTMLDivElement => n !== null
-    );
-    if (nodes.length !== 3) {
-      return;
+    const refs = [processStep1Ref, processStep2Ref, processStep3Ref];
+
+    function pickActiveProcessStep(): number {
+      const focusY = window.innerHeight * 0.4;
+      for (let i = 0; i < refs.length; i++) {
+        const el = refs[i].current;
+        if (!el) continue;
+        const r = el.getBoundingClientRect();
+        if (focusY >= r.top && focusY <= r.bottom) {
+          return i + 1;
+        }
+      }
+      let best = 1;
+      let bestDist = Infinity;
+      for (let i = 0; i < refs.length; i++) {
+        const el = refs[i].current;
+        if (!el) continue;
+        const r = el.getBoundingClientRect();
+        const center = r.top + r.height / 2;
+        const d = Math.abs(center - focusY);
+        if (d < bestDist) {
+          bestDist = d;
+          best = i + 1;
+        }
+      }
+      return best;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const intersecting = entries.filter((e) => e.isIntersecting);
-        if (intersecting.length === 0) {
-          return;
-        }
-        const winner = intersecting.reduce((a, b) =>
-          b.intersectionRatio > a.intersectionRatio ? b : a
-        );
-        const step = Number((winner.target as HTMLElement).dataset.step);
-        if (step >= 1 && step <= 3) {
-          setActiveProcessStep(step);
-        }
-      },
-      {
-        root: null,
-        rootMargin: '-36% 0px -36% 0px',
-        threshold: [0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1],
-      }
-    );
+    let rafId: number | null = null;
+    const onScrollOrResize = () => {
+      if (rafId != null) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = null;
+        const next = pickActiveProcessStep();
+        setActiveProcessStep((prev) => (prev !== next ? next : prev));
+      });
+    };
 
-    nodes.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    onScrollOrResize();
+    window.addEventListener('scroll', onScrollOrResize, { passive: true });
+    window.addEventListener('resize', onScrollOrResize, { passive: true });
+    return () => {
+      if (rafId != null) cancelAnimationFrame(rafId);
+      window.removeEventListener('scroll', onScrollOrResize);
+      window.removeEventListener('resize', onScrollOrResize);
+    };
   }, []);
 
   return (
@@ -221,13 +237,22 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                 {c.hero.badge}
               </div>
 
-              <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight text-white md:text-7xl">
+              <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
                 {c.hero.title.kind === 'plain' ? (
-                  <span className="mx-auto block max-w-4xl">{c.hero.title.h1}</span>
+                  <span className="mx-auto block max-w-4xl text-white">{c.hero.title.h1}</span>
+                ) : c.hero.title.kind === 'accentLead' ? (
+                  <span className="mx-auto block max-w-4xl">
+                    <span className="bg-gradient-to-r from-emerald-200 to-emerald-500 bg-clip-text text-transparent">
+                      {c.hero.title.accent}
+                    </span>{' '}
+                    <span className="text-white">{c.hero.title.rest}</span>
+                  </span>
                 ) : (
                   <>
-                    {c.hero.title.h1Line1} <br className="hidden sm:block" />
-                    {c.hero.title.h1Line2}
+                    <span className="text-white">
+                      {c.hero.title.h1Line1} <br className="hidden sm:block" />
+                      {c.hero.title.h1Line2}
+                    </span>
                     <span className="block bg-gradient-to-r from-emerald-200 to-emerald-500 bg-clip-text text-transparent md:inline md:bg-gradient-to-r">
                       {c.hero.title.h1Gradient}
                     </span>

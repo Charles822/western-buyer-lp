@@ -7,9 +7,11 @@ const AVATAR_SRC =
 
 /**
  * Decorative in-call phone frame (visual only; no real controls).
+ * `evelyn` = voice-concierge copy (Evelyn header, no “Western buyer” pill).
  * Wave animation uses `.voice-agent-phone-waves .bar` in voice-agent.css.
  */
-export function VoiceAgentPhoneMockup() {
+export function VoiceAgentPhoneMockup({ variant = 'default' }: { variant?: 'default' | 'evelyn' }) {
+  const isEvelyn = variant === 'evelyn';
   return (
     <div className="flex w-full justify-center lg:justify-start">
       <div
@@ -44,18 +46,37 @@ export function VoiceAgentPhoneMockup() {
           </div>
 
           <div className="mb-2 space-y-1 text-center">
-            <h3 className="text-lg font-semibold text-white sm:text-xl">Convertree concierge</h3>
+            <h3
+              className={
+                isEvelyn
+                  ? 'text-center text-base font-semibold leading-snug text-white sm:text-lg'
+                  : 'text-lg font-semibold text-white sm:text-xl'
+              }
+            >
+              {isEvelyn ? (
+                <>
+                  Meet Evelyn,{' '}
+                  <span className="block sm:inline">Convertree concierge</span>
+                </>
+              ) : (
+                'Convertree concierge'
+              )}
+            </h3>
             <p className="text-xs font-medium uppercase tracking-wide text-emerald-400">
               Voice demo
             </p>
           </div>
 
-          <div className="mb-10 flex items-center gap-2 rounded-full border border-white/5 bg-white/5 px-3 py-1 sm:mb-12">
-            <div className="size-1.5 rounded-full bg-emerald-500" />
-            <span className="text-[10px] text-white/50">
-              Western buyer <span className="font-medium text-white">experience</span>
-            </span>
-          </div>
+          {!isEvelyn ? (
+            <div className="mb-10 flex items-center gap-2 rounded-full border border-white/5 bg-white/5 px-3 py-1 sm:mb-12">
+              <div className="size-1.5 rounded-full bg-emerald-500" />
+              <span className="text-[10px] text-white/50">
+                Western buyer <span className="font-medium text-white">experience</span>
+              </span>
+            </div>
+          ) : (
+            <div className="mb-10 sm:mb-12" aria-hidden />
+          )}
 
           <div className="voice-agent-phone-waves mb-auto flex h-14 items-center gap-1.5 sm:h-16">
             <div className="bar" />

@@ -24,7 +24,8 @@ export interface VoiceWhySegment {
 
 export type HeroTitle =
   | { kind: 'split'; h1Line1: string; h1Line2: string; h1Gradient: string }
-  | { kind: 'plain'; h1: string };
+  | { kind: 'plain'; h1: string }
+  | { kind: 'accentLead'; accent: string; rest: string };
 
 export type HeroBelowFold =
   | {
@@ -246,8 +247,9 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
   hero: {
     badge: 'PREMIUM VOICE CONCIERGE',
     title: {
-      kind: 'plain',
-      h1: 'Never miss a paying customer call – without hiring more staff',
+      kind: 'accentLead',
+      accent: 'Never miss a paying customer call',
+      rest: '– without hiring more staff',
     },
     sub:
       'Convertree installs an AI receptionist on your phone line that answers every call, speaks clear English, handles FAQs, and books appointments for you – so your team can focus on serving customers, not chasing missed calls.',
@@ -273,9 +275,14 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
             'Bookings and cancellations managed automatically, so staff can focus on clients in front of them.',
         },
         {
-          label: 'Logistics & freight forwarders',
+          label: 'Home services & trades',
           description:
-            'Shipment and rate enquiries captured and summarised instead of lost in missed calls.',
+            'Quote requests, scheduling, and dispatch calls answered while your crews are on the road—not lost to voicemail.',
+        },
+        {
+          label: 'Restaurants',
+          description:
+            'Reservations, takeout, and hours handled quickly so hosts and servers stay focused on guests.',
         },
         {
           label: 'Other busy service businesses',
@@ -334,7 +341,7 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
         stat: '$$$',
         statLabel: 'More revenue',
         body:
-          'Small businesses lose serious money when calls go unanswered; even a few missed calls a day can add up to thousands lost each month. Turning those calls into booked appointments and enquiries goes straight to your bottom line.',
+          'Missed calls quietly drain revenue—often hundreds or thousands a month. Answer consistently and more enquiries become bookings on your bottom line.',
       },
     ],
   },
@@ -358,16 +365,16 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
       bullets: ['Post-call follow-up assets', 'Human-in-the-loop review'],
     },
     {
-      title: 'Events, hotlines & product lines',
+      title: 'Precise call data analytics',
       body:
-        'Dedicated numbers for a flagship offer, a busy booth, or regional coverage—multiple callers can engage in parallel while your team stays focused on closing.',
-      bullets: ['Purpose-built routing', 'Parallel conversations'],
+        'Unlike staff who forget details within minutes, every call leaves a full transcript you can mine for trends—lead sources, objections, and booking patterns.',
+      bullets: ['Searchable transcripts', 'Business-ready summaries'],
     },
   ],
   processSticky: {
     title: 'How we bring you live',
     body:
-      'From a quick kick-off to your AI receptionist answering real calls—we keep it simple so you can get back to running the shop.',
+      'From a quick kick-off to your AI concierge answering real calls—we keep it simple so you can get back to running the shop.',
   },
   processSteps: [
     {
@@ -378,7 +385,7 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
     {
       title: 'Custom agent build',
       body:
-        'We connect your line and tune greetings, FAQs, and booking rules so the receptionist sounds like your business—not a generic bot.',
+        'We connect your line and tune greetings, FAQs, and booking rules so the concierge sounds like your business—not a generic bot.',
     },
     {
       title: 'Ongoing optimization',
