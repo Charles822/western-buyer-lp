@@ -82,6 +82,7 @@ export interface VoiceAgentLandingContent {
   demo: ConciergeDemoCopy;
   /** Four-up strip after demo (general landing only). */
   valueEquation?: {
+    sectionTitle: string;
     cards: [VoiceValueEquationCard, VoiceValueEquationCard, VoiceValueEquationCard, VoiceValueEquationCard];
   };
   stackLabel: string;
@@ -296,6 +297,7 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
       "You're in! Call the demo line here: {{PHONE}} Or tap Unlock web demo at the bottom-right of your screen to start the web demo.",
   },
   valueEquation: {
+    sectionTitle: 'The "Premium Voice Concierge" - PVC - Offer',
     cards: [
       {
         title: 'Installed by next week',

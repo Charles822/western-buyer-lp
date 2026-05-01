@@ -772,7 +772,7 @@ export function FluidCanvas() {
     <canvas
       ref={canvasRef}
       id="fluid"
-      className="pointer-events-none fixed inset-0 -z-10 h-full min-h-[100dvh] w-full opacity-30 mix-blend-screen"
+      className="pointer-events-none fixed inset-0 z-0 h-full min-h-[100dvh] w-full opacity-[0.42] mix-blend-screen"
       aria-hidden
     />
   );

@@ -319,9 +319,15 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
           {c.valueEquation ? (
             <section
               className="border-b border-white/5 bg-zinc-950/40 py-16 md:py-20"
-              aria-label="Why it works"
+              aria-labelledby="value-equation-heading"
             >
               <div className="mx-auto max-w-7xl px-6">
+                <h2
+                  id="value-equation-heading"
+                  className="mb-10 text-center text-2xl font-semibold tracking-tight text-white md:mb-12 md:text-3xl"
+                >
+                  {c.valueEquation.sectionTitle}
+                </h2>
                 <ValueEquationBigNumbers cards={c.valueEquation.cards} />
               </div>
             </section>

@@ -7,7 +7,8 @@ export const metadata: Metadata = {
   description:
     "AI receptionist for your phone line—answers every call in clear English, handles FAQs, and books appointments. Try a 5-minute demo.",
   icons: {
-    icon: "/convertree_new_logo_white.png",
+    icon: "/logo-alternatives/multicolor_alternativeV2.png",
+    apple: "/logo-alternatives/multicolor_alternativeV2.png",
   },
 };
 

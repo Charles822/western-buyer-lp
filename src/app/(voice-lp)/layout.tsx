@@ -17,7 +17,7 @@ export default function VoiceLpLayout({ children }: { children: React.ReactNode 
         {`try{document.documentElement.classList.add('voice-agent-paint');}catch(e){}`}
       </Script>
       <VoiceAgentRouteShell
-        className={`${inter.className} relative min-h-screen text-zinc-100 antialiased selection:bg-emerald-500/30 selection:text-white`}
+        className={`${inter.className} relative isolate z-0 min-h-screen text-zinc-100 antialiased selection:bg-emerald-500/30 selection:text-white`}
       >
         {children}
       </VoiceAgentRouteShell>
