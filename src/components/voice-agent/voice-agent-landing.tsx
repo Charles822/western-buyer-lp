@@ -324,9 +324,13 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
               <div className="mx-auto max-w-7xl px-6">
                 <h2
                   id="value-equation-heading"
-                  className="mb-10 text-center text-2xl font-semibold tracking-tight text-white md:mb-12 md:text-3xl"
+                  className="mx-auto mb-10 max-w-4xl text-center text-2xl font-semibold tracking-tight md:mb-12 md:text-3xl"
                 >
-                  {c.valueEquation.sectionTitle}
+                  <span className="text-white">{c.valueEquation.sectionHeading.beforeAccent}</span>
+                  <span className="bg-gradient-to-r from-emerald-200 to-emerald-500 bg-clip-text text-transparent">
+                    {c.valueEquation.sectionHeading.accent}
+                  </span>
+                  <span className="text-white">{c.valueEquation.sectionHeading.afterAccent}</span>
                 </h2>
                 <ValueEquationBigNumbers cards={c.valueEquation.cards} />
               </div>

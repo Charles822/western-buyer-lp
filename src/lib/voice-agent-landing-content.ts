@@ -82,7 +82,12 @@ export interface VoiceAgentLandingContent {
   demo: ConciergeDemoCopy;
   /** Four-up strip after demo (general landing only). */
   valueEquation?: {
-    sectionTitle: string;
+    /** Split like hero accent: “The” + green “Premium Voice Concierge” + “Offer”. */
+    sectionHeading: {
+      beforeAccent: string;
+      accent: string;
+      afterAccent: string;
+    };
     cards: [VoiceValueEquationCard, VoiceValueEquationCard, VoiceValueEquationCard, VoiceValueEquationCard];
   };
   stackLabel: string;
@@ -297,35 +302,39 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
       "You're in! Call the demo line here: {{PHONE}} Or tap Unlock web demo at the bottom-right of your screen to start the web demo.",
   },
   valueEquation: {
-    sectionTitle: 'The "Premium Voice Concierge" - PVC - Offer',
+    sectionHeading: {
+      beforeAccent: 'The ',
+      accent: 'Premium Voice Concierge',
+      afterAccent: ' Offer',
+    },
     cards: [
       {
-        title: 'Installed by next week',
+        title: '',
         stat: '7',
-        statLabel: 'Days to install',
+        statLabel: 'days to go live',
         body:
-          'We set up your AI receptionist, connect it to your phone line, and start taking real customer calls within 7 days of our kick-off call.',
+          'From kick-off we wire your AI receptionist to your line so you start taking real customer calls quickly—without a long IT project.',
       },
       {
-        title: '0 missed calls',
-        stat: '0',
-        statLabel: 'Missed calls',
+        title: '',
+        stat: '100%',
+        statLabel: 'of your calls answered',
         body:
-          'Your AI receptionist answers every call that comes in—even when your staff are busy or off. No more customers stuck with endless ringing or voicemail.',
+          'Your receptionist picks up every call, even when your team is slammed or off the clock—no endless ring or “please leave a message.”',
       },
       {
-        title: '30-day guarantee',
+        title: '',
         stat: '30',
-        statLabel: 'Day guarantee',
+        statLabel: 'day guarantee',
         body:
-          'If you’re not happy with the AI receptionist in the first 30 days, tell us and we’ll give you a full refund—no questions asked.',
+          'Not happy in the first 30 days? Tell us and we’ll refund you in full—no runaround.',
       },
       {
-        title: 'More revenue from the same calls',
+        title: '',
         stat: '$$$',
         statLabel: 'More revenue',
         body:
-          'Missed calls quietly drain revenue—often hundreds or thousands a month. Answer consistently and more enquiries become bookings on your bottom line.',
+          'Missed calls quietly drain revenue every month. Answer consistently and more enquiries turn into bookings on your bottom line.',
       },
     ],
   },
