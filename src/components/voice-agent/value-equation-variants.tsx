@@ -31,7 +31,7 @@ export function ValueEquationBigNumbers({ cards }: ValueEquationVariantProps) {
           {hasStat(card) && card.title?.trim() ? (
             <p className="mt-1 text-sm font-medium text-zinc-300">{card.title}</p>
           ) : null}
-          <p className="mt-4 text-sm leading-relaxed text-zinc-500">{card.body}</p>
+          <p className="mt-4 text-sm leading-relaxed text-zinc-300">{card.body}</p>
         </div>
       ))}
     </div>

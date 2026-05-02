@@ -320,7 +320,7 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
         stat: '100%',
         statLabel: 'of your calls answered',
         body:
-          'Your receptionist picks up every call, even when your team is slammed or off the clock—no endless ring or “please leave a message.”',
+          'Your concierge picks up every call, even when your team is slammed or off the clock—no endless ring or “please leave a message.”',
       },
       {
         title: '',
