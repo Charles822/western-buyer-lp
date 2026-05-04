@@ -422,7 +422,18 @@ export function LandingPage({ content, locale }: LandingPageProps) {
           <div className="flex items-center gap-3">
             <ConvertreeLogoLockup variant="onDark" size="footer" />
           </div>
-          <div className="flex flex-col items-center md:items-end">
+          <div className="flex flex-col items-center md:items-end gap-3">
+            <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm md:justify-end">
+              <Link href="/privacy" className="text-stone-400 hover:text-stone-200 transition-colors">
+                Privacy
+              </Link>
+              <span className="text-stone-600" aria-hidden>
+                ·
+              </span>
+              <Link href="/terms" className="text-stone-400 hover:text-stone-200 transition-colors">
+                Terms
+              </Link>
+            </div>
             <p className="text-sm text-stone-500">{content.footer.copyright}</p>
           </div>
         </div>

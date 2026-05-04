@@ -1,6 +1,7 @@
 'use client';
 
 import { Icon } from '@iconify/react';
+import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import { PerfectForChips } from '@/components/voice-agent/perfect-for-variants';
 import { ValueEquationBigNumbers } from '@/components/voice-agent/value-equation-variants';
@@ -551,12 +552,12 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
               </p>
             </div>
             <div className="flex flex-wrap justify-center gap-8 text-base font-medium text-zinc-400 md:gap-10">
-              <a href="#" className="hover:text-white">
+              <Link href="/privacy" className="hover:text-white">
                 Privacy
-              </a>
-              <a href="#" className="hover:text-white">
+              </Link>
+              <Link href="/terms" className="hover:text-white">
                 Terms
-              </a>
+              </Link>
               <a href={`mailto:${SUPPORT_EMAIL}`} className="hover:text-white">
                 Contact
               </a>
