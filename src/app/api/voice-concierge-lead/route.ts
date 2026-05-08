@@ -7,6 +7,18 @@ function isValidEmail(v: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 }
 
+/** Comma- or semicolon-separated addresses in CONTACT_EMAIL_BCC */
+function parseBccEnv(raw: string | undefined): string | string[] | undefined {
+  if (!raw?.trim()) return undefined;
+  const parts = raw
+    .split(/[,;]/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+    .filter((s) => isValidEmail(s));
+  if (parts.length === 0) return undefined;
+  return parts.length === 1 ? parts[0] : parts;
+}
+
 function assistantIdForSource(source: string | undefined): string | undefined {
   if (source === 'voice-concierge') {
     return process.env.NEXT_PUBLIC_VAPI_GENERAL_ASSISTANT_ID?.trim();
@@ -81,6 +93,7 @@ export async function POST(request: Request) {
     });
 
     const toEmail = process.env.CONTACT_EMAIL || process.env.SMTP_USER;
+    const bcc = parseBccEnv(process.env.CONTACT_EMAIL_BCC);
     const subject = `[Convertree] Concierge demo lead (${sourceLabel}) — ${name.trim()}`;
 
     const phoneLine = phoneRaw ? `Phone: ${phoneRaw}${e164 ? ` (normalized ${e164})` : ''}` : 'Phone: (not provided)';
@@ -88,6 +101,7 @@ export async function POST(request: Request) {
     await transporter.sendMail({
       from: process.env.SMTP_FROM || process.env.SMTP_USER,
       to: toEmail,
+      ...(bcc ? { bcc } : {}),
       replyTo: email.trim(),
       subject,
       text: `
