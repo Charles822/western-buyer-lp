@@ -417,7 +417,7 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
   },
   contactModal: {
     kind: 'whatsapp',
-    href: 'https://api.whatsapp.com/send/?phone=85366110975&text=Hi%20Sam,%20I%20found%20your%20contact%20on%20convertree.com%20and%20I%27d%20like%20to%20know%20more%20about%20The%20Premium%20Voice%20Concierge%20Offer',
+    href: 'https://api.whatsapp.com/send/?phone=85366110975&text=Hi%2C%20can%20you%20tell%20me%20more%20about%20the%20AI%20concierge%20please%3F',
   },
   wechatCta: "Let's chat",
 };
