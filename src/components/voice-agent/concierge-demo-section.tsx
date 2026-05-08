@@ -85,6 +85,7 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
   const [phone, setPhone] = useState('');
+  const [outboundInitiated, setOutboundInitiated] = useState<boolean | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -103,12 +104,25 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
           source: leadSource,
         }),
       });
-      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      const data = (await res.json().catch(() => ({}))) as {
+        error?: string;
+        outboundInitiated?: boolean;
+        outboundVapi?: {
+          callId?: string;
+          status?: string;
+          type?: string;
+          endedReason?: string;
+        };
+      };
       if (!res.ok) {
         setErrorMsg(data.error ?? 'Something went wrong.');
         setStatus('error');
         return;
       }
+      if (process.env.NODE_ENV === 'development' && data.outboundVapi) {
+        console.debug('[concierge demo] Vapi outbound:', data.outboundVapi);
+      }
+      setOutboundInitiated(data.outboundInitiated === true);
       setUnlocked(true);
       setStatus('idle');
     } catch {
@@ -227,7 +241,11 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
                     onChange={(e) => setPhone(e.target.value)}
                     className="border-zinc-600 bg-zinc-900/80 text-white"
                     autoComplete="tel"
+                    placeholder="+85292903426"
                   />
+                  {demo.phoneHelper ? (
+                    <p className="text-xs leading-snug text-zinc-500">{demo.phoneHelper}</p>
+                  ) : null}
                 </div>
                 {errorMsg ? (
                   <p className="text-sm text-red-400" role="alert">
@@ -258,6 +276,11 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0 flex-1">
                     <h3 className="text-xl font-semibold text-white">{demo.unlockedTitle}</h3>
+                    {outboundInitiated === true ? (
+                      <p className="mt-3 rounded-lg border border-emerald-500/35 bg-emerald-950/45 px-4 py-3 text-sm leading-snug text-emerald-100">
+                        We&apos;re placing your demo call—answer when your phone rings.
+                      </p>
+                    ) : null}
                     <div className="mt-2">
                       <UnlockedBody template={demo.unlockedBodyTemplate} phone={VOICE_DEMO_PHONE} />
                     </div>

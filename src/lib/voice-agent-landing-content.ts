@@ -53,6 +53,8 @@ export interface ConciergeDemoCopy {
   /** Optional one-line intro above bullets. */
   whyIntro?: string;
   optInNotice: string;
+  /** Shown under the optional phone field (outbound demo call disclosure). */
+  phoneHelper?: string;
   unlockSubmitIdle: string;
   unlockSubmitLoading: string;
   unlockedTitle: string;
@@ -168,12 +170,14 @@ export const voiceAgentLandingExporter: VoiceAgentLandingContent = {
       },
     ],
     optInNotice:
-      'Enter your details to unlock the live voice demo. The demo may be recorded to improve the experience; use a microphone in a quiet place. Same flow we use in sales: opt in first, then experience the agent.',
+      'Enter your details to unlock the live voice demo. If you add a mobile number in international format with country code (e.g. +852…), you agree we may place one automated outbound demo call to that number so you can hear the AI on your phone; the call may be recorded as described in our Privacy Policy. The in-browser demo may also be recorded; use a microphone in a quiet place.',
+    phoneHelper:
+      'International format with + and country code. If provided, we’ll try to call you for the phone demo—otherwise use the demo line or web demo below.',
     unlockSubmitIdle: 'Unlock voice demo',
     unlockSubmitLoading: 'Sending…',
     unlockedTitle: 'Voice demo ready',
     unlockedBodyTemplate:
-      "You're in! Call the demo line here: {{PHONE}} Or tap Unlock web demo at the bottom-right of your screen to start the web demo.",
+      "You're in! If you shared a valid mobile number, our demo agent should call you shortly—answer to hear the AI. You can also call our demo line: {{PHONE}} Or tap Unlock web demo at the bottom-right of your screen to start the web demo.",
   },
   stackLabel: 'Technologies we use',
   servicesIntro: {
@@ -294,12 +298,14 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
       'No more stress about missed calls when you’re out or the front desk is slammed.',
     ],
     optInNotice:
-      'Enter your details to unlock the live voice demo. The demo may be recorded to improve the experience; use a microphone in a quiet place. Same flow we use in sales: opt in first, then experience the agent.',
+      'Enter your details to unlock the live voice demo. If you add a mobile number in international format with country code (e.g. +852…), you agree we may place one automated outbound demo call to that number so you can hear the AI on your phone; the call may be recorded as described in our Privacy Policy. The in-browser demo may also be recorded; use a microphone in a quiet place.',
+    phoneHelper:
+      'International format with + and country code. If provided, we’ll try to call you for the phone demo—otherwise use the demo line or web demo below.',
     unlockSubmitIdle: 'Unlock voice demo',
     unlockSubmitLoading: 'Sending…',
     unlockedTitle: 'Voice demo ready',
     unlockedBodyTemplate:
-      "You're in! Call the demo line here: {{PHONE}} Or tap Unlock web demo at the bottom-right of your screen to start the web demo.",
+      "You're in! If you shared a valid mobile number, our demo agent should call you shortly—answer to hear the AI. You can also call our demo line: {{PHONE}} Or tap Unlock web demo at the bottom-right of your screen to start the web demo.",
   },
   valueEquation: {
     sectionHeading: {

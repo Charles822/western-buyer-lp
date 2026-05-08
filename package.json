@@ -8,7 +8,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "logos:variants": "node scripts/generate-logo-variants.mjs"
+    "logos:variants": "node scripts/generate-logo-variants.mjs",
+    "vapi:test-outbound": "node --env-file=.env scripts/vapi-test-outbound.mjs",
+    "vapi:poll-call": "node --env-file=.env scripts/vapi-poll-call.mjs"
   },
   "dependencies": {
     "@iconify/react": "^6.0.2",
