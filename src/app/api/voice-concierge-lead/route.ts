@@ -163,6 +163,7 @@ Sent from Convertree concierge lead form
         assistantId,
         phoneNumberId,
         customerNumber: e164,
+        customerName: name.trim(),
       });
       if (result.ok) {
         outboundInitiated = true;

@@ -2,6 +2,8 @@ export type VapiCreateCallPayload = {
   assistantId: string;
   phoneNumberId: string;
   customerNumber: string;
+  /** Passed as customer.name for templates like {{customer.name}} */
+  customerName?: string;
 };
 
 /** Subset of POST /call response fields useful for debugging (see Vapi API docs). */
@@ -57,6 +59,9 @@ export async function vapiCreateOutboundCall(
         phoneNumberId: payload.phoneNumberId,
         customer: {
           number: payload.customerNumber,
+          ...(payload.customerName?.trim()
+            ? { name: payload.customerName.trim() }
+            : {}),
         },
       }),
     });
