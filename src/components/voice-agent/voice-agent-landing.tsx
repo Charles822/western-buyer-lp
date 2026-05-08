@@ -7,7 +7,7 @@ import { PerfectForChips } from '@/components/voice-agent/perfect-for-variants';
 import { ValueEquationBigNumbers } from '@/components/voice-agent/value-equation-variants';
 import { ConciergeDemoSection } from '@/components/voice-agent/concierge-demo-section';
 import { FluidCanvas } from '@/components/voice-agent/fluid-canvas';
-import { WeChatContactModal } from '@/components/voice-agent/wechat-contact-modal';
+import { ContactChatModal } from '@/components/voice-agent/contact-chat-modal';
 import { ConvertreeLogoLockup } from '@/components/convertree-logo-lockup';
 import type { VoiceAgentLandingContent } from '@/lib/voice-agent-landing-content';
 
@@ -63,7 +63,7 @@ type VoiceAgentLandingProps = {
 export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
   const c = content;
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [weChatOpen, setWeChatOpen] = useState(false);
+  const [contactModalOpen, setContactModalOpen] = useState(false);
   const [activeProcessStep, setActiveProcessStep] = useState(1);
   const processStep1Ref = useRef<HTMLDivElement>(null);
   const processStep2Ref = useRef<HTMLDivElement>(null);
@@ -163,7 +163,7 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
 
             <button
               type="button"
-              onClick={() => setWeChatOpen(true)}
+              onClick={() => setContactModalOpen(true)}
               className="hidden items-center gap-2 text-base font-medium text-white transition-colors hover:text-emerald-400 md:inline-flex"
             >
               {c.wechatCta}
@@ -222,7 +222,7 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
               type="button"
               className="inline-flex items-center gap-2 text-left text-lg text-emerald-400 hover:text-emerald-300"
               onClick={() => {
-                setWeChatOpen(true);
+                setContactModalOpen(true);
                 closeMobile();
               }}
             >
@@ -444,7 +444,7 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                   <p className="mb-10 text-xl text-zinc-400">{c.processSticky.body}</p>
                   <button
                     type="button"
-                    onClick={() => setWeChatOpen(true)}
+                    onClick={() => setContactModalOpen(true)}
                     className="inline-flex items-center gap-2 rounded-lg bg-zinc-100 px-6 py-3 text-base font-semibold text-zinc-950 transition-colors hover:bg-zinc-200"
                   >
                     {c.wechatCta}
@@ -526,7 +526,7 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                 </a>
                 <button
                   type="button"
-                  onClick={() => setWeChatOpen(true)}
+                  onClick={() => setContactModalOpen(true)}
                   className="inline-flex items-center gap-2 rounded-full border border-zinc-600 px-8 py-4 text-lg font-medium text-zinc-200 transition-colors hover:border-emerald-500/50 hover:text-white"
                 >
                   {c.wechatCta}
@@ -566,7 +566,11 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
         </footer>
       </div>
 
-      <WeChatContactModal open={weChatOpen} onClose={() => setWeChatOpen(false)} />
+      <ContactChatModal
+        open={contactModalOpen}
+        onClose={() => setContactModalOpen(false)}
+        contactModal={c.contactModal}
+      />
     </>
   );
 }

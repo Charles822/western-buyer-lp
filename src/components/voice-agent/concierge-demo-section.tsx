@@ -6,6 +6,7 @@ import { ConciergeInlineVoice } from '@/components/voice-agent/concierge-inline-
 import { VoiceAgentPhoneMockup } from '@/components/voice-agent/voice-agent-phone-mockup';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { pushGtmDataLayer } from '@/lib/gtm-data-layer';
 import type { ConciergeDemoCopy, VoiceLeadSource } from '@/lib/voice-agent-landing-content';
 
 const PUBLIC_KEY = process.env.NEXT_PUBLIC_VAPI_PUBLIC_KEY ?? '';
@@ -109,6 +110,10 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
         setStatus('error');
         return;
       }
+      pushGtmDataLayer({
+        event: 'concierge_demo_unlock',
+        lead_source: leadSource,
+      });
       setUnlocked(true);
       setStatus('idle');
     } catch {

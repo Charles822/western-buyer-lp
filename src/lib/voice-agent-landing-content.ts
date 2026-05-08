@@ -1,5 +1,9 @@
 export type VoiceLeadSource = 'voice-agent' | 'voice-concierge';
 
+export type VoiceContactModal =
+  | { kind: 'wechat_qr' }
+  | { kind: 'whatsapp'; href: string };
+
 export interface VoiceServiceCardContent {
   title: string;
   body: string;
@@ -108,6 +112,8 @@ export interface VoiceAgentLandingContent {
     body: string;
     ctaDemo: string;
   };
+  /** Contact popup: WeChat QR (manufacturer) or WhatsApp deep link (general SMB). */
+  contactModal: VoiceContactModal;
   wechatCta: string;
 }
 
@@ -245,6 +251,7 @@ export const voiceAgentLandingExporter: VoiceAgentLandingContent = {
       'Try the opt-in voice demo above, or reach us on WeChat—we\'ll map your buyers, your products, and what "good" handoff looks like in your CRM.',
     ctaDemo: 'Try the concierge demo',
   },
+  contactModal: { kind: 'wechat_qr' },
   wechatCta: 'Talk on WeChat',
 };
 
@@ -405,8 +412,12 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
   contact: {
     title: "Hear it for yourself, then we'll scope your build",
     body:
-      'Try the five-minute demo above, or reach us on WeChat—we’ll map your callers, your schedule, and what a great handoff looks like for your team.',
+      'Try the five-minute demo above, or tap Let\'s chat below—we\'ll map your callers, your schedule, and what a great handoff looks like for your team.',
     ctaDemo: 'Try our 5-minute agent demo now',
   },
-  wechatCta: 'Talk on WeChat',
+  contactModal: {
+    kind: 'whatsapp',
+    href: 'https://api.whatsapp.com/send/?phone=85366110975&text=Hi%20Sam,%20I%20found%20your%20contact%20on%20convertree.com%20and%20I%27d%20like%20to%20know%20more%20about%20The%20Premium%20Voice%20Concierge%20Offer',
+  },
+  wechatCta: "Let's chat",
 };
