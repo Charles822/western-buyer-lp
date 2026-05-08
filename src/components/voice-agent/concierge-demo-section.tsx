@@ -84,8 +84,6 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
-  const [phone, setPhone] = useState('');
-  const [outboundInitiated, setOutboundInitiated] = useState<boolean | null>(null);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -99,30 +97,18 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
         body: JSON.stringify({
           name: name.trim(),
           email: email.trim(),
-          company: company.trim(),
-          phone: phone.trim() || undefined,
+          company: company.trim() || undefined,
           source: leadSource,
         }),
       });
       const data = (await res.json().catch(() => ({}))) as {
         error?: string;
-        outboundInitiated?: boolean;
-        outboundVapi?: {
-          callId?: string;
-          status?: string;
-          type?: string;
-          endedReason?: string;
-        };
       };
       if (!res.ok) {
         setErrorMsg(data.error ?? 'Something went wrong.');
         setStatus('error');
         return;
       }
-      if (process.env.NODE_ENV === 'development' && data.outboundVapi) {
-        console.debug('[concierge demo] Vapi outbound:', data.outboundVapi);
-      }
-      setOutboundInitiated(data.outboundInitiated === true);
       setUnlocked(true);
       setStatus('idle');
     } catch {
@@ -188,7 +174,7 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
                 <p className="text-sm text-zinc-400">{demo.optInNotice}</p>
                 <div className="space-y-2">
                   <Label htmlFor="demo-name" className="text-zinc-200">
-                    Full name
+                    Name
                   </Label>
                   <Input
                     id="demo-name"
@@ -217,35 +203,16 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="demo-company" className="text-zinc-200">
-                    Company
+                    Company <span className="text-zinc-500">(optional)</span>
                   </Label>
                   <Input
                     id="demo-company"
                     name="company"
-                    required
                     value={company}
                     onChange={(e) => setCompany(e.target.value)}
                     className="border-zinc-600 bg-zinc-900/80 text-white"
                     autoComplete="organization"
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="demo-phone" className="text-zinc-200">
-                    Phone <span className="text-zinc-500">(optional)</span>
-                  </Label>
-                  <Input
-                    id="demo-phone"
-                    name="phone"
-                    type="tel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    className="border-zinc-600 bg-zinc-900/80 text-white"
-                    autoComplete="tel"
-                    placeholder="+85292903426"
-                  />
-                  {demo.phoneHelper ? (
-                    <p className="text-xs leading-snug text-zinc-500">{demo.phoneHelper}</p>
-                  ) : null}
                 </div>
                 {errorMsg ? (
                   <p className="text-sm text-red-400" role="alert">
@@ -276,11 +243,6 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
                 <div className="flex items-start justify-between gap-4">
                   <div className="min-w-0 flex-1">
                     <h3 className="text-xl font-semibold text-white">{demo.unlockedTitle}</h3>
-                    {outboundInitiated === true ? (
-                      <p className="mt-3 rounded-lg border border-emerald-500/35 bg-emerald-950/45 px-4 py-3 text-sm leading-snug text-emerald-100">
-                        We&apos;re placing your demo call—answer when your phone rings.
-                      </p>
-                    ) : null}
                     <div className="mt-2">
                       <UnlockedBody template={demo.unlockedBodyTemplate} phone={VOICE_DEMO_PHONE} />
                     </div>
