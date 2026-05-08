@@ -8,7 +8,7 @@
  *   VAPI_API_KEY=... VAPI_PHONE_NUMBER_ID=... NEXT_PUBLIC_VAPI_GENERAL_ASSISTANT_ID=... node scripts/vapi-test-outbound.mjs
  */
 
-const TEST_NUMBER = '+85269784602';
+const TEST_NUMBER = '+85366987924';
 const TEST_NAME = 'Charles Fauchet';
 
 const apiKey = process.env.VAPI_API_KEY?.trim();
