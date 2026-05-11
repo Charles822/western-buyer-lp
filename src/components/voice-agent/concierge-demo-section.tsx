@@ -46,10 +46,10 @@ function UnlockedBody({
           </p>
           <a
             href={telHref}
-            className="mt-4 flex w-full min-w-0 flex-col items-center justify-center gap-2.5 rounded-xl border border-emerald-400/45 bg-emerald-600 px-3 py-3.5 text-center text-base font-semibold text-white shadow-lg shadow-emerald-950/50 ring-1 ring-emerald-300/20 transition hover:bg-emerald-500 hover:shadow-emerald-900/60 active:scale-[0.99] sm:flex-row sm:gap-3 sm:px-4"
+            className="mt-4 flex w-full min-w-0 flex-row items-center justify-center gap-3 rounded-xl border border-emerald-400/45 bg-emerald-600 px-4 py-3.5 text-base font-semibold text-white shadow-lg shadow-emerald-950/50 ring-1 ring-emerald-300/20 transition hover:bg-emerald-500 hover:shadow-emerald-900/60 active:scale-[0.99]"
           >
             <Icon icon="solar:phone-calling-bold" className="size-6 shrink-0" aria-hidden />
-            <span className="min-w-0 w-full max-w-full text-balance break-words text-center leading-snug sm:w-auto sm:text-left">
+            <span className="whitespace-nowrap tabular-nums tracking-tight">
               {phone}
             </span>
           </a>
