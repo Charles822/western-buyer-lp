@@ -41,8 +41,8 @@ export function ConciergeVapiWidget({
       borderRadius="large"
       baseBgColor="#18181b"
       accentColor="#10b981"
-      ctaButtonColor="#059669"
-      ctaButtonTextColor="#ffffff"
+      ctaButtonColor="#ffffff"
+      ctaButtonTextColor="#18181b"
       title={title}
       startButtonText="Start voice demo"
       endButtonText="End call"

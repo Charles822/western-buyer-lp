@@ -215,3 +215,41 @@
   animation-duration: 400ms;
 }
 
+/*
+ * Vapi collapsed FAB (voice widget): traveling emerald beam — same mechanism as `.shiny-cta`.
+ * The SDK renders a single outer div with classes `hover:scale-105 hover:-translate-y-1` (see embed/widget.js).
+ */
+.vapi-widget-wrapper div.hover\:scale-105.hover\:-translate-y-1 {
+  --gradient-angle: 0deg;
+  --gradient-angle-offset: 0deg;
+  --gradient-percent: 20%;
+  --gradient-shine: #34d399;
+  isolation: isolate;
+  border: 2px solid transparent !important;
+  background:
+    linear-gradient(var(--vapi-fab-fill, #ffffff), var(--vapi-fab-fill, #ffffff)) padding-box,
+    conic-gradient(
+        from calc(var(--gradient-angle) - var(--gradient-angle-offset)),
+        transparent 0%,
+        #059669 5%,
+        var(--gradient-shine) 15%,
+        #059669 30%,
+        transparent 40%,
+        transparent 100%
+      )
+      border-box !important;
+  box-shadow:
+    inset 0 0 0 1px rgba(38, 38, 38, 0.15),
+    0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1) !important;
+  animation: voice-agent-border-spin 2.5s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vapi-widget-wrapper div.hover\:scale-105.hover\:-translate-y-1 {
+    animation: none;
+    background: var(--vapi-fab-fill, #ffffff) !important;
+    border-color: rgba(16, 185, 129, 0.35) !important;
+  }
+}
+
