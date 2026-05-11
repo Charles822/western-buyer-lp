@@ -2,6 +2,7 @@
 
 import { Icon } from '@iconify/react';
 import { useState } from 'react';
+import { CONCIERGE_WEB_VOICE_WIDGET_TITLE } from '@/components/voice-agent/concierge-vapi-widget';
 import { ConciergeInlineVoice } from '@/components/voice-agent/concierge-inline-voice';
 import { VoiceAgentPhoneMockup } from '@/components/voice-agent/voice-agent-phone-mockup';
 import { Input } from '@/components/ui/input';
@@ -22,45 +23,60 @@ function voiceDemoTelHref(phone: string) {
 }
 
 function UnlockedBody({
-  template,
+  demo,
   phone,
 }: {
-  template: string;
+  demo: ConciergeDemoCopy;
   phone: string;
 }) {
-  const marker = 'Unlock web demo';
   const telHref = voiceDemoTelHref(phone);
-  const parts = template.split('{{PHONE}}');
-
-  if (parts.length < 2) {
-    return (
-      <p className="text-sm leading-relaxed text-emerald-400/90">{template}</p>
-    );
-  }
-
-  const [before, afterPhone = ''] = parts;
-  const idx = afterPhone.indexOf(marker);
 
   return (
-    <div className="space-y-3">
-      <p className="text-sm leading-relaxed text-emerald-400/90">{before.trimEnd()}</p>
-      <a
-        href={telHref}
-        className="flex w-full min-w-0 flex-col items-center justify-center gap-2.5 rounded-xl border border-emerald-400/45 bg-emerald-600 px-3 py-3.5 text-center text-base font-semibold text-white shadow-lg shadow-emerald-950/50 ring-1 ring-emerald-300/20 transition hover:bg-emerald-500 hover:shadow-emerald-900/60 active:scale-[0.99] sm:flex-row sm:gap-3 sm:px-4"
-      >
-        <Icon icon="solar:phone-calling-bold" className="size-6 shrink-0" aria-hidden />
-        <span className="min-w-0 w-full max-w-full text-balance break-words text-center leading-snug sm:w-auto sm:text-left">
-          {phone}
-        </span>
-      </a>
-      {idx === -1 ? (
-        <p className="text-sm leading-relaxed text-emerald-400/90">{afterPhone.trim()}</p>
-      ) : (
-        <p className="text-sm leading-relaxed text-emerald-400/90">
-          Or tap <span className="font-medium text-white">{marker}</span>
-          {afterPhone.slice(idx + marker.length)}
-        </p>
-      )}
+    <div className="space-y-4">
+      <p className="text-sm leading-relaxed text-emerald-400/90">
+        {demo.unlockedSubtitle}
+      </p>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="flex flex-col rounded-xl border border-emerald-500/25 bg-zinc-950/40 p-5 ring-1 ring-emerald-500/10">
+          <h4 className="text-base font-semibold text-white">
+            {demo.unlockedPhoneTitle}
+          </h4>
+          <p className="mt-2 text-sm leading-relaxed text-emerald-400/90">
+            {demo.unlockedPhoneText}
+          </p>
+          <a
+            href={telHref}
+            className="mt-4 flex w-full min-w-0 flex-col items-center justify-center gap-2.5 rounded-xl border border-emerald-400/45 bg-emerald-600 px-3 py-3.5 text-center text-base font-semibold text-white shadow-lg shadow-emerald-950/50 ring-1 ring-emerald-300/20 transition hover:bg-emerald-500 hover:shadow-emerald-900/60 active:scale-[0.99] sm:flex-row sm:gap-3 sm:px-4"
+          >
+            <Icon icon="solar:phone-calling-bold" className="size-6 shrink-0" aria-hidden />
+            <span className="min-w-0 w-full max-w-full text-balance break-words text-center leading-snug sm:w-auto sm:text-left">
+              {phone}
+            </span>
+          </a>
+        </div>
+        <div className="flex flex-col rounded-xl border border-emerald-500/25 bg-zinc-950/40 p-5 ring-1 ring-emerald-500/10">
+          <h4 className="text-base font-semibold text-white">
+            {demo.unlockedWebTitle}
+          </h4>
+          <p className="mt-2 text-sm leading-relaxed text-emerald-400/90">
+            {demo.unlockedWebText}
+          </p>
+          <div className="mt-4 flex items-start gap-3 rounded-lg border border-emerald-500/20 bg-emerald-950/20 px-3 py-2.5">
+            <Icon
+              icon="solar:arrow-right-down-bold-duotone"
+              className="mt-0.5 size-6 shrink-0 text-emerald-400"
+              aria-hidden
+            />
+            <p className="text-sm leading-relaxed text-emerald-300/95">
+              Tap{' '}
+              <span className="font-medium text-white">
+                {CONCIERGE_WEB_VOICE_WIDGET_TITLE}
+              </span>{' '}
+              in the bottom-right corner of your screen.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
@@ -249,7 +265,7 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
                   <div className="min-w-0 flex-1">
                     <h3 className="text-xl font-semibold text-white">{demo.unlockedTitle}</h3>
                     <div className="mt-2">
-                      <UnlockedBody template={demo.unlockedBodyTemplate} phone={VOICE_DEMO_PHONE} />
+                      <UnlockedBody demo={demo} phone={VOICE_DEMO_PHONE} />
                     </div>
                   </div>
                   <div className="hidden h-12 w-12 shrink-0 items-center justify-center rounded-full bg-emerald-500/10 sm:flex">

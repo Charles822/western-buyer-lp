@@ -7,6 +7,9 @@ const VapiWidget = dynamic(
   { ssr: false }
 );
 
+/** Must stay in sync with copy that references the floating widget button label. */
+export const CONCIERGE_WEB_VOICE_WIDGET_TITLE = 'Unlock web demo';
+
 type ConciergeVapiWidgetProps = {
   publicKey: string;
   assistantId: string;
@@ -23,7 +26,7 @@ export function ConciergeVapiWidget({
   onVoiceStart,
   onVoiceEnd,
   onVapiError,
-  title = 'Unlock web demo',
+  title = CONCIERGE_WEB_VOICE_WIDGET_TITLE,
   voiceEmptyMessage = 'Tap to start. Speak in English like a Western buyer would.',
 }: ConciergeVapiWidgetProps) {
   if (!publicKey || !assistantId) {

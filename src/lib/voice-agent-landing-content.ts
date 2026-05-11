@@ -60,8 +60,11 @@ export interface ConciergeDemoCopy {
   unlockSubmitIdle: string;
   unlockSubmitLoading: string;
   unlockedTitle: string;
-  /** Insert {{PHONE}} where the demo number should appear. */
-  unlockedBodyTemplate: string;
+  unlockedSubtitle: string;
+  unlockedPhoneTitle: string;
+  unlockedPhoneText: string;
+  unlockedWebTitle: string;
+  unlockedWebText: string;
 }
 
 export interface VoiceValueEquationCard {
@@ -178,8 +181,14 @@ export const voiceAgentLandingExporter: VoiceAgentLandingContent = {
     unlockSubmitIdle: 'Unlock voice demo',
     unlockSubmitLoading: 'Sending…',
     unlockedTitle: 'Voice demo ready',
-    unlockedBodyTemplate:
-      "You're in! Call our demo line: {{PHONE}} Or tap Unlock web demo at the bottom-right of your screen to start the web demo.",
+    unlockedSubtitle:
+      'Your AI concierge can be wired to a real phone number, or embedded directly on your website to qualify visitors. Try both experiences below:',
+    unlockedPhoneTitle: 'Try over the phone',
+    unlockedPhoneText:
+      'Works just like a normal call. Call the demo line below.',
+    unlockedWebTitle: 'Try on the web',
+    unlockedWebText:
+      'Experience the in-browser widget. Requires microphone access.',
   },
   stackLabel: 'Technologies we use',
   servicesIntro: {
@@ -305,8 +314,14 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
     unlockSubmitIdle: 'Unlock voice demo',
     unlockSubmitLoading: 'Sending…',
     unlockedTitle: 'Voice demo ready',
-    unlockedBodyTemplate:
-      "You're in! Call our demo line: {{PHONE}} Or tap Unlock web demo at the bottom-right of your screen to start the web demo.",
+    unlockedSubtitle:
+      'Your AI concierge can be wired to a real phone number, or embedded directly on your website to qualify visitors. Try both experiences below:',
+    unlockedPhoneTitle: 'Try over the phone',
+    unlockedPhoneText:
+      'Works just like a normal call. Call the demo line below.',
+    unlockedWebTitle: 'Try on the web',
+    unlockedWebText:
+      'Experience the in-browser widget. Requires microphone access.',
   },
   valueEquation: {
     sectionHeading: {
