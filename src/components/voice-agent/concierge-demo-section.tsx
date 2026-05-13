@@ -258,6 +258,11 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
                     </>
                   )}
                 </button>
+                {demo.unlockSubmitNote ? (
+                  <p className="text-center text-sm text-zinc-500">
+                    {demo.unlockSubmitNote}
+                  </p>
+                ) : null}
               </form>
             ) : (
               <div className="demo-unlocked-card glass-card space-y-6 rounded-2xl p-8">

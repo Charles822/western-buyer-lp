@@ -59,6 +59,7 @@ export interface ConciergeDemoCopy {
   optInNotice: string;
   unlockSubmitIdle: string;
   unlockSubmitLoading: string;
+  unlockSubmitNote?: string;
   unlockedTitle: string;
   unlockedSubtitle: string;
   unlockedPhoneTitle: string;
@@ -95,7 +96,7 @@ export interface VoiceAgentLandingContent {
       accent: string;
       afterAccent: string;
     };
-    cards: [VoiceValueEquationCard, VoiceValueEquationCard, VoiceValueEquationCard, VoiceValueEquationCard];
+    cards: VoiceValueEquationCard[];
   };
   stackLabel: string;
   servicesIntro: {
@@ -107,7 +108,7 @@ export interface VoiceAgentLandingContent {
     title: string;
     body: string;
   };
-  processSteps: [VoiceProcessStepContent, VoiceProcessStepContent, VoiceProcessStepContent];
+  processSteps: VoiceProcessStepContent[];
   insightsIntro: string;
   insightsPosts: [VoiceInsightPostContent, VoiceInsightPostContent, VoiceInsightPostContent];
   contact: {
@@ -118,6 +119,11 @@ export interface VoiceAgentLandingContent {
   /** Contact popup: WeChat QR (manufacturer) or WhatsApp deep link (general SMB). */
   contactModal: VoiceContactModal;
   wechatCta: string;
+  navLabels?: {
+    demo: string;
+    services: string;
+    process: string;
+  };
 }
 
 /** Backup hero headlines from PDF — not shown in UI; for future A/B or CMS. */
@@ -267,28 +273,29 @@ export const voiceAgentLandingExporter: VoiceAgentLandingContent = {
 export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
   leadSource: 'voice-concierge',
   hero: {
-    badge: 'PREMIUM VOICE CONCIERGE',
+    badge: 'AFTER-HOURS AI RECEPTIONIST',
     title: {
-      kind: 'accentLead',
-      accent: 'Never miss a paying customer call',
-      rest: '– without hiring more staff',
+      kind: 'split',
+      h1Line1: 'Your clinic closes at 6pm.',
+      h1Line2: "Evelyn doesn't.",
+      h1Gradient: '',
     },
     sub:
-      'Convertree installs an AI receptionist on your phone line that answers every call, speaks clear English, handles FAQs, and books appointments for you – so your team can focus on serving customers, not chasing missed calls.',
-    ctaDemo: 'Try our 5-minute agent demo now',
-    ctaProcess: 'How we onboard teams',
+      "Evelyn takes over when your human receptionists go home — answering every after-hours call, capturing every lead, and logging them for your team to follow up in the morning. No changes to your existing staff or systems. Just add a number to your website and Google profile, and she's on.",
+    ctaDemo: 'Interview Evelyn Before You Hire Her',
+    ctaProcess: 'How Hiring Works',
     belowFold: {
       mode: 'perfectFor',
-      sectionTitle: 'Who Convertree is perfect for',
+      sectionTitle: 'Built for businesses that can\'t afford to miss a call after hours',
       tiles: [
         { label: 'Dentists & clinics' },
-        { label: 'Real estate agents' },
+        { label: 'Restaurants' },
+        { label: 'Real estate agencies' },
         { label: 'Beauty salons & spas' },
         { label: 'Home services & trades' },
-        { label: 'Restaurants' },
+        { label: 'Hotels & lodging' },
         { label: 'Veterinary & pet care' },
         { label: 'Legal & professional' },
-        { label: 'Hotels & lodging' },
         { label: 'Retail & storefronts' },
         { label: 'Automotive repair' },
         { label: 'Tutoring & education' },
@@ -297,22 +304,24 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
     },
   },
   demo: {
-    sectionTitle: 'Try the concierge demo',
+    sectionTitle: 'Interview Evelyn Before You Hire Her',
     sectionSubtitle:
-      'Pop in your work email to unlock a quick demo—like a real caller would. Same setup we use when we switch on your line.',
-    whyHeading: 'Why Convertree',
+      "Enter your details and Evelyn will call you in the browser — exactly the way she'd sound answering your after-hours line. Put her through her paces.",
+    whyHeading: 'Interview Checklist',
     whySegments: [],
-    whyIntro:
-      'You didn’t start a business to wrestle the phone. Here’s what owners tell us they want most:',
+    whyIntro: '',
     whyBullets: [
-      'More new customers from the same ad spend and foot traffic.',
-      'Fewer interruptions for staff; less time stuck on the phone.',
-      'No more stress about missed calls when you’re out or the front desk is slammed.',
+      'Ask her which languages she speaks',
+      'Ask her how she learns about your business',
+      'See if she stays professional under pressure',
+      'Watch her collect customer details naturally',
+      'See how she qualifies a lead and closes for next steps',
     ],
     optInNotice:
-      'Enter your name and work email to unlock the live voice demo. Company is optional. The in-browser demo may be recorded; use a microphone in a quiet place. We handle your details as described in our Privacy Policy.',
-    unlockSubmitIdle: 'Unlock voice demo',
+      'Enter your name and work email to unlock the live voice demo. The in-browser demo may be recorded — use a microphone in a quiet place. We handle your details as described in our Privacy Policy.',
+    unlockSubmitIdle: 'Start the interview',
     unlockSubmitLoading: 'Sending…',
+    unlockSubmitNote: 'Takes about 2 minutes. No commitment.',
     unlockedTitle: 'Voice demo ready',
     unlockedSubtitle:
       'Your AI concierge can be wired to a real phone number, or embedded directly on your website to qualify visitors. Try both experiences below:',
@@ -325,87 +334,85 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
   },
   valueEquation: {
     sectionHeading: {
-      beforeAccent: 'The ',
-      accent: 'Premium Voice Concierge',
-      afterAccent: ' Offer',
+      beforeAccent: 'Hire Evelyn at ',
+      accent: 'No Risk',
+      afterAccent: '',
     },
     cards: [
       {
         title: '',
         stat: '7',
-        statLabel: 'days to go live',
+        statLabel: 'Live in 7 days',
         body:
-          'From kick-off we wire your AI receptionist to your line so you start taking real customer calls quickly—without a long IT project.',
+          'Evelyn can be answering your after-hours calls within a week of you hiring her. No long IT project. No disruption to your existing team.',
       },
       {
         title: '',
         stat: '100%',
-        statLabel: 'of your calls answered',
+        statLabel: 'Zero missed calls — guaranteed',
         body:
-          'Your concierge picks up every call, even when your team is slammed or off the clock—no endless ring or “please leave a message.”',
-      },
-      {
-        title: '',
-        stat: '30',
-        statLabel: 'day guarantee',
-        body:
-          'Not happy in the first 30 days? Tell us and we’ll refund you in full—no runaround.',
+          'If Evelyn misses even one after-hours call in your first 30 days, you get your money back. No questions asked.',
       },
       {
         title: '',
         stat: '$$$',
-        statLabel: 'More revenue',
+        statLabel: 'See the revenue you\'ve been missing',
         body:
-          'Missed calls quietly drain revenue every month. Answer consistently and more enquiries turn into bookings on your bottom line.',
+          'We can\'t guarantee a specific number — every business is different. But we\'ll show you exactly how many calls Evelyn catches after hours, and what those callers were worth. You\'ll see the ROI in the first month.',
       },
     ],
   },
   stackLabel: 'Technologies we use',
   servicesIntro: {
-    title: 'Go beyond the base concierge',
+    title: 'Evelyn\'s Upgrades',
     body:
-      'Optional add-ons for teams that want deeper automation, dedicated lines for launches or events, or instant follow-up after a call. No public pricing on this page—we scope with you.',
+      'Your base package includes email lead notifications and automatic Google Sheets capture — so your team always wakes up to a fresh list. Need more? These upgrades are available once your after-hours line is running. We scope each one with you — no public pricing on this page.',
   },
   servicesCards: [
     {
-      title: 'CRM & workflow integration',
+      title: 'CRM Integration',
       body:
-        'Connect the concierge to the systems your sales team already uses—so nothing sits in a silo. Routing, fields, and handoff rules you control.',
-      bullets: ['Field mapping & handoff', 'n8n / automation glue'],
+        'Your leads already go into Google Sheets automatically. But if your team runs on Salesforce, HubSpot, or another CRM, we can pipe Evelyn\'s captures directly into your existing system — no manual entry, no copy-paste.',
+      bullets: ['Maps to your existing fields & workflows', 'Built on n8n / automation infrastructure'],
     },
     {
-      title: 'Automated lead magnets',
+      title: 'Automated Lead Magnets',
       body:
-        'After a call, send a customized AI summary or quote draft—optionally for your rep to review before it goes out, so you move faster without losing control.',
-      bullets: ['Post-call follow-up assets', 'Human-in-the-loop review'],
+        'When Evelyn captures a lead after hours, she can immediately send the caller something useful — a dental hygiene guide, a service menu, a special offer — whatever fits your business. Keeps your brand warm while they wait for your team to follow up in the morning.',
+      bullets: ['Custom collateral per business', 'Sent automatically at end of call'],
     },
     {
-      title: 'Precise call data analytics',
+      title: 'Advanced Analytics & Monthly Reports',
       body:
-        'Unlike staff who forget details within minutes, every call leaves a full transcript you can mine for trends—lead sources, objections, and booking patterns.',
-      bullets: ['Searchable transcripts', 'Business-ready summaries'],
+        'Your base package includes call volume, duration, and basic lead data. If you want to go deeper — what customers are asking at 10pm, which enquiries converted, where your after-hours leads are coming from — we build you a tailored monthly report with the metrics that actually matter to your business.',
+      bullets: ['Custom report built around your KPIs', 'Delivered monthly, ready to share with your team'],
     },
   ],
   processSticky: {
-    title: 'How we bring you live',
+    title: 'How to Hire Evelyn as Your After-Hours Receptionist',
     body:
-      'From a quick kick-off to your AI concierge answering real calls—we keep it simple so you can get back to running the shop.',
+      'From interview to live in about a week. No IT project. No disruption to your existing team.',
   },
   processSteps: [
     {
-      title: 'Value discovery',
+      title: 'Step 1 — Interview',
       body:
-        'We learn how you take calls today, what callers ask for, and what “booked” looks like for you—no jargon, just your workflow.',
+        'If you haven\'t already, interview Evelyn before you hire her. Call her in the browser and see how she handles your customers — whether she stays professional, collects details naturally, and represents your business well. You wouldn\'t hire a human without an interview.',
     },
     {
-      title: 'Custom agent build',
+      title: 'Step 2 — Training',
       body:
-        'We connect your line and tune greetings, FAQs, and booking rules so the concierge sounds like your business—not a generic bot.',
+        'We help train Evelyn on your business — your products, services, hours, and how you like things handled. You choose her language, voice, and tone. You can even give her a new name. We also set firm guardrails on what she can never say to a customer.\n\nOn languages: Evelyn speaks fluent English and Mandarin. Cantonese is still difficult for AI voice technology — we won\'t recommend it until it\'s genuinely good. If you\'d like to test it anyway and decide for yourself, we\'re happy to set that up.',
     },
     {
-      title: 'Ongoing optimization',
+      title: 'Step 3 — Assignment',
       body:
-        'We refine prompts from real calls and help you add extras as you grow. You get a partner, not a one-off handoff.',
+        'We give you a dedicated number for Evelyn. Your human receptionist can forward all calls to her before going home — or you can list her number directly on your website and Google Business Profile as your "After-Hours Number". Or both.\n\nNo new systems. No changes to how your team works during the day. If you\'d like help adding the number to your Google profile, we\'ll do it for you — it takes about 10 minutes.',
+    },
+    {
+      title: 'Step 4 — Optimize',
+      body:
+        'We monitor how Evelyn performs on real calls and improve her over time — just like you would with any employee. Once a month, we send you a report: how many calls she took, what customers asked about, and how many enquiries turned into bookings.',
     },
   ],
   insightsIntro:
@@ -425,14 +432,15 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
     },
   ],
   contact: {
-    title: "Hear it for yourself, then we'll scope your build",
+    title: "Interview Evelyn yourself.\nIf she passes, we'll send you a free, no-obligation quote.",
     body:
-      'Try the five-minute demo above, or tap Let\'s chat below—we\'ll map your callers, your schedule, and what a great handoff looks like for your team.',
-    ctaDemo: 'Try our 5-minute agent demo now',
+      'Try the demo above and hear exactly how Evelyn would sound on your after-hours line. Happy with what you hear? We\'ll put together a personalised quote for your business — no commitment, no pressure.',
+    ctaDemo: 'Interview Evelyn Now',
   },
   contactModal: {
     kind: 'whatsapp',
     href: 'https://api.whatsapp.com/send/?phone=85366110975&text=Hi%2C%20can%20you%20tell%20me%20more%20about%20the%20AI%20concierge%20please%3F',
   },
   wechatCta: "Let's chat",
+  navLabels: { demo: 'Interview Evelyn', services: 'Evelyn\'s Upgrades', process: 'How It Works' },
 };

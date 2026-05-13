@@ -146,13 +146,13 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                 onClick={() => scrollToId('demo')}
                 className="transition-colors hover:text-white"
               >
-                Demo
+                {c.navLabels?.demo || 'Demo'}
               </button>
               <a href="#services" className="transition-colors hover:text-white">
-                Offerings
+                {c.navLabels?.services || 'Offerings'}
               </a>
               <a href="#process" className="transition-colors hover:text-white">
-                Process
+                {c.navLabels?.process || 'Process'}
               </a>
               {SHOW_INSIGHTS_SECTION ? (
                 <a href="#insights" className="transition-colors hover:text-white">
@@ -193,21 +193,21 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                 closeMobile();
               }}
             >
-              Demo
+              {c.navLabels?.demo || 'Demo'}
             </button>
             <a
               href="#services"
               className="text-lg text-zinc-400 hover:text-white"
               onClick={closeMobile}
             >
-              Offerings
+              {c.navLabels?.services || 'Offerings'}
             </a>
             <a
               href="#process"
               className="text-lg text-zinc-400 hover:text-white"
               onClick={closeMobile}
             >
-              Process
+              {c.navLabels?.process || 'Process'}
             </a>
             {SHOW_INSIGHTS_SECTION ? (
               <a

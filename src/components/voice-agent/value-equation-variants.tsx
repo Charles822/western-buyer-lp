@@ -1,7 +1,7 @@
 import type { VoiceValueEquationCard } from '@/lib/voice-agent-landing-content';
 
 export type ValueEquationVariantProps = {
-  cards: readonly [VoiceValueEquationCard, VoiceValueEquationCard, VoiceValueEquationCard, VoiceValueEquationCard];
+  cards: readonly VoiceValueEquationCard[];
 };
 
 function hasStat(card: { stat?: string | null }) {
@@ -10,7 +10,7 @@ function hasStat(card: { stat?: string | null }) {
 
 export function ValueEquationBigNumbers({ cards }: ValueEquationVariantProps) {
   return (
-    <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4 lg:gap-6">
+    <div className={`grid grid-cols-1 gap-10 sm:grid-cols-2 sm:gap-8 lg:gap-6 ${cards.length === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-4'}`}>
       {cards.map((card, index) => (
         <div key={`value-eq-${index}`} className="text-left">
           {hasStat(card) ? (

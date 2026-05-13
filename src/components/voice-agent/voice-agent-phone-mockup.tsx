@@ -54,8 +54,8 @@ export function VoiceAgentPhoneMockup({ variant = 'default' }: { variant?: 'defa
             >
               {isEvelyn ? (
                 <>
-                  Meet Evelyn,{' '}
-                  <span className="block sm:inline">Convertree concierge</span>
+                  Evelyn —{' '}
+                  <span className="block sm:inline">After-Hours Receptionist</span>
                 </>
               ) : (
                 'Convertree concierge'
