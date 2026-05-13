@@ -277,8 +277,8 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
     title: {
       kind: 'split',
       h1Line1: 'Your clinic closes at 6pm.',
-      h1Line2: "Evelyn doesn't.",
-      h1Gradient: '',
+      h1Line2: '',
+      h1Gradient: "Evelyn doesn't.",
     },
     sub:
       "Evelyn takes over when your human receptionists go home — answering every after-hours call, capturing every lead, and logging them for your team to follow up in the morning. No changes to your existing staff or systems. Just add a number to your website and Google profile, and she's on.",
