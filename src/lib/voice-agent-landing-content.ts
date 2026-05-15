@@ -66,6 +66,15 @@ export interface ConciergeDemoCopy {
   unlockedPhoneText: string;
   unlockedWebTitle: string;
   unlockedWebText: string;
+  /** Optional form field labels (general landing). */
+  formLabels?: {
+    name: string;
+    email: string;
+    industry?: string;
+    company?: string;
+  };
+  /** Industry dropdown options (general landing); UI appends "Other". Sent via `company` in lead API. */
+  industryOptions?: readonly string[];
 }
 
 export interface VoiceValueEquationCard {
@@ -82,6 +91,7 @@ export interface VoiceAgentLandingContent {
   hero: {
     badge: string;
     title: HeroTitle;
+    subHeading?: string;
     sub: string;
     ctaDemo: string;
     ctaProcess: string;
@@ -276,12 +286,13 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
     badge: 'AFTER-HOURS AI RECEPTIONIST',
     title: {
       kind: 'split',
-      h1Line1: 'Your clinic closes at 6pm.',
+      h1Line1: '',
       h1Line2: '',
-      h1Gradient: "Evelyn doesn't.",
+      h1Gradient: 'Never miss a paying customer call again',
     },
+    subHeading: 'Meet Evelyn, your after-hours AI receptionist.',
     sub:
-      "Evelyn takes over when your human receptionists go home — answering every after-hours call, capturing every lead, and logging them for your team to follow up in the morning. No changes to your existing staff or systems. Just add a number to your website and Google profile, and she's on.",
+      "She takes over when your human receptionists go home — answering every after-hours call, capturing every lead, and logging them for your team to follow up in the morning. No changes to your existing team or systems. Just add her number to your website and Google profile, and she's on.",
     ctaDemo: 'Interview Evelyn Before You Hire Her',
     ctaProcess: 'How Hiring Works',
     belowFold: {
@@ -306,22 +317,40 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
   demo: {
     sectionTitle: 'Interview Evelyn Before You Hire Her',
     sectionSubtitle:
-      "Enter your details and Evelyn will call you in the browser — exactly the way she'd sound answering your after-hours line. Put her through her paces.",
+      'Enter your details and speak to Evelyn on her direct line — hear the way she\'d sound answering your after-hours calls.',
     whyHeading: 'Interview Checklist',
     whySegments: [],
     whyIntro: '',
     whyBullets: [
       'Ask her which languages she speaks',
       'Ask her how she learns about your business',
-      'See if she stays professional under pressure',
       'Watch her collect customer details naturally',
       'See how she qualifies a lead and closes for next steps',
     ],
     optInNotice:
-      'Enter your name and work email to unlock the live voice demo. The in-browser demo may be recorded — use a microphone in a quiet place. We handle your details as described in our Privacy Policy.',
+      'The in-browser demo may be recorded. We handle your details as described in our Privacy Policy.',
     unlockSubmitIdle: 'Start the interview',
     unlockSubmitLoading: 'Sending…',
-    unlockSubmitNote: 'Takes about 2 minutes. No commitment.',
+    unlockSubmitNote: 'Takes about 3 minutes. No commitment.',
+    formLabels: {
+      name: 'First name (required)',
+      email: 'Work email (required)',
+      industry: 'Industry (required)',
+    },
+    industryOptions: [
+      'Dentists & clinics',
+      'Restaurants',
+      'Real estate agencies',
+      'Beauty salons & spas',
+      'Home services & trades',
+      'Hotels & lodging',
+      'Veterinary & pet care',
+      'Legal & professional',
+      'Retail & storefronts',
+      'Automotive repair',
+      'Tutoring & education',
+      'Other service businesses',
+    ],
     unlockedTitle: 'Voice demo ready',
     unlockedSubtitle:
       'Your AI concierge can be wired to a real phone number, or embedded directly on your website to qualify visitors. Try both experiences below:',
@@ -355,10 +384,10 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
       },
       {
         title: '',
-        stat: '$$$',
-        statLabel: 'See the revenue you\'ve been missing',
+        stat: 'USD 126K',
+        statLabel: 'The average SMB loses USD 126,000 a year to unanswered calls',
         body:
-          'We can\'t guarantee a specific number — every business is different. But we\'ll show you exactly how many calls Evelyn catches after hours, and what those callers were worth. You\'ll see the ROI in the first month.',
+          'Research shows businesses miss between 40% and 62% of all inbound calls. Evelyn misses 0%.',
       },
     ],
   },
@@ -391,28 +420,28 @@ export const voiceAgentLandingGeneral: VoiceAgentLandingContent = {
   processSticky: {
     title: 'How to Hire Evelyn as Your After-Hours Receptionist',
     body:
-      'From interview to live in about a week. No IT project. No disruption to your existing team.',
+      'From interview to live in about a week. No disruption to your existing team.',
   },
   processSteps: [
     {
       title: 'Step 1 — Interview',
       body:
-        'If you haven\'t already, interview Evelyn before you hire her. Call her in the browser and see how she handles your customers — whether she stays professional, collects details naturally, and represents your business well. You wouldn\'t hire a human without an interview.',
+        'Call Evelyn in the browser and hear how she handles your customers — whether she stays professional, collects details naturally, and represents your business well. You wouldn\'t hire a human without an interview.',
     },
     {
       title: 'Step 2 — Training',
       body:
-        'We help train Evelyn on your business — your products, services, hours, and how you like things handled. You choose her language, voice, and tone. You can even give her a new name. We also set firm guardrails on what she can never say to a customer.\n\nOn languages: Evelyn speaks fluent English and Mandarin. Cantonese is still difficult for AI voice technology — we won\'t recommend it until it\'s genuinely good. If you\'d like to test it anyway and decide for yourself, we\'re happy to set that up.',
+        'We train Evelyn on your business — your services, hours, and how you like things handled. You choose her language, voice, and tone. You can even give her a new name. We set firm guardrails on what she can never say to a customer.\n\nOn languages: Evelyn speaks fluent English and Mandarin. Cantonese is still difficult for AI voice technology — we won\'t recommend it until it\'s genuinely good. If you\'d like to test it anyway, we\'re happy to set that up.',
     },
     {
       title: 'Step 3 — Assignment',
       body:
-        'We give you a dedicated number for Evelyn. Your human receptionist can forward all calls to her before going home — or you can list her number directly on your website and Google Business Profile as your "After-Hours Number". Or both.\n\nNo new systems. No changes to how your team works during the day. If you\'d like help adding the number to your Google profile, we\'ll do it for you — it takes about 10 minutes.',
+        'We give you a dedicated number for Evelyn. Your receptionist can forward calls to her before going home — or list her number on your website and Google Business Profile as your "After-Hours Number". Or both.',
     },
     {
       title: 'Step 4 — Optimize',
       body:
-        'We monitor how Evelyn performs on real calls and improve her over time — just like you would with any employee. Once a month, we send you a report: how many calls she took, what customers asked about, and how many enquiries turned into bookings.',
+        'We monitor how Evelyn performs on real calls and improve her over time. Once a month, we send you a report: how many calls she took, what customers asked about, and how many enquiries turned into bookings.',
     },
   ],
   insightsIntro:

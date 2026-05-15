@@ -18,6 +18,8 @@ const ASSISTANT_ID_GENERAL = process.env.NEXT_PUBLIC_VAPI_GENERAL_ASSISTANT_ID ?
 const VOICE_DEMO_PHONE =
   process.env.NEXT_PUBLIC_VOICE_DEMO_PHONE?.trim() || '+852 9290 3426';
 
+const INDUSTRY_OTHER = '__other__';
+
 function voiceDemoTelHref(phone: string) {
   return `tel:${phone.replace(/\s/g, '')}`;
 }
@@ -101,11 +103,36 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [company, setCompany] = useState('');
+  const [industry, setIndustry] = useState('');
+  const [otherIndustry, setOtherIndustry] = useState('');
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus('loading');
     setErrorMsg('');
+
+    const needsIndustry =
+      leadSource === 'voice-concierge' &&
+      Boolean(demo.industryOptions?.length);
+
+    if (needsIndustry) {
+      if (!industry) {
+        setErrorMsg('Please select your industry.');
+        setStatus('idle');
+        return;
+      }
+      if (industry === INDUSTRY_OTHER && !otherIndustry.trim()) {
+        setErrorMsg('Please enter your industry.');
+        setStatus('idle');
+        return;
+      }
+    }
+
+    const industryPayload = needsIndustry
+      ? industry === INDUSTRY_OTHER
+        ? otherIndustry.trim()
+        : industry
+      : '';
 
     try {
       const res = await fetch('/api/voice-concierge-lead', {
@@ -114,7 +141,9 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
         body: JSON.stringify({
           name: name.trim(),
           email: email.trim(),
-          company: company.trim() || undefined,
+          company: needsIndustry
+            ? `Industry: ${industryPayload}`
+            : company.trim() || undefined,
           source: leadSource,
         }),
       });
@@ -139,6 +168,10 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
   }
 
   const hasVapi = Boolean(PUBLIC_KEY && assistantId);
+  const needsIndustry =
+    leadSource === 'voice-concierge' && Boolean(demo.industryOptions?.length);
+  const nameLabel = demo.formLabels?.name ?? 'Name';
+  const emailLabel = demo.formLabels?.email ?? 'Work email';
 
   return (
     <section
@@ -195,7 +228,7 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
                 <p className="text-sm text-zinc-400">{demo.optInNotice}</p>
                 <div className="space-y-2">
                   <Label htmlFor="demo-name" className="text-zinc-200">
-                    Name
+                    {nameLabel}
                   </Label>
                   <Input
                     id="demo-name"
@@ -204,12 +237,12 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="border-zinc-600 bg-zinc-900/80 text-white"
-                    autoComplete="name"
+                    autoComplete="given-name"
                   />
                 </div>
                 <div className="space-y-2">
                   <Label htmlFor="demo-email" className="text-zinc-200">
-                    Work email
+                    {emailLabel}
                   </Label>
                   <Input
                     id="demo-email"
@@ -222,19 +255,64 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
                     autoComplete="email"
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="demo-company" className="text-zinc-200">
-                    Company <span className="text-zinc-500">(optional)</span>
-                  </Label>
-                  <Input
-                    id="demo-company"
-                    name="company"
-                    value={company}
-                    onChange={(e) => setCompany(e.target.value)}
-                    className="border-zinc-600 bg-zinc-900/80 text-white"
-                    autoComplete="organization"
-                  />
-                </div>
+                {needsIndustry ? (
+                  <>
+                    <div className="space-y-2">
+                      <Label htmlFor="demo-industry" className="text-zinc-200">
+                        {demo.formLabels?.industry ?? 'Industry'}
+                      </Label>
+                      <select
+                        id="demo-industry"
+                        name="industry"
+                        required
+                        value={industry}
+                        onChange={(e) => setIndustry(e.target.value)}
+                        className="flex h-10 w-full rounded-md border border-zinc-600 bg-zinc-900/80 px-3 py-2 text-sm text-white ring-offset-zinc-950 focus-visible:ring-2 focus-visible:ring-emerald-500/50 focus-visible:ring-offset-2 focus-visible:outline-none"
+                      >
+                        <option value="" disabled>
+                          Select industry
+                        </option>
+                        {demo.industryOptions?.map((opt) => (
+                          <option key={opt} value={opt}>
+                            {opt}
+                          </option>
+                        ))}
+                        <option value={INDUSTRY_OTHER}>Other</option>
+                      </select>
+                    </div>
+                    {industry === INDUSTRY_OTHER ? (
+                      <div className="space-y-2">
+                        <Label htmlFor="demo-industry-other" className="text-zinc-200">
+                          Describe your industry
+                        </Label>
+                        <Input
+                          id="demo-industry-other"
+                          name="industryOther"
+                          required
+                          value={otherIndustry}
+                          onChange={(e) => setOtherIndustry(e.target.value)}
+                          className="border-zinc-600 bg-zinc-900/80 text-white"
+                          placeholder="e.g. Specialty retail"
+                          autoComplete="off"
+                        />
+                      </div>
+                    ) : null}
+                  </>
+                ) : (
+                  <div className="space-y-2">
+                    <Label htmlFor="demo-company" className="text-zinc-200">
+                      Company <span className="text-zinc-500">(optional)</span>
+                    </Label>
+                    <Input
+                      id="demo-company"
+                      name="company"
+                      value={company}
+                      onChange={(e) => setCompany(e.target.value)}
+                      className="border-zinc-600 bg-zinc-900/80 text-white"
+                      autoComplete="organization"
+                    />
+                  </div>
+                )}
                 {errorMsg ? (
                   <p className="text-sm text-red-400" role="alert">
                     {errorMsg}

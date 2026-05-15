@@ -68,11 +68,13 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
   const processStep1Ref = useRef<HTMLDivElement>(null);
   const processStep2Ref = useRef<HTMLDivElement>(null);
   const processStep3Ref = useRef<HTMLDivElement>(null);
+  const processStep4Ref = useRef<HTMLDivElement>(null);
 
   const closeMobile = () => setMobileOpen(false);
 
   useEffect(() => {
-    const refs = [processStep1Ref, processStep2Ref, processStep3Ref];
+    const allRefs = [processStep1Ref, processStep2Ref, processStep3Ref, processStep4Ref];
+    const refs = allRefs.slice(0, content.processSteps.length);
 
     function pickActiveProcessStep(): number {
       const focusY = window.innerHeight * 0.4;
@@ -118,7 +120,7 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
       window.removeEventListener('scroll', onScrollOrResize);
       window.removeEventListener('resize', onScrollOrResize);
     };
-  }, []);
+  }, [content.processSteps.length]);
 
   return (
     <>
@@ -250,7 +252,7 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                   <span className="mx-auto block max-w-4xl text-white">{c.hero.title.h1}</span>
                 ) : c.hero.title.kind === 'accentLead' ? (
                   <span className="mx-auto block max-w-4xl">
-                    <span className="bg-gradient-to-r from-emerald-200 to-emerald-500 bg-clip-text text-transparent">
+                    <span className="bg-gradient-to-r from-white via-emerald-200 to-emerald-500 bg-clip-text text-transparent">
                       {c.hero.title.accent}
                     </span>{' '}
                     <span className="text-white">{c.hero.title.rest}</span>
@@ -261,12 +263,18 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                       {c.hero.title.h1Line1} <br className="hidden sm:block" />
                       {c.hero.title.h1Line2}
                     </span>
-                    <span className="block bg-gradient-to-r from-emerald-200 to-emerald-500 bg-clip-text text-transparent md:inline md:bg-gradient-to-r">
+                    <span className="block bg-gradient-to-r from-white via-emerald-200 to-emerald-500 bg-clip-text text-transparent md:inline md:bg-gradient-to-r">
                       {c.hero.title.h1Gradient}
                     </span>
                   </>
                 )}
               </h1>
+
+              {c.hero.subHeading ? (
+                <h2 className="mx-auto max-w-4xl text-2xl font-medium tracking-tight text-white md:text-3xl">
+                  {c.hero.subHeading}
+                </h2>
+              ) : null}
 
               <p className="mx-auto max-w-3xl text-xl leading-relaxed text-zinc-400 md:text-2xl">
                 {c.hero.sub}
@@ -455,9 +463,14 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                 <div className="space-y-16 md:w-2/3">
                   {c.processSteps.map((step, idx) => {
                     const stepNum = idx + 1;
-                    const ref =
-                      stepNum === 1 ? processStep1Ref : stepNum === 2 ? processStep2Ref : processStep3Ref;
-                    const showConnector = idx < 2;
+                    const allRefs = [
+                      processStep1Ref,
+                      processStep2Ref,
+                      processStep3Ref,
+                      processStep4Ref,
+                    ] as const;
+                    const ref = allRefs[idx] ?? processStep1Ref;
+                    const showConnector = idx < c.processSteps.length - 1;
                     return (
                       <div
                         key={step.title}
@@ -475,7 +488,7 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                         </div>
                         <div className={showConnector ? 'pb-2' : ''}>
                           <h3 className="mb-3 text-2xl font-medium text-white">{step.title}</h3>
-                          <p className="text-lg text-zinc-400">{step.body}</p>
+                          <p className="whitespace-pre-line text-lg text-zinc-400">{step.body}</p>
                         </div>
                       </div>
                     );
@@ -516,7 +529,7 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
             <div className="absolute inset-0 -z-10 scale-50 transform rounded-full bg-emerald-900/20 blur-3xl" />
 
             <div className="mx-auto max-w-3xl space-y-10">
-              <h2 className="text-4xl font-semibold tracking-tight text-white md:text-5xl">
+              <h2 className="whitespace-pre-line text-4xl font-semibold tracking-tight text-white md:text-5xl">
                 {c.contact.title}
               </h2>
               <p className="text-xl text-zinc-300">{c.contact.body}</p>

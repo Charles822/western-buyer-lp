@@ -2,7 +2,8 @@
 
 import { Icon } from '@iconify/react';
 
-const AVATAR_SRC = '/evelyn.jpeg';
+const AVATAR_DEFAULT = '/evelyn.jpeg';
+const AVATAR_EVELYN = '/evelyn_pics/evelyn_desk_on_the_phone.jpeg';
 
 /**
  * Decorative in-call phone frame (visual only; no real controls).
@@ -11,6 +12,7 @@ const AVATAR_SRC = '/evelyn.jpeg';
  */
 export function VoiceAgentPhoneMockup({ variant = 'default' }: { variant?: 'default' | 'evelyn' }) {
   const isEvelyn = variant === 'evelyn';
+  const avatarSrc = isEvelyn ? AVATAR_EVELYN : AVATAR_DEFAULT;
   return (
     <div className="flex w-full justify-center lg:justify-start">
       <div
@@ -35,7 +37,7 @@ export function VoiceAgentPhoneMockup({ variant = 'default' }: { variant?: 'defa
             <div className="absolute inset-0 animate-pulse rounded-full bg-emerald-500/20 blur-xl" />
             {/* eslint-disable-next-line @next/next/no-img-element -- external demo asset */}
             <img
-              src={AVATAR_SRC}
+              src={avatarSrc}
               alt=""
               className="relative z-10 size-full rounded-full border-2 border-white/10 object-cover"
             />
