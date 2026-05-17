@@ -121,9 +121,10 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
   return (
     <section
       id="demo"
-      className="border-b border-zinc-800 bg-linear-to-b from-zinc-950 to-zinc-900 pt-16 pb-24 md:pt-20 md:pb-32"
+      className="bg-linear-to-b from-zinc-950 to-zinc-900 pt-16 pb-24 md:pt-20 md:pb-32"
     >
       <div className="mx-auto max-w-6xl px-6">
+        <div className="mb-16 h-px w-full bg-linear-to-r from-transparent via-white/10 to-transparent" />
         <div className="mb-16 text-center">
           <h2 className="mb-4 text-4xl font-semibold tracking-tight text-white md:text-5xl">
             {demo.sectionTitle}

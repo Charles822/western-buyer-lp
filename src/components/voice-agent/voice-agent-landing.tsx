@@ -235,11 +235,20 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
         </header>
 
         <main id="top">
-          <section className="relative overflow-hidden pt-24 pb-20 sm:pt-32 lg:pb-32">
-            <div className="absolute top-1/2 left-1/4 -z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-600/15 blur-[120px]" />
+          <section className="relative overflow-hidden bg-zinc-950 pt-24 pb-20 sm:pt-32 lg:pb-40 text-left border-b border-white/5">
+            <div className="absolute top-1/2 left-1/4 z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-600/15 blur-[120px]" />
 
-            <div className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col lg:flex-row lg:items-start gap-16 lg:gap-8">
-              <div className="mx-auto max-w-2xl lg:mx-0 lg:w-3/5 pt-8 text-left space-y-10 relative z-10">
+            <div className="absolute inset-y-0 right-0 w-full md:w-2/3 lg:w-[55%] opacity-60">
+              <div className="absolute inset-0 bg-linear-to-r from-zinc-950 via-zinc-950/70 to-transparent z-10" />
+              <img 
+                src="/evelyn_pics/evelyn_sitdown_desk.jpeg" 
+                alt="Evelyn at her desk" 
+                className="h-full w-full object-cover" 
+              />
+            </div>
+
+            <div className="relative z-20 mx-auto max-w-7xl px-6 lg:px-8">
+              <div className="max-w-2xl pt-8 space-y-10">
                 <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium tracking-wide text-emerald-200">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
@@ -304,22 +313,12 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                 </button>
               </div>
             </div>
-            
-            <div className="mx-auto w-full max-w-2xl lg:mx-0 lg:w-2/5 relative z-10 mt-12 lg:mt-0 lg:pt-48">
-              {/* Subtle glow behind the image */}
-              <div className="absolute -inset-1 rounded-3xl bg-emerald-500/20 blur-2xl" />
-              
-              <img
-                src="/evelyn_pics/evelyn_sitdown_desk.jpeg"
-                alt="Evelyn at her desk"
-                className="relative h-auto w-full object-cover rounded-3xl border border-white/10 shadow-[0_0_40px_-10px_rgba(16,185,129,0.2)] ring-1 ring-emerald-500/20"
-              />
-            </div>
           </div>
         </section>
 
-        <section className="border-b border-zinc-800 bg-zinc-950/40 py-16 md:py-24">
+        <section className="bg-zinc-950/40 py-16 md:py-24">
           <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="mb-16 h-px w-full bg-linear-to-r from-transparent via-white/10 to-transparent" />
             {c.hero.belowFold.mode === 'pillars' ? (
               <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-3">
                 {c.hero.belowFold.pillars.map((pillar) => (
@@ -344,10 +343,11 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
 
           {c.valueEquation ? (
             <section
-              className="border-b border-white/5 bg-zinc-950/40 py-16 md:py-20"
+              className="bg-zinc-950/40 py-16 md:py-20"
               aria-labelledby="value-equation-heading"
             >
               <div className="mx-auto max-w-7xl px-6">
+                <div className="mb-16 h-px w-full bg-linear-to-r from-transparent via-white/10 to-transparent" />
                 <h2
                   id="value-equation-heading"
                   className="mx-auto mb-10 max-w-4xl text-center text-3xl font-semibold tracking-tight md:mb-12 md:text-4xl"
@@ -363,8 +363,9 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
             </section>
           ) : null}
 
-          <section className="border-y border-white/5 bg-zinc-900/30 py-14" aria-label="Stack">
+          <section className="bg-zinc-900/30 py-14" aria-label="Stack">
             <div className="mx-auto max-w-7xl px-6 text-center">
+              <div className="mb-14 h-px w-full bg-linear-to-r from-transparent via-white/10 to-transparent" />
               <p className="mb-8 text-sm tracking-widest text-zinc-500 uppercase">
                 {c.stackLabel}
               </p>
@@ -411,6 +412,7 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
           </section>
 
           <section id="services" className="mx-auto max-w-7xl px-6 py-28">
+            <div className="mb-20 h-px w-full bg-linear-to-r from-transparent via-white/10 to-transparent" />
             <div className="mb-20">
               <h2 className="mb-6 text-4xl font-semibold tracking-tight text-white md:text-5xl">
                 {c.servicesIntro.title}
@@ -459,8 +461,9 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
             </div>
           </section>
 
-          <section id="process" className="border-y border-white/5 bg-zinc-900/20 py-28">
+          <section id="process" className="bg-zinc-900/20 py-28">
             <div className="mx-auto max-w-7xl px-6">
+              <div className="mb-28 h-px w-full bg-linear-to-r from-transparent via-white/10 to-transparent" />
               <div className="flex flex-col gap-20 md:flex-row">
                 <div className="md:w-1/3 md:sticky md:top-32 md:h-fit">
                   <h2 className="mb-8 text-4xl font-semibold tracking-tight text-white md:text-5xl">
@@ -542,40 +545,45 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
             </section>
           ) : null}
 
-          <section id="contact" className="relative overflow-hidden px-6 py-32 text-center">
-            <div className="absolute inset-0 -z-10 scale-50 transform rounded-full bg-emerald-900/20 blur-3xl" />
+          <section id="contact" className="relative overflow-hidden bg-zinc-950 py-32 text-left">
+            <div className="absolute top-0 inset-x-0 mx-auto h-px w-full max-w-7xl bg-linear-to-r from-transparent via-white/10 to-transparent" />
+            
+            {/* Image fixed to the right, faded out on the left */}
+            <div className="absolute inset-y-0 right-0 w-full md:w-2/3 lg:w-1/2 opacity-50">
+              <div className="absolute inset-0 bg-linear-to-r from-zinc-950 via-zinc-950/60 to-transparent z-10" />
+              <img 
+                src="/evelyn_pics/evelyn_standup_with_coffee.jpeg" 
+                alt="Evelyn standing with coffee" 
+                className="h-full w-full object-cover object-top" 
+              />
+            </div>
 
-            <div className="mx-auto max-w-3xl space-y-10">
-              <h2 className="whitespace-pre-line text-4xl font-semibold tracking-tight text-white md:text-5xl">
-                {c.contact.title}
-              </h2>
-              <p className="text-xl text-zinc-300">{c.contact.body}</p>
-              <div className="flex flex-col items-center justify-center gap-4 pt-4 sm:flex-row sm:gap-6">
-                <a href="#demo" className="shiny-cta">
-                  <span className="inline-flex whitespace-nowrap">{c.contact.ctaDemo}</span>
-                </a>
-                <button
-                  type="button"
-                  onClick={() => setContactModalOpen(true)}
-                  className="inline-flex items-center gap-2 rounded-full border border-zinc-600 px-8 py-4 text-lg font-medium text-zinc-200 transition-colors hover:border-emerald-500/50 hover:text-white"
-                >
-                  {c.wechatCta}
-                  <Icon icon="solar:arrow-right-linear" className="size-[1.1em]" aria-hidden />
-                </button>
-              </div>
-              <p className="text-sm text-zinc-500">
-                Or email{' '}
-                <a href={`mailto:${SUPPORT_EMAIL}`} className="text-emerald-400 hover:underline">
-                  {SUPPORT_EMAIL}
-                </a>
-              </p>
-
-              <div className="mt-16 flex justify-center">
-                <img 
-                  src="/evelyn_pics/evelyn_standup_with_coffee.jpeg" 
-                  alt="Evelyn standing with coffee" 
-                  className="w-full max-w-2xl rounded-2xl border border-white/10 shadow-2xl object-cover" 
-                />
+            {/* Text sits on top, anchored to the left */}
+            <div className="relative z-20 mx-auto max-w-7xl px-6 lg:px-8">
+              <div className="max-w-2xl space-y-10">
+                <h2 className="whitespace-pre-line text-4xl font-semibold tracking-tight text-white md:text-5xl">
+                  {c.contact.title}
+                </h2>
+                <p className="text-xl leading-relaxed text-zinc-300">{c.contact.body}</p>
+                <div className="flex flex-col items-start gap-4 pt-4 sm:flex-row sm:gap-6">
+                  <a href="#demo" className="shiny-cta">
+                    <span className="inline-flex whitespace-nowrap">{c.contact.ctaDemo}</span>
+                  </a>
+                  <button
+                    type="button"
+                    onClick={() => setContactModalOpen(true)}
+                    className="inline-flex items-center gap-2 rounded-full border border-zinc-600 px-8 py-4 text-lg font-medium text-zinc-200 transition-colors hover:border-emerald-500/50 hover:text-white"
+                  >
+                    {c.wechatCta}
+                    <Icon icon="solar:arrow-right-linear" className="size-[1.1em]" aria-hidden />
+                  </button>
+                </div>
+                <p className="text-sm text-zinc-500">
+                  Or email{' '}
+                  <a href={`mailto:${SUPPORT_EMAIL}`} className="text-emerald-400 hover:underline">
+                    {SUPPORT_EMAIL}
+                  </a>
+                </p>
               </div>
             </div>
           </section>
