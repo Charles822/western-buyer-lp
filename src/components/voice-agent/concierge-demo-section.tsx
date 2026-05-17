@@ -38,7 +38,7 @@ function UnlockedBody({
       <p className="text-sm leading-relaxed text-emerald-400/90">
         {demo.unlockedSubtitle}
       </p>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="mt-4">
         <div className="flex flex-col rounded-xl border border-emerald-500/25 bg-zinc-950/40 p-5 ring-1 ring-emerald-500/10">
           <h4 className="text-base font-semibold text-white">
             {demo.unlockedPhoneTitle}
@@ -55,28 +55,6 @@ function UnlockedBody({
               {phone}
             </span>
           </a>
-        </div>
-        <div className="flex flex-col rounded-xl border border-emerald-500/25 bg-zinc-950/40 p-5 ring-1 ring-emerald-500/10">
-          <h4 className="text-base font-semibold text-white">
-            {demo.unlockedWebTitle}
-          </h4>
-          <p className="mt-2 text-sm leading-relaxed text-emerald-400/90">
-            {demo.unlockedWebText}
-          </p>
-          <div className="mt-4 flex items-start gap-3 rounded-lg border border-emerald-500/20 bg-emerald-950/20 px-3 py-2.5">
-            <Icon
-              icon="solar:arrow-right-down-bold-duotone"
-              className="mt-0.5 size-6 shrink-0 text-emerald-400"
-              aria-hidden
-            />
-            <p className="text-sm leading-relaxed text-emerald-300/95">
-              Tap{' '}
-              <span className="font-medium text-white">
-                {CONCIERGE_WEB_VOICE_WIDGET_TITLE}
-              </span>{' '}
-              in the bottom-right corner of your screen.
-            </p>
-          </div>
         </div>
       </div>
     </div>
@@ -100,50 +78,20 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
 
-  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [company, setCompany] = useState('');
-  const [industry, setIndustry] = useState('');
-  const [otherIndustry, setOtherIndustry] = useState('');
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setStatus('loading');
     setErrorMsg('');
 
-    const needsIndustry =
-      leadSource === 'voice-concierge' &&
-      Boolean(demo.industryOptions?.length);
-
-    if (needsIndustry) {
-      if (!industry) {
-        setErrorMsg('Please select your industry.');
-        setStatus('idle');
-        return;
-      }
-      if (industry === INDUSTRY_OTHER && !otherIndustry.trim()) {
-        setErrorMsg('Please enter your industry.');
-        setStatus('idle');
-        return;
-      }
-    }
-
-    const industryPayload = needsIndustry
-      ? industry === INDUSTRY_OTHER
-        ? otherIndustry.trim()
-        : industry
-      : '';
-
     try {
       const res = await fetch('/api/voice-concierge-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          name: name.trim(),
+          name: 'Not provided',
           email: email.trim(),
-          company: needsIndustry
-            ? `Industry: ${industryPayload}`
-            : company.trim() || undefined,
           source: leadSource,
         }),
       });
@@ -168,15 +116,12 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
   }
 
   const hasVapi = Boolean(PUBLIC_KEY && assistantId);
-  const needsIndustry =
-    leadSource === 'voice-concierge' && Boolean(demo.industryOptions?.length);
-  const nameLabel = demo.formLabels?.name ?? 'Name';
   const emailLabel = demo.formLabels?.email ?? 'Work email';
 
   return (
     <section
       id="demo"
-      className="border-b border-zinc-800 bg-gradient-to-b from-zinc-950 to-zinc-900 pt-16 pb-24 md:pt-20 md:pb-32"
+      className="border-b border-zinc-800 bg-linear-to-b from-zinc-950 to-zinc-900 pt-16 pb-24 md:pt-20 md:pb-32"
     >
       <div className="mx-auto max-w-6xl px-6">
         <div className="mb-16 text-center">
@@ -227,20 +172,6 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
               >
                 <p className="text-sm text-zinc-400">{demo.optInNotice}</p>
                 <div className="space-y-2">
-                  <Label htmlFor="demo-name" className="text-zinc-200">
-                    {nameLabel}
-                  </Label>
-                  <Input
-                    id="demo-name"
-                    name="name"
-                    required
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                    className="border-zinc-600 bg-zinc-900/80 text-white"
-                    autoComplete="given-name"
-                  />
-                </div>
-                <div className="space-y-2">
                   <Label htmlFor="demo-email" className="text-zinc-200">
                     {emailLabel}
                   </Label>
@@ -255,64 +186,6 @@ export function ConciergeDemoSection({ demo, leadSource }: ConciergeDemoSectionP
                     autoComplete="email"
                   />
                 </div>
-                {needsIndustry ? (
-                  <>
-                    <div className="space-y-2">
-                      <Label htmlFor="demo-industry" className="text-zinc-200">
-                        {demo.formLabels?.industry ?? 'Industry'}
-                      </Label>
-                      <select
-                        id="demo-industry"
-                        name="industry"
-                        required
-                        value={industry}
-                        onChange={(e) => setIndustry(e.target.value)}
-                        className="flex h-10 w-full rounded-md border border-zinc-600 bg-zinc-900/80 px-3 py-2 text-sm text-white ring-offset-zinc-950 focus-visible:ring-2 focus-visible:ring-emerald-500/50 focus-visible:ring-offset-2 focus-visible:outline-none"
-                      >
-                        <option value="" disabled>
-                          Select industry
-                        </option>
-                        {demo.industryOptions?.map((opt) => (
-                          <option key={opt} value={opt}>
-                            {opt}
-                          </option>
-                        ))}
-                        <option value={INDUSTRY_OTHER}>Other</option>
-                      </select>
-                    </div>
-                    {industry === INDUSTRY_OTHER ? (
-                      <div className="space-y-2">
-                        <Label htmlFor="demo-industry-other" className="text-zinc-200">
-                          Describe your industry
-                        </Label>
-                        <Input
-                          id="demo-industry-other"
-                          name="industryOther"
-                          required
-                          value={otherIndustry}
-                          onChange={(e) => setOtherIndustry(e.target.value)}
-                          className="border-zinc-600 bg-zinc-900/80 text-white"
-                          placeholder="e.g. Specialty retail"
-                          autoComplete="off"
-                        />
-                      </div>
-                    ) : null}
-                  </>
-                ) : (
-                  <div className="space-y-2">
-                    <Label htmlFor="demo-company" className="text-zinc-200">
-                      Company <span className="text-zinc-500">(optional)</span>
-                    </Label>
-                    <Input
-                      id="demo-company"
-                      name="company"
-                      value={company}
-                      onChange={(e) => setCompany(e.target.value)}
-                      className="border-zinc-600 bg-zinc-900/80 text-white"
-                      autoComplete="organization"
-                    />
-                  </div>
-                )}
                 {errorMsg ? (
                   <p className="text-sm text-red-400" role="alert">
                     {errorMsg}

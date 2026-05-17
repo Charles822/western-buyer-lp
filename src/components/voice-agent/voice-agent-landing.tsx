@@ -235,11 +235,12 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
         </header>
 
         <main id="top">
-          <section className="relative overflow-hidden px-6 pt-44 pb-14 md:pt-52 md:pb-20">
-            <div className="absolute top-1/2 left-1/2 -z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-600/15 blur-[120px]" />
+          <section className="relative overflow-hidden pt-24 pb-20 sm:pt-32 lg:pb-32">
+            <div className="absolute top-1/2 left-1/4 -z-10 h-[600px] w-[600px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-emerald-600/15 blur-[120px]" />
 
-            <div className="relative z-10 mx-auto max-w-5xl space-y-10 text-center">
-              <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium tracking-wide text-emerald-200">
+            <div className="mx-auto max-w-7xl px-6 lg:px-8 flex flex-col lg:flex-row lg:items-start gap-16 lg:gap-8">
+              <div className="mx-auto max-w-2xl lg:mx-0 lg:w-3/5 pt-8 text-left space-y-10 relative z-10">
+                <div className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-sm font-medium tracking-wide text-emerald-200">
                 <span className="relative flex h-2.5 w-2.5">
                   <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
                   <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-500" />
@@ -247,12 +248,12 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                 {c.hero.badge}
               </div>
 
-              <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
-                {c.hero.title.kind === 'plain' ? (
-                  <span className="mx-auto block max-w-4xl text-white">{c.hero.title.h1}</span>
-                ) : c.hero.title.kind === 'accentLead' ? (
-                  <span className="mx-auto block max-w-4xl">
-                    <span className="bg-gradient-to-r from-white via-emerald-200 to-emerald-500 bg-clip-text text-transparent">
+                <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
+                  {c.hero.title.kind === 'plain' ? (
+                    <span className="block max-w-4xl text-white">{c.hero.title.h1}</span>
+                  ) : c.hero.title.kind === 'accentLead' ? (
+                    <span className="block max-w-4xl">
+                    <span className="bg-linear-to-r from-white via-emerald-200 to-emerald-500 bg-clip-text text-transparent">
                       {c.hero.title.accent}
                     </span>{' '}
                     <span className="text-white">{c.hero.title.rest}</span>
@@ -263,25 +264,25 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                       {c.hero.title.h1Line1} <br className="hidden sm:block" />
                       {c.hero.title.h1Line2}
                     </span>
-                    <span className="block bg-gradient-to-r from-white via-emerald-200 to-emerald-500 bg-clip-text text-transparent md:inline md:bg-gradient-to-r">
+                    <span className="block bg-linear-to-r from-white via-emerald-200 to-emerald-500 bg-clip-text text-transparent md:inline md:bg-linear-to-r">
                       {c.hero.title.h1Gradient}
                     </span>
                   </>
                 )}
-              </h1>
+                </h1>
 
-              {c.hero.subHeading ? (
-                <h2 className="mx-auto max-w-4xl text-2xl font-medium tracking-tight text-white md:text-3xl">
-                  {c.hero.subHeading}
-                </h2>
-              ) : null}
+                {c.hero.subHeading ? (
+                  <h2 className="max-w-4xl text-2xl font-medium tracking-tight text-white md:text-3xl">
+                    {c.hero.subHeading}
+                  </h2>
+                ) : null}
 
-              <p className="mx-auto max-w-3xl text-xl leading-relaxed text-zinc-400 md:text-2xl">
-                {c.hero.sub}
-              </p>
+                <p className="max-w-3xl text-xl leading-relaxed text-zinc-400 md:text-2xl">
+                  {c.hero.sub}
+                </p>
 
-              <div className="flex flex-col items-center justify-center gap-4 pt-4 md:flex-row md:gap-6">
-                <a href="#demo" className="shiny-cta group text-base sm:text-lg">
+                <div className="flex flex-col items-start gap-4 pt-4 sm:flex-row sm:gap-6">
+                  <a href="#demo" className="shiny-cta group text-base sm:text-lg">
                   <span>
                     {c.hero.ctaDemo}
                     <Icon
@@ -296,32 +297,48 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                 <button
                   type="button"
                   onClick={() => scrollToId('process')}
-                  className="flex items-center gap-3 rounded-full border border-zinc-700 px-8 py-4 text-lg font-medium text-zinc-200 transition-colors hover:bg-zinc-800"
+                  className="flex items-center gap-3 whitespace-nowrap rounded-full border border-zinc-700 px-8 py-4 text-lg font-medium text-zinc-200 transition-colors hover:bg-zinc-800"
                 >
                   <Icon icon="solar:route-linear" width="1.2em" height="1.2em" />
                   {c.hero.ctaProcess}
                 </button>
               </div>
-
-              {c.hero.belowFold.mode === 'pillars' ? (
-                <div className="mx-auto mt-14 grid max-w-3xl grid-cols-1 gap-8 border-t border-white/5 pt-14 sm:grid-cols-3">
-                  {c.hero.belowFold.pillars.map((pillar) => (
-                    <div key={pillar.title} className="text-center">
-                      <p className="text-lg font-semibold text-white">{pillar.title}</p>
-                      <p className="mt-2 text-sm text-zinc-500">{pillar.description}</p>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="mx-auto mt-20 max-w-5xl border-t border-white/5 pt-16">
-                  <PerfectForChips
-                    sectionTitle={c.hero.belowFold.sectionTitle}
-                    tiles={c.hero.belowFold.tiles}
-                  />
-                </div>
-              )}
             </div>
-          </section>
+            
+            <div className="mx-auto w-full max-w-2xl lg:mx-0 lg:w-2/5 relative z-10 mt-12 lg:mt-0 lg:pt-48">
+              {/* Subtle glow behind the image */}
+              <div className="absolute -inset-1 rounded-3xl bg-emerald-500/20 blur-2xl" />
+              
+              <img
+                src="/evelyn_pics/evelyn_sitdown_desk.jpeg"
+                alt="Evelyn at her desk"
+                className="relative h-auto w-full object-cover rounded-3xl border border-white/10 shadow-[0_0_40px_-10px_rgba(16,185,129,0.2)] ring-1 ring-emerald-500/20"
+              />
+            </div>
+          </div>
+        </section>
+
+        <section className="border-b border-zinc-800 bg-zinc-950/40 py-16 md:py-24">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            {c.hero.belowFold.mode === 'pillars' ? (
+              <div className="mx-auto grid max-w-4xl grid-cols-1 gap-8 sm:grid-cols-3">
+                {c.hero.belowFold.pillars.map((pillar) => (
+                  <div key={pillar.title} className="text-center">
+                    <p className="text-lg font-semibold text-white">{pillar.title}</p>
+                    <p className="mt-2 text-sm text-zinc-500">{pillar.description}</p>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="mx-auto max-w-5xl">
+                <PerfectForChips
+                  sectionTitle={c.hero.belowFold.sectionTitle}
+                  tiles={c.hero.belowFold.tiles}
+                />
+              </div>
+            )}
+          </div>
+        </section>
 
           <ConciergeDemoSection demo={c.demo} leadSource={c.leadSource} />
 
@@ -336,7 +353,7 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                   className="mx-auto mb-10 max-w-4xl text-center text-3xl font-semibold tracking-tight md:mb-12 md:text-4xl"
                 >
                   <span className="text-white">{c.valueEquation.sectionHeading.beforeAccent}</span>
-                  <span className="bg-gradient-to-r from-emerald-200 to-emerald-500 bg-clip-text text-transparent">
+                  <span className="bg-linear-to-r from-emerald-200 to-emerald-500 bg-clip-text text-transparent">
                     {c.valueEquation.sectionHeading.accent}
                   </span>
                   <span className="text-white">{c.valueEquation.sectionHeading.afterAccent}</span>
@@ -410,7 +427,7 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                     className={`glass-card group relative overflow-hidden rounded-2xl p-10 transition-colors ${ui.hover}`}
                   >
                     <div
-                      className={`absolute inset-0 bg-gradient-to-br ${ui.gradFrom} to-transparent opacity-0 transition-opacity group-hover:opacity-100`}
+                      className={`absolute inset-0 bg-linear-to-br ${ui.gradFrom} to-transparent opacity-0 transition-opacity group-hover:opacity-100`}
                     />
                     <div
                       className={`relative z-10 mb-8 flex h-14 w-14 items-center justify-center rounded-xl ${ui.iconBox} transition-transform group-hover:scale-110`}
@@ -552,6 +569,14 @@ export function VoiceAgentLanding({ content }: VoiceAgentLandingProps) {
                   {SUPPORT_EMAIL}
                 </a>
               </p>
+
+              <div className="mt-16 flex justify-center">
+                <img 
+                  src="/evelyn_pics/evelyn_standup_with_coffee.jpeg" 
+                  alt="Evelyn standing with coffee" 
+                  className="w-full max-w-2xl rounded-2xl border border-white/10 shadow-2xl object-cover" 
+                />
+              </div>
             </div>
           </section>
         </main>
